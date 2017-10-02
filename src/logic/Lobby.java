@@ -22,5 +22,7 @@ public class Lobby {
         throw new NotImplementedException();
     }
 
-    public boolean leaveLobby(IPlayable team)
+    public boolean leaveLobby(IPlayable team) {
+        throw new NotImplementedException();
+    }
 }

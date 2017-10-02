@@ -1,1 +1,0 @@
-LWJGL 3.1.4 SNAPSHOT build 1
