@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.List;
+
 /**
  * Created by Lars on 25-9-2017.
  */
@@ -16,6 +18,18 @@ public class GameManager  implements ILogic{
 
     @Override
     public boolean leaveLobby(Player player) {
+        return false;
+    }
+
+    @Override
+    public List<Team> getTeams(Lobby lobby)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean joinTeam(Player player, Team team)
+    {
         return false;
     }
 

@@ -35,4 +35,9 @@ public class Lobby {
     {
         return teams;
     }
+
+    public boolean playerJointTeam(Player player, Team team){
+        throw new NotImplementedException();
+    }
+
 }
