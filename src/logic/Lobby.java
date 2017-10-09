@@ -25,4 +25,14 @@ public class Lobby {
     public boolean leaveLobby(IPlayable team) {
         throw new NotImplementedException();
     }
+
+    public int getLobbyNumber()
+    {
+        return number;
+    }
+
+    public List<IPlayable> getTeams()
+    {
+        return teams;
+    }
 }

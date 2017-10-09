@@ -9,6 +9,11 @@ public class DefaultGameMode implements IGameMode {
 
     private String description;
 
+    public DefaultGameMode(String description)
+    {
+        this.description = description;
+    }
+
     @Override
     public char[] generateNodes() {
         throw new NotImplementedException();
