@@ -9,6 +9,11 @@ public class FFAGameMode implements IGameMode{
 
     private String description;
 
+    public FFAGameMode(String description)
+    {
+        this.description = description;
+    }
+
     @Override
     public char[] generateNodes() {
         throw new NotImplementedException();

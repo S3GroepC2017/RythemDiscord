@@ -22,5 +22,18 @@ public class Lobby {
         throw new NotImplementedException();
     }
 
-    public boolean leaveLobby(IPlayable team)
+    public boolean leaveLobby(Player player)
+    {
+        throw new NotImplementedException();
+    }
+
+    public int getLobbyNumber()
+    {
+        return number;
+    }
+
+    public List<IPlayable> getTeams()
+    {
+        return teams;
+    }
 }
