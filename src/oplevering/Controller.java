@@ -24,14 +24,22 @@ public class Controller
 
     @FXML private Pane mainPane;
 
-    //TODO
     @FXML protected void keyPressed(KeyEvent event)
     {
-        mainKey.setText(event.getCode().toString());
+        char c = event.getCharacter().toCharArray()[0];
+        System.out.println(c);
+
+        //TODO
+        //boolean succes = logic.keyPressed(c);
     }
 
     @FXML protected void initialize()
     {
         Platform.runLater(() -> mainPane.requestFocus());
+    }
+
+    protected void startGame()
+    {
+        logic.startGame();
     }
 }
