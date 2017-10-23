@@ -30,7 +30,7 @@ public class Controller
         System.out.println(c);
 
         //TODO
-        //boolean succes = logic.keyPressed(c);
+        boolean succes = logic.keyPressed(c);
     }
 
     @FXML protected void initialize()
