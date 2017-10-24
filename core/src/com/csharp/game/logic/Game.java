@@ -1,4 +1,4 @@
-package com.csharp.game;
+package com.csharp.game.logic;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
