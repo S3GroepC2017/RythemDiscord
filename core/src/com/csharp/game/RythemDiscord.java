@@ -6,7 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * RythemDiscord
+ * Created by dane on 24-10-17.
+ */
+
 public class RythemDiscord extends ApplicationAdapter {
+
 	SpriteBatch batch;
 	Texture img;
 	
