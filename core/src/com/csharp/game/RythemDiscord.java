@@ -27,38 +27,51 @@ public class RythemDiscord extends ApplicationAdapter {
 	private ShapeRenderer shapeRenderer;
 	private ArrayList<Texture> backgroundTextures;
 
-	
-	@Override
+    //This method initilizes all items needed for the game.
+    @Override
 	public void create () {
-		//This method initilizes all items needed for the game.
 		spriteBatch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
-		loadTextures();
+		loadBackgroundItems();
 
 		//creation of input handling
 		inputManager = new InputManager(this);
 		Gdx.input.setInputProcessor(inputManager);
 	}
 
+
+    //This method draws everything to the screen.
+    //The other of rendering is crucial. (items stack on top of each other)!!
 	@Override
 	public void render () {
 		//clearing the screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		//rendering of items
+		//render background alsways needs to be the first thing to render
 		renderBackground();
+
+		//rendering of the note section (play area)
 		renderNoteSection();
+
+		//rendering of the generated keys
+        //TODO
+
+		//rendering of the current keyframe (Key that needs to be pressed)
+        renderCurrentKeyFrame();
 	}
-	
+
+	//this method clears the items and releases them from memory.
 	@Override
 	public void dispose () {
+        inputManager = null;
 		spriteBatch.dispose();
+		shapeRenderer.dispose();
 		for(Texture t : backgroundTextures) {
 			t.dispose();
 		}
 	}
 
-	private void loadTextures() {
+	private void loadBackgroundItems() {
 		//choosing and loading the background
 		Random rand =  new Random();
 		backgroundTextures = new ArrayList<Texture>();
@@ -109,11 +122,14 @@ public class RythemDiscord extends ApplicationAdapter {
 		shapeRenderer.rect(4, 4, Gdx.graphics.getWidth() - 8, 200);
 		Gdx.gl20.glLineWidth(10);
 		shapeRenderer.end();
-		//render current payble note
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-		shapeRenderer.setColor(255,0,0,0.7f);
-		shapeRenderer.rect(50, 55, 100, 100);
-		Gdx.gl20.glLineWidth(15);
-		shapeRenderer.end();
 	}
+
+	private void renderCurrentKeyFrame() {
+        //render current payble note
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(255,0,0,0.7f);
+        shapeRenderer.rect(50, 50, 100, 100);
+        Gdx.gl20.glLineWidth(15);
+        shapeRenderer.end();
+    }
 }
