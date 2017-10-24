@@ -15,6 +15,7 @@ public class Controller
     public Controller()
     {
         this.logic = new GameManager();
+        startGame();
     }
 
     @FXML private Label mainKey;
@@ -31,15 +32,34 @@ public class Controller
 
         //TODO
         boolean succes = logic.keyPressed(c);
+        System.out.println(succes);
     }
 
     @FXML protected void initialize()
     {
-        Platform.runLater(() -> mainPane.requestFocus());
+        Platform.runLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                mainPane.requestFocus();
+                setKeys();
+            }
+        });
     }
 
     protected void startGame()
     {
         logic.startGame();
+    }
+
+    private void setKeys()
+    {
+        char[] keys = logic.getNodes();
+
+        mainKey.setText(Character.toString(keys[0]));
+        futKey1.setText(Character.toString(keys[0 + 1]));
+        futKey2.setText(Character.toString(keys[0 + 2]));
+        futKey3.setText(Character.toString(keys[0 + 3]));
     }
 }
