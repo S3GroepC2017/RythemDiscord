@@ -6,7 +6,7 @@ import com.csharp.game.RythemDiscord;
 
 /**
  * RythemDiscord
- * Created by dane on 24-10-17.
+ * Created by Dane Naebers on 24-10-17.
  */
 
 public class DesktopLauncher {

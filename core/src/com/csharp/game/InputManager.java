@@ -5,17 +5,20 @@ import com.badlogic.gdx.InputProcessor;
 
 /**
  * RythemDiscord
- * Created by dane on 24-10-17.
+ * Created by Dane Naebers on 24-10-17.
+ *
+ * This class handles all events past down from the application.
  */
 public class InputManager implements InputProcessor {
-    private RythemDiscord game;
+    final RythemDiscord game;
 
-    public InputManager(RythemDiscord rythemDiscord) {
-        game = rythemDiscord;
+    public InputManager(RythemDiscord game) {
+        this.game = game;
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        System.out.println(keycode);
         return false;
     }
 
