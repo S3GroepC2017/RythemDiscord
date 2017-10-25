@@ -7,52 +7,41 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Game
 {
-    private GameDifficulty difficulty;
-    private GameStatus status;
+    private char[] nodeList;
+    private int nodeListPosition = 0;
+    private NodeGenerator nodeGenerator;
 
-    public Game(GameDifficulty difficulty, GameStatus status)
+    public Game()
     {
-        this.difficulty = difficulty;
-        this.status = status;
+        nodeGenerator = new NodeGenerator();
+        nodeList = nodeGenerator.generateNode();
     }
 
-    public boolean startGame()
+    public char[] getNodes()
     {
-        return false;
+        if (nodeListPosition == nodeList.length)
+        {
+            nodeList = nodeGenerator.generateNode();
+        }
+        return  nodeList;
     }
 
-    public boolean pauseGame()
+    public boolean checkKeyPressed(char keyPressed)
     {
-        return false;
+        if (nodeListPosition == nodeList.length)
+        {
+            return false;
+        }
+        if (nodeList[nodeListPosition] == keyPressed)
+        {
+            nodeListPosition++;
+            return true;
+        }
+        else
+        {
+            nodeListPosition = 0;
+            return false;
+        }
     }
 
-    public boolean resumeGame()
-    {
-        return false;
-    }
-
-    public boolean quitGame()
-    {
-        return false;
-    }
-
-    public Stave[] getNodes()
-    {
-        return null;
-    }
-
-    public Stave getNodes(Player player)
-    {
-        return null;
-    }
-
-    public void distributeNodes()
-    {
-        throw new NotImplementedException();
-    }
-
-    public boolean checkInputNode(char node, Player player)
-    {
-        return false;
-    }
 }
