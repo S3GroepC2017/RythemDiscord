@@ -3,18 +3,25 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RythemDiscord.iml" filepath="$PROJECT_DIR$/.idea/modules/RythemDiscord.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/RythemDiscord-core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/RythemDiscord-core.iml" group="core" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/RythemDiscord-core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/RythemDiscord-core_main.iml" group="core" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/RythemDiscord-core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/RythemDiscord-core_test.iml" group="core" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/RythemDiscord-desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/RythemDiscord-desktop.iml" group="desktop" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/RythemDiscord-desktop_main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/RythemDiscord-desktop_main.iml" group="desktop" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/RythemDiscord-desktop_test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/RythemDiscord-desktop_test.iml" group="desktop" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\RythemDiscord.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\RythemDiscord.iml" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\RythemDiscord-core.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\RythemDiscord-core.iml" group="core" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\RythemDiscord-core_main.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\RythemDiscord-core_main.iml" group="core" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\RythemDiscord-core_test.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\RythemDiscord-core_test.iml" group="core" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\RythemDiscord-desktop.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\RythemDiscord-desktop.iml" group="desktop" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\RythemDiscord-desktop_main.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\RythemDiscord-desktop_main.iml" group="desktop" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\RythemDiscord-desktop_test.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\RythemDiscord-desktop_test.iml" group="desktop" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" group="core" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\core.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\core.iml" group="core" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_main.iml" group="core" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\core_main.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\core_main.iml" group="core" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_test.iml" group="core" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\core_test.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\core\core_test.iml" group="core" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" group="desktop" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\desktop.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\desktop.iml" group="desktop" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop_main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop_main.iml" group="desktop" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\desktop_main.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\desktop_main.iml" group="desktop" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop_test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop_test.iml" group="desktop" />
+      <module fileurl="file://C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\desktop_test.iml" filepath="C:\Users\Lars\Documents\GitProjects\ProftaakC#2017NJ\RythemDiscord\.idea\modules\desktop\desktop_test.iml" group="desktop" />
     </modules>
   </component>
 </project>
