@@ -1,12 +1,16 @@
 package com.csharp.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
+import com.csharp.game.logic.GameManager;
+import com.csharp.game.logic.ILogic;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,7 +24,7 @@ import java.util.Random;
 public class GameScreen implements Screen {
 
     final RythemDiscord game;
-    //private InputManager inputManager;  !!maybe not needed
+    private InputManager inputManager;  //!!maybe not needed
 
     //textures and renderers
     private ShapeRenderer shapeRenderer;
@@ -31,8 +35,8 @@ public class GameScreen implements Screen {
     public GameScreen(final RythemDiscord game) {
         this.game = game;
         shapeRenderer = new ShapeRenderer();
-        //inputManager = new InputManager(game);
-        //Gdx.input.setInputProcessor(inputManager); //passing all inputs to the custom input process class
+        inputManager = new InputManager(game);
+        Gdx.input.setInputProcessor(inputManager); //passing all inputs to the custom input process class
         loadBackgroundTextures();
         LoadExitTextures();
     }
@@ -173,7 +177,6 @@ public class GameScreen implements Screen {
     }
 
     private void handleUserInput() {
-
         //Tracking and handling of the Esc Key / Exit key
         if(Gdx.input.getX() > 1470 && Gdx.input.getX() < 1570 &&
                 Gdx.input.getY() < 70 && Gdx.input.getY() > 20) {

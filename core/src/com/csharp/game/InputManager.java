@@ -1,6 +1,8 @@
 package com.csharp.game;
 
 import com.badlogic.gdx.InputProcessor;
+import com.csharp.game.logic.GameManager;
+import com.csharp.game.logic.ILogic;
 
 
 /**
@@ -11,14 +13,15 @@ import com.badlogic.gdx.InputProcessor;
  */
 public class InputManager implements InputProcessor {
     final RythemDiscord game;
+    private ILogic logic;
 
     public InputManager(RythemDiscord game) {
         this.game = game;
+        this.logic = new GameManager();
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        System.out.println(keycode);
         return false;
     }
 
@@ -31,6 +34,9 @@ public class InputManager implements InputProcessor {
     public boolean keyTyped(char character) {
         //TODO Handle all keys for the game
         System.out.println(character);
+        System.out.println(logic.keyPressed(character));
+
+        //IGNORE
         return false;
     }
 
