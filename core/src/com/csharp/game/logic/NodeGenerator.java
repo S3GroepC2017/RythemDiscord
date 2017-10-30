@@ -32,26 +32,31 @@ public class NodeGenerator
     private void setPossibleInputKeys(int amountPossibleDifferentUserInputs)
     {
         String potentialInputKeys = "qwertyuiopasdfghjklzxcvbnm"; // all values from which can be chosen
-        ArrayList<Integer> chodenumbers = new ArrayList<Integer>(); //temp arraylist to keep track of the chosen string possitions
+        ArrayList<Integer> chosenNumbers = new ArrayList<Integer>(); //temp arraylist to keep track of the chosen string possitions
         Random random = new Random();
 
-        for (int i = 0; i <= amountPossibleDifferentUserInputs; i++)
-        { //loop for the amount of chars what can be used in the generation
+        for (int i = 0; i < amountPossibleDifferentUserInputs; i++)
+        {
+            //loop for the amount of chars what can be used in the generation
             int tempchosen = random.nextInt(potentialInputKeys.length());
-            if (chodenumbers.contains(tempchosen))
-            { // if number has already been chosen, subtract and don't add
-                i--;
-            } else
+            if (chosenNumbers.contains(tempchosen))
             {
-                chodenumbers.add(tempchosen); // if not already chosen, add to list
+                // if number has already been chosen, subtract and don't add
+                i--;
+            }
+
+            else
+            {
+                chosenNumbers.add(tempchosen); // if not already chosen, add to list
             }
         }
 
         ArrayList<Character> returnListAcceptedUserInputs = new ArrayList<Character>(); // new temp list to override class possible input list: "acceptedUserInputs"
 
-        for (Integer i : chodenumbers)
+        for (Integer i : chosenNumbers)
         {
-            returnListAcceptedUserInputs.add((char) potentialInputKeys.indexOf(i)); // get char from string and add to list
+            char c = potentialInputKeys.charAt(i);
+            returnListAcceptedUserInputs.add(c); // get char from string and add to list
         }
 
         acceptedUserInputs = returnListAcceptedUserInputs; // override class list with local list
@@ -65,7 +70,8 @@ public class NodeGenerator
         Random random = new Random();
 
         for (int i = 0; i < outputUserArray.length; i++)
-        { //loop amount of array length
+        {
+            //loop amount of array length
             int randomSelectedChar = random.nextInt(acceptedUserInputs.size()); // selected random position from possible inputs
             outputUserArray[i] = acceptedUserInputs.get(randomSelectedChar); // add selected char to output array
         }
