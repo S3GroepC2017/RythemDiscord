@@ -11,13 +11,12 @@ import com.csharp.game.RythemDiscord;
 
 /**
  * RythemDiscord
- * Created by Dane Naebers on 25-10-2017.
+ * @Author Groep C#
  * <p>
  * This class is the application menu screen.
  */
 public class MainMenuScreen implements Screen
 {
-
     final RythemDiscord game;
 
     //textures and renderers

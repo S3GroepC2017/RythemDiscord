@@ -7,7 +7,7 @@ import com.csharp.game.logic.ILogic;
 
 /**
  * RythemDiscord
- * Created by Dane Naebers on 24-10-17.
+ * @Author Groep C#
  * <p>
  * This class handles all events past down from the application.
  */

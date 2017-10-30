@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * @Autor Joe van Kollenburg
+ * @Autor Groep C#
  */
 public class NodeGenerator
 {

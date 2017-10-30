@@ -11,7 +11,7 @@ import com.csharp.game.screens.MainMenuScreen;
 
 /**
  * RythemDiscord
- * Created by Dane Naebers on 24-10-17.
+ * @Author Groep C#
  *
  * This class is the main graphics class
  * The only thing this class does is holding the main sprite batch and font
@@ -31,7 +31,6 @@ public class RythemDiscord extends Game {
         //load and set the menu screen
 		this.setScreen(new MainMenuScreen(this));
 	}
-
 
 	@Override
 	public void render () {

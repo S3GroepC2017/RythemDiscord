@@ -17,7 +17,7 @@ import java.util.Random;
 
 /**
  * RythemDiscord
- * Created by Dane Naebers on 25-10-2017.
+ * @Author Groep C#
  * <p>
  * This is the main game code for the application.
  */
