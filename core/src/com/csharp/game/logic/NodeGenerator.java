@@ -65,7 +65,7 @@ public class NodeGenerator
 
     public char[] generateNode()
     {
-        char[] outputUserArray = new char[4]; // set output array length
+        char[] outputUserArray = new char[20]; // set output array length
 
         Random random = new Random();
 
@@ -76,7 +76,7 @@ public class NodeGenerator
             outputUserArray[i] = acceptedUserInputs.get(randomSelectedChar); // add selected char to output array
         }
 
-//        return outputUserArray;
-        return new char[]{'a', 'a', 'a'};
+      return outputUserArray;
+       // return new char[]{'a', 'a', 'a'};
     }
 }

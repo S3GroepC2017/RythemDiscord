@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
 
+import javax.xml.soap.Text;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -18,7 +19,7 @@ import java.util.Random;
 /**
  * RythemDiscord
  * @Author Groep C#
- * <p>
+ *
  * This is the main game code for the application.
  */
 public class GameScreen implements Screen
@@ -113,6 +114,10 @@ public class GameScreen implements Screen
         {
             escKeys[i].dispose();
         }
+        for(Texture t : keyTextures)
+        {
+            t.dispose();
+        }
     }
 
     private void loadBackgroundTextures()
@@ -120,28 +125,25 @@ public class GameScreen implements Screen
         //choosing and loading the background
         Random rand = new Random();
         backgroundTextures = new ArrayList<Texture>();
-        switch (rand.nextInt(4))
+        switch (rand.nextInt(6))
         {
             case 0:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/punkcity/far-buildings.png")));
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/punkcity/back-buildings.png")));
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/punkcity/foreground.png")));
+                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/punkcity/PunkCityFinal.png")));
                 break;
             case 1:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/jungle/plx-1.png")));
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/jungle/plx-2.png")));
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/jungle/plx-3.png")));
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/jungle/plx-4.png")));
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/jungle/plx-5.png")));
+                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/jungle/JungleFinal.png")));
                 break;
             case 2:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/cliffs/sky.png")));
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/cliffs/clouds.png")));
+                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/cliffs/CliffsFinal.png")));
                 break;
             case 3:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/underwater/far.png")));
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/underwater/sand.png")));
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/underwater/foreground-merged.png")));
+                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/underwater/UnderwaterFinal.png")));
+                break;
+            case 4:
+                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/forrest/ForestFinal.png")));
+                break;
+            case 5:
+                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/space/SpaceFinal.png")));
                 break;
         }
     }
