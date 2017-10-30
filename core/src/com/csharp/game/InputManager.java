@@ -7,7 +7,7 @@ import com.csharp.game.logic.ILogic;
 
 /**
  * RythemDiscord
- * @Author Groep C#
+ * @author Groep C#
  * <p>
  * This class handles all events past down from the application.
  */
@@ -22,12 +22,6 @@ public class InputManager implements InputProcessor
         this.game = game;
         this.logic = new GameManager();
         logic.startGame();
-
-        //TODO Show array in future keys of the gamewindow
-        for (char c : logic.getNodes())
-        {
-            System.out.print(Character.toString(c));
-        }
     }
 
     @Override
@@ -101,7 +95,7 @@ public class InputManager implements InputProcessor
     public int getKeyIndex()
     {
         //TODO Return key index
-//        return logic.getKeyIndex;
+        //return logic.getKeyIndex;
         return 0;
     }
 }

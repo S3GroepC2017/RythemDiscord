@@ -1,17 +1,13 @@
 package com.csharp.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.csharp.game.screens.MainMenuScreen;
 
 
 /**
  * RythemDiscord
- * @Author Groep C#
+ * @author Groep C#
  *
  * This class is the main graphics class
  * The only thing this class does is holding the main sprite batch and font

@@ -1,9 +1,7 @@
 package com.csharp.game.logic;
 
-import java.util.List;
-
 /**
- * @Author Groep C#
+ * @author Groep C#
  */
 public interface ILogic
 {

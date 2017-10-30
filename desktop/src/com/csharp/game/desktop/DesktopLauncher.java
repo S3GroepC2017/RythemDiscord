@@ -6,7 +6,7 @@ import com.csharp.game.RythemDiscord;
 
 /**
  * RythemDiscord
- * @Author Groep C#
+ * @author Groep C#
  */
 
 public class DesktopLauncher {

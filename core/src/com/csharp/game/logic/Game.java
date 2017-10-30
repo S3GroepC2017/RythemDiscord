@@ -1,7 +1,7 @@
 package com.csharp.game.logic;
 
 /**
- * @Author Groep C#
+ * @author Groep C#
  */
 public class Game
 {

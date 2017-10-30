@@ -11,8 +11,8 @@ import com.csharp.game.RythemDiscord;
 
 /**
  * RythemDiscord
- * @Author Groep C#
- * <p>
+ * @author Groep C#
+ * 
  * This class is the application menu screen.
  */
 public class MainMenuScreen implements Screen
@@ -22,6 +22,7 @@ public class MainMenuScreen implements Screen
     //textures and renderers
     private Texture gameTitle;
     private Texture[] menuStart;
+    private Texture[] menuExit;
 
 
     //Font
@@ -95,9 +96,11 @@ public class MainMenuScreen implements Screen
         gameTitle.dispose();
         font.dispose();
         generator.dispose();
-        for (int i = 0; i < menuStart.length; i++)
-        {
-            menuStart[i].dispose();
+        for (Texture t : menuStart) {
+            t.dispose();
+        }
+        for(Texture t : menuExit) {
+            t.dispose();
         }
     }
 
@@ -120,9 +123,14 @@ public class MainMenuScreen implements Screen
     private void loadTextures()
     {
         gameTitle = new Texture(Gdx.files.internal("menu/GameTitle.png"));
+
         menuStart = new Texture[2];
         menuStart[0] = new Texture(Gdx.files.internal("menu/menuItemStart_default.png"));
         menuStart[1] = new Texture(Gdx.files.internal("menu/menuItemStart_pressed.png"));
+
+        menuExit = new Texture[2];
+        menuExit[0] = new Texture(Gdx.files.internal("menu/menuItemExit_default.png"));
+        menuExit[1] = new Texture(Gdx.files.internal("menu/menuItemExit_pressed.png"));
     }
 
     private void renderGameTitle()
@@ -137,26 +145,36 @@ public class MainMenuScreen implements Screen
     {
         game.spriteBatch.begin();
         game.spriteBatch.draw(menuStart[0], (Gdx.graphics.getWidth() / 2) - 50, 500, 100, 25);
+        game.spriteBatch.draw(menuExit[0], (Gdx.graphics.getWidth() / 2) - 50, 450, 100, 25);
         game.spriteBatch.end();
     }
 
-    private void handleUserInput()
-    {
+    private void handleUserInput() {
 
         //tracking of start button
-        if (Gdx.input.getX() > 750 && Gdx.input.getX() < 850
-                && Gdx.input.getY() < 400 && Gdx.input.getY() > 375)
-        {
+        if (Gdx.input.getX() > ((Gdx.graphics.getWidth() / 2) - 50) && Gdx.input.getX() < ((Gdx.graphics.getWidth() / 2) + 50)
+                && Gdx.input.getY() < 400 && Gdx.input.getY() > 375) {
             //rerender start button
             game.spriteBatch.begin();
             game.spriteBatch.draw(menuStart[1], (Gdx.graphics.getWidth() / 2) - 50, 502, 100, 25);
             game.spriteBatch.end();
 
             //if button is pressed
-            if (Gdx.input.isTouched())
-            {
+            if (Gdx.input.isTouched()) {
                 game.setScreen(new GameScreen(game));
                 dispose();
+            }
+        }
+        //tracking exit button
+        if (Gdx.input.getX() > ((Gdx.graphics.getWidth() / 2) - 50) && Gdx.input.getX() < ((Gdx.graphics.getWidth() / 2) + 50)
+                 && Gdx.input.getY() < 450 && Gdx.input.getY() > 425) {
+            game.spriteBatch.begin();
+            game.spriteBatch.draw(menuExit[1], (Gdx.graphics.getWidth() / 2) - 50, 452, 100, 25);
+            game.spriteBatch.end();
+
+            if (Gdx.input.isTouched()) {
+                this.dispose();
+                System.exit(0);
             }
         }
     }

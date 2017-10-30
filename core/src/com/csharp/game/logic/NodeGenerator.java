@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * @Autor Groep C#
+ * RythemDiscord
+ * @author Groep C#
  */
 public class NodeGenerator
 {
@@ -65,7 +66,7 @@ public class NodeGenerator
 
     public char[] generateNode()
     {
-        char[] outputUserArray = new char[20]; // set output array length
+        char[] outputUserArray = new char[5]; // set output array length
 
         Random random = new Random();
 
