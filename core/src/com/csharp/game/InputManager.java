@@ -15,6 +15,7 @@ public class InputManager implements InputProcessor
 {
     final RythemDiscord game;
     private ILogic logic;
+    private boolean lastSucces;
 
     public InputManager(RythemDiscord game)
     {
@@ -46,7 +47,7 @@ public class InputManager implements InputProcessor
     {
         //TODO Handle all keys for the game
         System.out.println(character);
-        System.out.println(logic.keyPressed(character));
+        lastSucces = logic.keyPressed(character);
 
         //IGNORE
         return false;
@@ -80,5 +81,27 @@ public class InputManager implements InputProcessor
     public boolean scrolled(int amount)
     {
         return false;
+    }
+
+    public char[] getKeys()
+    {
+        return logic.getNodes();
+    }
+
+    public boolean getLastSuccess()
+    {
+        return lastSucces;
+    }
+
+    public void resetSuccess()
+    {
+        lastSucces = false;
+    }
+
+    public int getKeyIndex()
+    {
+        //TODO Return key index
+//        return logic.getKeyIndex;
+        return 0;
     }
 }

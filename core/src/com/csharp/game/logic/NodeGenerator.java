@@ -76,6 +76,7 @@ public class NodeGenerator
             outputUserArray[i] = acceptedUserInputs.get(randomSelectedChar); // add selected char to output array
         }
 
-        return outputUserArray;
+//        return outputUserArray;
+        return new char[]{'a', 'a', 'a'};
     }
 }

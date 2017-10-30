@@ -21,6 +21,7 @@ public class Game
         {
             nodeList = nodeGenerator.generateNode();
         }
+
         return nodeList;
     }
 

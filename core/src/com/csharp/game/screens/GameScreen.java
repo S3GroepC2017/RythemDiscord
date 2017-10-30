@@ -1,7 +1,6 @@
 package com.csharp.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,10 +8,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
-import com.csharp.game.logic.GameManager;
-import com.csharp.game.logic.ILogic;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -30,8 +30,8 @@ public class GameScreen implements Screen
     //textures and renderers
     private ShapeRenderer shapeRenderer;
     private ArrayList<Texture> backgroundTextures;
+    private ArrayList<Texture> keyTextures;
     private Texture[] escKeys;
-
 
     public GameScreen(final RythemDiscord game)
     {
@@ -40,7 +40,8 @@ public class GameScreen implements Screen
         inputManager = new InputManager(game);
         Gdx.input.setInputProcessor(inputManager); //passing all inputs to the custom input process class
         loadBackgroundTextures();
-        LoadExitTextures();
+        loadKeyTextures(inputManager.getKeys());
+        loadExitTextures();
     }
 
     @Override
@@ -62,7 +63,7 @@ public class GameScreen implements Screen
         renderNoteSection();
 
         //rendering of the generated keys
-        //TODO
+        renderKeys();
 
         //rendering of the current keyframe (Key that needs to be pressed)
         renderCurrentKeyFrame();
@@ -107,6 +108,7 @@ public class GameScreen implements Screen
         {
             t.dispose();
         }
+
         for (int i = 0; i < escKeys.length; i++)
         {
             escKeys[i].dispose();
@@ -144,7 +146,18 @@ public class GameScreen implements Screen
         }
     }
 
-    private void LoadExitTextures()
+    private void loadKeyTextures(char[] keys)
+    {
+        keyTextures = new ArrayList<Texture>();
+
+        for(char key : keys)
+        {
+            Texture keyTexture = new Texture(Gdx.files.internal("keys/" + Character.toString(key) + ".png"));
+            keyTextures.add(keyTexture);
+        }
+    }
+
+    private void loadExitTextures()
     {
         escKeys = new Texture[2];
         escKeys[0] = new Texture(Gdx.files.internal("keys/EscKey_default.png"));
@@ -188,11 +201,39 @@ public class GameScreen implements Screen
         shapeRenderer.end();
     }
 
+    private void renderKeys()
+    {
+        if (!keyTextures.isEmpty())
+        {
+            game.spriteBatch.begin();
+            game.spriteBatch.draw(keyTextures.get(0), 60, 60, 80, 80); //current key
+
+            for(Texture t : keyTextures)
+            {
+                game.spriteBatch.draw(t, calculateKeyMargin(keyTextures.indexOf(t)), 60, 80, 80); //key
+            }
+
+            game.spriteBatch.end();
+        }
+    }
+
     private void renderExitButton()
     {
         game.spriteBatch.begin();
         game.spriteBatch.draw(escKeys[0], 1470, 830, 100, 50);
         game.spriteBatch.end();
+    }
+
+    private int calculateKeyMargin(int index)
+    {
+        int margin = 60;
+
+        for(int i = 0; i < index; i++)
+        {
+            margin += 100;
+        }
+
+        return margin;
     }
 
     private void handleUserInput()
@@ -209,6 +250,12 @@ public class GameScreen implements Screen
                 game.setScreen(new MainMenuScreen(game));
                 this.dispose();
             }
+        }
+
+        if(inputManager.getLastSuccess())
+        {
+            keyTextures.remove(0);
+            inputManager.resetSuccess();
         }
     }
 }
