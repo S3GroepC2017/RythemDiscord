@@ -18,10 +18,11 @@ import java.util.Random;
 /**
  * RythemDiscord
  * Created by Dane Naebers on 25-10-2017.
- *
+ * <p>
  * This is the main game code for the application.
  */
-public class GameScreen implements Screen {
+public class GameScreen implements Screen
+{
 
     final RythemDiscord game;
     private InputManager inputManager;  //!!maybe not needed
@@ -32,7 +33,8 @@ public class GameScreen implements Screen {
     private Texture[] escKeys;
 
 
-    public GameScreen(final RythemDiscord game) {
+    public GameScreen(final RythemDiscord game)
+    {
         this.game = game;
         shapeRenderer = new ShapeRenderer();
         inputManager = new InputManager(game);
@@ -42,12 +44,14 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void show() {
+    public void show()
+    {
 
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
         //clearing the screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -71,42 +75,51 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
 
     }
 
     @Override
-    public void pause() {
+    public void pause()
+    {
 
     }
 
     @Override
-    public void resume() {
+    public void resume()
+    {
 
     }
 
     @Override
-    public void hide() {
+    public void hide()
+    {
 
     }
 
     //Disposing all loaded items and textures PLS DONT FORGETI!
     @Override
-    public void dispose() {
+    public void dispose()
+    {
         shapeRenderer.dispose();
-        for(Texture t : backgroundTextures) {
+        for (Texture t : backgroundTextures)
+        {
             t.dispose();
         }
-        for(int i = 0; i < escKeys.length; i++) {
+        for (int i = 0; i < escKeys.length; i++)
+        {
             escKeys[i].dispose();
         }
     }
 
-    private void loadBackgroundTextures() {
+    private void loadBackgroundTextures()
+    {
         //choosing and loading the background
-        Random rand =  new Random();
+        Random rand = new Random();
         backgroundTextures = new ArrayList<Texture>();
-        switch(rand.nextInt(4)) {
+        switch (rand.nextInt(4))
+        {
             case 0:
                 backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/punkcity/far-buildings.png")));
                 backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/punkcity/back-buildings.png")));
@@ -131,21 +144,25 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void LoadExitTextures() {
-        escKeys =  new Texture[2];
+    private void LoadExitTextures()
+    {
+        escKeys = new Texture[2];
         escKeys[0] = new Texture(Gdx.files.internal("keys/EscKey_default.png"));
         escKeys[1] = new Texture(Gdx.files.internal("keys/EscKey_pressed.png"));
     }
 
-    private void renderBackground() {
+    private void renderBackground()
+    {
         game.spriteBatch.begin();
-        for(Texture t : backgroundTextures) {
-            game.spriteBatch.draw(t , 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        for (Texture t : backgroundTextures)
+        {
+            game.spriteBatch.draw(t, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         }
         game.spriteBatch.end();
     }
 
-    private void renderNoteSection() {
+    private void renderNoteSection()
+    {
         //render transparent background
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -155,35 +172,40 @@ public class GameScreen implements Screen {
         shapeRenderer.end();
         //render border
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(0,0,0,1);
+        shapeRenderer.setColor(0, 0, 0, 1);
         shapeRenderer.rect(4, 4, Gdx.graphics.getWidth() - 8, 200);
         Gdx.gl20.glLineWidth(10);
         shapeRenderer.end();
     }
 
-    private void renderCurrentKeyFrame() {
+    private void renderCurrentKeyFrame()
+    {
         //render keyframe from current playable note
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(255,0,0,0.7f);
+        shapeRenderer.setColor(255, 0, 0, 0.7f);
         shapeRenderer.rect(50, 50, 100, 100);
         Gdx.gl20.glLineWidth(15);
         shapeRenderer.end();
     }
 
-    private void renderExitButton() {
+    private void renderExitButton()
+    {
         game.spriteBatch.begin();
         game.spriteBatch.draw(escKeys[0], 1470, 830, 100, 50);
         game.spriteBatch.end();
     }
 
-    private void handleUserInput() {
+    private void handleUserInput()
+    {
         //Tracking and handling of the Esc Key / Exit key
-        if(Gdx.input.getX() > 1470 && Gdx.input.getX() < 1570 &&
-                Gdx.input.getY() < 70 && Gdx.input.getY() > 20) {
+        if (Gdx.input.getX() > 1470 && Gdx.input.getX() < 1570 &&
+                Gdx.input.getY() < 70 && Gdx.input.getY() > 20)
+        {
             game.spriteBatch.begin();
             game.spriteBatch.draw(escKeys[1], 1470, 830, 100, 50);
             game.spriteBatch.end();
-            if(Gdx.input.isTouched()) {
+            if (Gdx.input.isTouched())
+            {
                 game.setScreen(new MainMenuScreen(game));
                 this.dispose();
             }
