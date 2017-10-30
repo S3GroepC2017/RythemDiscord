@@ -18,6 +18,7 @@ public class InputManager implements InputProcessor {
     public InputManager(RythemDiscord game) {
         this.game = game;
         this.logic = new GameManager();
+        logic.startGame();
     }
 
     @Override

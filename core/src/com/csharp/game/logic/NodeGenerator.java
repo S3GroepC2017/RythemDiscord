@@ -1,8 +1,10 @@
 package com.csharp.game.logic;
 
-public class NodeGenerator {
+public class NodeGenerator
+{
 
-    public char[] generateNode() {
+    public char[] generateNode()
+    {
         return new char[]{'a', 's', 'd', 'f'};
     }
 }
