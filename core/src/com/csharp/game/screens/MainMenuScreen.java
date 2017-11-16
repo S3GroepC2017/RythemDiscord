@@ -2,11 +2,18 @@ package com.csharp.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.freetype.*;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.RythemDiscord;
 
 /**
@@ -18,6 +25,15 @@ import com.csharp.game.RythemDiscord;
 public class MainMenuScreen implements Screen
 {
     final RythemDiscord game;
+
+    //UI Items
+    private Skin skin;
+    private Table table;
+    private Stage stage;
+
+    //Camera & Viewport
+    private OrthographicCamera camera;
+    private Viewport viewport;
 
     //textures and renderers
     private Texture gameTitle;
@@ -35,8 +51,25 @@ public class MainMenuScreen implements Screen
     public MainMenuScreen(RythemDiscord game)
     {
         this.game = game;
-        loadFont();
-        loadCreatorsText();
+
+        this.skin = new Skin();
+        this.table = new Table();
+        this.stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+
+
+        this.camera = new OrthographicCamera();
+        this.viewport = new FillViewport(100, 100, this.camera);
+        this.camera.position.set(camera.viewportWidth / 2, camera.viewportHeight/2, 0);
+
+
+        //loading UI components
+        loadUiComponents();
+
+
+
+        //loadFont();
+        //loadCreatorsText();
         loadTextures();
     }
 
@@ -49,6 +82,10 @@ public class MainMenuScreen implements Screen
     @Override
     public void render(float delta)
     {
+        //Updating the camera
+        this.camera.update();
+        this.game.spriteBatch.setProjectionMatrix(this.camera.combined);
+
         //Clear screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -58,8 +95,12 @@ public class MainMenuScreen implements Screen
         //render game title
         renderGameTitle();
 
+        //rendering the stage
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
+
         //render menu buttons
-        renderMenuButtons();
+        //renderMenuButtons();
 
         //handle user input
         handleUserInput();
@@ -68,7 +109,11 @@ public class MainMenuScreen implements Screen
     @Override
     public void resize(int width, int height)
     {
-
+        //Viewport and Camera update for SpriteBatch
+        this.viewport.update(width, height);
+        this.camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        //Viewport for UI Stage
+        this.stage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -96,12 +141,38 @@ public class MainMenuScreen implements Screen
         gameTitle.dispose();
         font.dispose();
         generator.dispose();
+        stage.dispose();
         for (Texture t : menuStart) {
             t.dispose();
         }
         for(Texture t : menuExit) {
             t.dispose();
         }
+    }
+
+    private void loadUiComponents() {
+
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("white", new Texture(pixmap));
+
+        skin.add("default", new BitmapFont());
+
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
+        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
+        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);
+
+        table.setFillParent(true);
+        stage.addActor(table);
+        table.setDebug(true);
+
+        final TextButton button = new TextButton("start", skin);
+        table.add(button);
     }
 
     private void loadFont()
@@ -136,8 +207,7 @@ public class MainMenuScreen implements Screen
     private void renderGameTitle()
     {
         game.spriteBatch.begin();
-        game.spriteBatch.draw(gameTitle, (Gdx.graphics.getWidth() / 2) - 250, 674, 500, 156);
-        font.draw(game.spriteBatch, glyphLayout, (Gdx.graphics.getWidth() / 2) - (width / 2), 630);
+        game.spriteBatch.draw(gameTitle, 50 - 17, 75, 35, 20);
         game.spriteBatch.end();
     }
 

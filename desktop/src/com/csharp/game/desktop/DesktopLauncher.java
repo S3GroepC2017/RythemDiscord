@@ -14,7 +14,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height  = 900;
 		config.width = 1600;
-		config.resizable = false;
+		config.resizable = true;
 		new LwjglApplication(new RythemDiscord(), config);
 	}
 }

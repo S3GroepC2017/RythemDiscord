@@ -19,6 +19,7 @@ public class RythemDiscord extends Game {
     //The global accessible sprite batch
 	public SpriteBatch spriteBatch;
 
+
     @Override
 	public void create () {
     	//creating the sprite batch

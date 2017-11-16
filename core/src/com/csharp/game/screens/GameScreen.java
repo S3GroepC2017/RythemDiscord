@@ -41,6 +41,10 @@ public class GameScreen implements Screen {
     private GlyphLayout glyphLayout;
     private float width;
 
+    /**
+     * Public constructor for GameScreen
+     * @param game the root game object that holds the global SpirteBatch for rendering items on the screen.
+     */
     public GameScreen(final RythemDiscord game) {
         this.game = game;
         shapeRenderer = new ShapeRenderer();
@@ -58,6 +62,11 @@ public class GameScreen implements Screen {
 
     }
 
+    /**
+     * Main render function for this screen.
+     * this method is received from the root game object 'game'.
+     * @param delta is the time that has passed sins the last game loop.
+     */
     @Override
     public void render(float delta) {
         //clearing the screen
@@ -120,6 +129,12 @@ public class GameScreen implements Screen {
         }
     }
 
+
+    //LOADING OF OBJECTS AND TEXTURES
+
+    /**
+     * Loading the background textures.
+     */
     private void loadBackgroundTextures() {
         //choosing and loading the background
         Random rand = new Random();
@@ -146,6 +161,10 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Loading the textures for the keys you received for the game.
+     * @param keys character array containing the keys for your game.
+     */
     private void loadKeyTextures(char[] keys) {
         originalKeyTextures = new ArrayList<Texture>();
         playableKeyTextures = new ArrayList<Texture>();
@@ -157,17 +176,27 @@ public class GameScreen implements Screen {
         }
     }
 
+
+    /**
+     * Loading the textures for the esc key.
+     */
     private void loadExitTextures() {
         escKeys = new Texture[2];
         escKeys[0] = new Texture(Gdx.files.internal("keys/EscKey_default.png"));
         escKeys[1] = new Texture(Gdx.files.internal("keys/EscKey_pressed.png"));
     }
 
+    /**
+     * Loading the font that will be used for text displayed on the screen.
+     */
     private void loadFont() {
        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF"));
        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
     }
 
+    /**
+     * Loading the text when the game is finished.
+     */
     private void loadFinishText() {
         parameter.size = 40;
         parameter.color = Color.BLACK;
@@ -177,6 +206,12 @@ public class GameScreen implements Screen {
         width = glyphLayout.width;
     }
 
+    //RENDERING OF THE OBJECTS AND TEXTURES
+
+
+    /**
+     * Rendering of the choosen background textures on the screen.
+     */
     private void renderBackground() {
         game.spriteBatch.begin();
         for (Texture t : backgroundTextures) {
@@ -185,6 +220,9 @@ public class GameScreen implements Screen {
         game.spriteBatch.end();
     }
 
+    /**
+     * Render the screen textures for where the notes are displayed.
+     */
     private void renderNoteSection() {
         //render transparent background
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
@@ -201,6 +239,9 @@ public class GameScreen implements Screen {
         shapeRenderer.end();
     }
 
+    /**
+     * Render the texture for the current note that needs to be pressed.
+     */
     private void renderCurrentKeyFrame() {
         //render keyframe from current playable note
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -210,6 +251,9 @@ public class GameScreen implements Screen {
         shapeRenderer.end();
     }
 
+    /**
+     * Rendering of the key textures on the screen.
+     */
     private void renderKeys() {
         if (!playableKeyTextures.isEmpty()) {
             game.spriteBatch.begin();
@@ -225,12 +269,20 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Rendering of the esc button.
+     */
     private void renderExitButton() {
         game.spriteBatch.begin();
         game.spriteBatch.draw(escKeys[0], 1470, 830, 100, 50);
         game.spriteBatch.end();
     }
 
+    /**
+     * Internal function for calculating the distance between key textures.
+     * @param index the position of the character in the notes list.
+     * @return the necessary margin that needs to be added to the left of the key texture.
+     */
     private int calculateKeyMargin(int index) {
         int margin = 60;
 
@@ -241,6 +293,9 @@ public class GameScreen implements Screen {
         return margin;
     }
 
+    /**
+     * Handling of user input.
+     */
     private void handleUserInput() {
         //check if all keys are successfully pressed
 
