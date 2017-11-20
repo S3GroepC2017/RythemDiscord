@@ -1,19 +1,20 @@
-package com.csharp.game.screens;
+package com.csharp.game.screens.ui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.RythemDiscord;
+import com.csharp.game.screens.game.screens.GameScreen;
 
 /**
  * RythemDiscord
@@ -22,17 +23,7 @@ import com.csharp.game.RythemDiscord;
  *
  * This class is the application menu screen.
  */
-public class MainMenuScreen implements Screen {
-    final RythemDiscord game;
-
-    //UI Items
-    private Skin skin;
-    private Table table;
-    private Stage stage;
-
-    //Camera & Viewport
-    private OrthographicCamera camera;
-    private Viewport viewport;
+public class MainMenuScreen extends UIScreen {
 
     //textures and renderers
     private Texture gameTitle;
@@ -42,16 +33,7 @@ public class MainMenuScreen implements Screen {
 
 
     public MainMenuScreen(RythemDiscord game) {
-        this.game = game;
-
-        this.skin = new Skin();
-        this.table = new Table();
-        this.stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-
-        this.camera = new OrthographicCamera();
-        this.viewport = new FillViewport(1000, 1000, this.camera);
-        this.camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        super(game);
 
         //loading textures
         loadTextures();
@@ -60,67 +42,6 @@ public class MainMenuScreen implements Screen {
         createUiComponents();
     }
 
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void render(float delta) {
-        //Updating the camera
-        this.camera.update();
-        this.game.spriteBatch.setProjectionMatrix(this.camera.combined);
-
-        //Clear screen
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        //render background
-        Gdx.gl.glClearColor(67 / 255f, 71 / 255f, 81 / 255f, 1);
-
-        //rendering the stage
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        //Viewport and Camera update for SpriteBatch
-        this.viewport.update(width, height);
-        this.camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-        //Viewport for UI Stage
-        this.stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    //Disposing all loaded items and textures PLS DONT FORGETI!
-    @Override
-    public void dispose() {
-        gameTitle.dispose();
-        for (Texture t : menuSpTextures) {
-            t.dispose();
-        }
-        for(Texture t : menuMpTextures) {
-            t.dispose();
-        }
-        for (Texture t : menuExitTextures) {
-            t.dispose();
-        }
-        stage.dispose();
-    }
 
     private void loadTextures() {
         gameTitle = new Texture(Gdx.files.internal("menu/GameTitle.png"));
@@ -212,6 +133,18 @@ public class MainMenuScreen implements Screen {
         table.add(spBtn).size(200, 25).padBottom(10).padTop(50).row();
         table.add(mpBtn).size(200, 25).padBottom(10).row();
         table.add(exitBtn).size(100, 25).row();
+    }
 
+    public void dispose() {
+        gameTitle.dispose();
+        for(Texture t : menuSpTextures) {
+            t.dispose();
+        }
+        for(Texture t : menuMpTextures) {
+            t.dispose();
+        }
+        for(Texture t : menuExitTextures) {
+            t.dispose();
+        }
     }
 }

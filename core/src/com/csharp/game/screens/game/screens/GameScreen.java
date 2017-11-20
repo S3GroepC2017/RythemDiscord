@@ -1,4 +1,4 @@
-package com.csharp.game.screens;
+package com.csharp.game.screens.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
+import com.csharp.game.screens.ui.screens.MainMenuScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
