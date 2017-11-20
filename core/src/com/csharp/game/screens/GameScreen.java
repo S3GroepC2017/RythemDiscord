@@ -35,7 +35,6 @@ public class GameScreen implements Screen
     private ArrayList<Texture>[] allOriginalKeyTextures = new ArrayList[amountOfPlayers];
     private ArrayList<Texture>[] allPlayableKeyTextures = new ArrayList[amountOfPlayers];
 
-    //TODO remove orignal- and playableKeyTextures;
     //textures and renderers
     private ShapeRenderer shapeRenderer;
     private ArrayList<Texture> backgroundTextures;
@@ -56,7 +55,7 @@ public class GameScreen implements Screen
         Gdx.input.setInputProcessor(inputManager); //passing all inputs to the custom input process class
         loadBackgroundTextures();
         //TODO fill amount of players
-        //TODO replace
+        //TODO replace with unique keys foreach player
         loadKeyTextures(inputManager.getKeys());
         loadExitTextures();
         loadFont();
@@ -127,7 +126,7 @@ public class GameScreen implements Screen
             t.dispose();
         }
 
-        for (ArrayList<Texture> tex: allOriginalKeyTextures)
+        for (ArrayList<Texture> tex : allOriginalKeyTextures)
         {
             for (Texture t : tex)
             {
@@ -135,9 +134,9 @@ public class GameScreen implements Screen
             }
         }
 
-        for (ArrayList<Texture> tex: allPlayableKeyTextures)
+        for (ArrayList<Texture> tex : allPlayableKeyTextures)
         {
-            for (Texture t: tex)
+            for (Texture t : tex)
             {
                 t.dispose();
             }
@@ -273,8 +272,8 @@ public class GameScreen implements Screen
                     {
                         break;
                     }
-    
-                    game.spriteBatch.draw(t, calculateKeyMargin(tex.indexOf(t)), calculateKeyRow(i), 80, 80); //key
+
+                    game.spriteBatch.draw(t, ScreenHelper.calculateHMargin(tex.indexOf(t)), ScreenHelper.calculateVMargin(i), 80, 80); //key
                 }
                 game.spriteBatch.end();
             }
@@ -286,30 +285,6 @@ public class GameScreen implements Screen
         game.spriteBatch.begin();
         game.spriteBatch.draw(escKeys[0], 1470, 830, 100, 50);
         game.spriteBatch.end();
-    }
-
-    private int calculateKeyMargin(int index)
-    {
-        int margin = 60;
-
-        for (int i = 0; i < index; i++)
-        {
-            margin += 100;
-        }
-
-        return margin;
-    }
-
-    private int calculateKeyRow(int index)
-    {
-        int margin = 900 - 120;
-
-        for (int i = 0; i < index; i++)
-        {
-            margin -= 120;
-        }
-
-        return margin;
     }
 
     private void handleUserInput()
