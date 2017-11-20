@@ -26,6 +26,7 @@ public class GameScreen implements Screen {
 
     final RythemDiscord game;
     private InputManager inputManager;  //!!maybe not needed
+    private int playerIndex = 4;
 
     //textures and renderers
     private ShapeRenderer shapeRenderer;
@@ -186,20 +187,31 @@ public class GameScreen implements Screen {
     }
 
     private void renderNoteSection() {
+        int height = 200;
+        int transparentHeight = 200;
         //render transparent background
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(1, 1, 1, 0.1f));
-        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), 200);
         shapeRenderer.end();
         //render border
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(0, 0, 0, 1);
-        shapeRenderer.rect(4, 4, Gdx.graphics.getWidth() - 8, 200);
+        //first line renders line for the first player, second line for player 2
+        shapeRenderer.rect(4, 4, Gdx.graphics.getWidth() - 8, height);
+        //draw line when there is more then one player
+        //TODO add player object from logic
+        for (int i = 0; i < playerIndex; i++)
+        {
+            transparentHeight = transparentHeight + 200;
+            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), transparentHeight);
+            shapeRenderer.rect(4, 4, Gdx.graphics.getWidth() - 8, height);
+        }
         Gdx.gl20.glLineWidth(10);
         shapeRenderer.end();
     }
+
 
     private void renderCurrentKeyFrame() {
         //render keyframe from current playable note
