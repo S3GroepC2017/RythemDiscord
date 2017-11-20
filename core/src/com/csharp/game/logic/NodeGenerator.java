@@ -3,8 +3,12 @@ package com.csharp.game.logic;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class NodeGenerator {
-
+/**
+ * RythemDiscord
+ * @author Groep C#
+ */
+public class NodeGenerator
+{
     /**
      * The accepted user inputs for the game
      */
@@ -62,7 +66,7 @@ public class NodeGenerator {
 
     public char[] generateNode()
     {
-        char[] outputUserArray = new char[4]; // set output array length
+        char[] outputUserArray = new char[5]; // set output array length
 
         Random random = new Random();
 
@@ -72,7 +76,6 @@ public class NodeGenerator {
             int randomSelectedChar = random.nextInt(acceptedUserInputs.size()); // selected random position from possible inputs
             outputUserArray[i] = acceptedUserInputs.get(randomSelectedChar); // add selected char to output array
         }
-
         return outputUserArray;
         //return new char[]{'a', 'a', 'a'};
     }

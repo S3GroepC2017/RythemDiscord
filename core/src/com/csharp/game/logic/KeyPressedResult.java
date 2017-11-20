@@ -5,6 +5,7 @@ package com.csharp.game.logic;
  */
 public enum KeyPressedResult
 {
+    NONE,
     WRONG,
     CORRECT,
     SEQUENCE_FINISHED,

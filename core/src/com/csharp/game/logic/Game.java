@@ -1,10 +1,10 @@
 package com.csharp.game.logic;
 
-import jdk.nashorn.internal.objects.annotations.Constructor;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import jdk.nashorn.internal.objects.annotations.Constructor;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
- * Created by Lars on 25-9-2017.
+ * @author Groep C#
  */
 public class Game
 {
