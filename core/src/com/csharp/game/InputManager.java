@@ -4,86 +4,91 @@ import com.badlogic.gdx.InputProcessor;
 import com.csharp.game.logic.GameManager;
 import com.csharp.game.logic.ILogic;
 import com.csharp.game.logic.KeyPressedResult;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Console;
 
 
 /**
  * RythemDiscord
- *
  * @author Groep C#
  * <p>
  * This class handles all events past down from the application.
  */
-public class InputManager implements InputProcessor {
+public class InputManager implements InputProcessor
+{
     final RythemDiscord game;
     private ILogic logic;
-    private KeyPressedResult lastSucces = KeyPressedResult.NONE;
-    private boolean keyWasPressed;
+    private KeyPressedResult lastSucces;
+    boolean keyWasPressed;
 
-    public InputManager(RythemDiscord game) {
+    public InputManager(RythemDiscord game)
+    {
         this.game = game;
         this.logic = new GameManager();
         logic.startGame();
     }
 
     @Override
-    public boolean keyDown(int keycode) {
+    public boolean keyDown(int keycode)
+    {
         return false;
     }
 
     @Override
-    public boolean keyUp(int keycode) {
-        //TODO Handle all keys for the game
-        char character = Character.toString((char) (keycode + 36 + 32)).charAt(0);
-        System.out.println(character);
-        lastSucces = logic.keyPressed(character);
-        keyWasPressed = true;
+    public boolean keyUp(int keycode)
+    {
         return false;
     }
 
     @Override
-    public boolean keyTyped(char character) {
+    public boolean keyTyped(char character)
+    {
         //TODO Handle all keys for the game
         System.out.println(character);
-        lastSucces = logic.keyPressed(character);
-        keyWasPressed = true;
-
-
+// TODO        lastSucces = logic.keyPressed(character);
+        throw new NotImplementedException();
         //IGNORE
+        //return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button)
+    {
         return false;
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean touchUp(int screenX, int screenY, int pointer, int button)
+    {
         return false;
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    public boolean touchDragged(int screenX, int screenY, int pointer)
+    {
         return false;
     }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
+    public boolean mouseMoved(int screenX, int screenY)
+    {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
+    public boolean scrolled(int amount)
+    {
         return false;
     }
 
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+    public char[] getKeys()
+    {
+        // TODO return logic.getNodes();
+        throw new NotImplementedException();
     }
 
-    public char[] getKeys() {
-        return logic.getNodes();
-    }
-
-    public boolean isKeyWasPressed() {
+public boolean isKeyWasPressed() {
         boolean updateDetected = keyWasPressed;
         keyWasPressed = false;
         return updateDetected;
@@ -97,7 +102,8 @@ public class InputManager implements InputProcessor {
         lastSucces = KeyPressedResult.WRONG;
     }
 
-    public int getKeyIndex() {
+    public int getKeyIndex()
+    {
         //TODO Return key index
         //return logic.getKeyIndex;
         return 0;
