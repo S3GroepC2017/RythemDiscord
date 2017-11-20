@@ -53,7 +53,6 @@ public class GameScreen implements Screen {
     private ArrayList<Texture>[] allOriginalKeyTextures = new ArrayList[amountOfPlayers];
     private ArrayList<Texture>[] allPlayableKeyTextures = new ArrayList[amountOfPlayers];
 
-    //TODO remove orignal- and playableKeyTextures;
     //textures and renderers
     private ShapeRenderer shapeRenderer;
     private Texture backgroundTexture;
@@ -88,7 +87,7 @@ public class GameScreen implements Screen {
         loadBackgroundTextures();
         loadExitTextures();
         //TODO fill amount of players
-        //TODO replace
+        //TODO replace with unique keys foreach player
         loadKeyTextures(inputManager.getKeys());
 
         //loading of UI components
@@ -164,14 +163,18 @@ public class GameScreen implements Screen {
         shapeRenderer.dispose();
         backgroundTexture.dispose();
 
-        for (ArrayList<Texture> tex : allOriginalKeyTextures) {
-            for (Texture t : tex) {
+        for (ArrayList<Texture> tex : allOriginalKeyTextures)
+        {
+            for (Texture t : tex)
+            {
                 t.dispose();
             }
         }
 
-        for (ArrayList<Texture> tex : allPlayableKeyTextures) {
-            for (Texture t : tex) {
+        for (ArrayList<Texture> tex : allPlayableKeyTextures)
+        {
+            for (Texture t : tex)
+            {
                 t.dispose();
             }
         }
@@ -252,7 +255,8 @@ public class GameScreen implements Screen {
         //table preferences
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(true); //debugging the ui
+        //TODO DEBUG!
+        table.setDebug(false); //debugging the ui
 
         //declaring the elements
         final ImageButton exitBtn = new ImageButton(exitBtnStyle);
@@ -343,43 +347,17 @@ public class GameScreen implements Screen {
                         break;
                     }
 
-                    game.spriteBatch.draw(t, calculateKeyMargin(tex.indexOf(t)), calculateKeyRow(i), 80, 80); //key
+                    game.spriteBatch.draw(t, ScreenHelper.calculateHMargin(tex.indexOf(t)), ScreenHelper.calculateVMargin(i), 80, 100); //key
                 }
                 game.spriteBatch.end();
             }
         }
     }
 
-    /**
-     * Internal function for calculating the distance between key textures.
-     *
-     * @param index the position of the character in the notes list.
-     * @return the necessary margin that needs to be added to the left of the key texture.
-     */
-    private int calculateKeyMargin(int index) {
-        int margin = 60;
 
-        for (int i = 0; i < index; i++) {
-            margin += 100;
-        }
-
-        return margin;
-    }
-
-    private int calculateKeyRow(int index) {
-        int margin = 900 - 120;
-
-        for (int i = 0; i < index; i++) {
-            margin -= 120;
-        }
-
-        return margin;
-    }
-
-    /**
-     * Handling of user input.
-     */
-    private void handleUserInput() {
+    private void handleUserInput()
+    {
+        //check if all keys are successfully pressed
 
 
     }
