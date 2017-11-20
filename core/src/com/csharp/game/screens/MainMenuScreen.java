@@ -36,8 +36,9 @@ public class MainMenuScreen implements Screen {
 
     //textures and renderers
     private Texture gameTitle;
-    private Texture[] menuStart;
-    private Texture[] menuExit;
+    private Texture[] menuSpTextures;
+    private Texture[] menuMpTextures;
+    private Texture[] menuExitTextures;
 
 
     public MainMenuScreen(RythemDiscord game) {
@@ -109,10 +110,13 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         gameTitle.dispose();
-        for (Texture t : menuStart) {
+        for (Texture t : menuSpTextures) {
             t.dispose();
         }
-        for (Texture t : menuExit) {
+        for(Texture t : menuMpTextures) {
+            t.dispose();
+        }
+        for (Texture t : menuExitTextures) {
             t.dispose();
         }
         stage.dispose();
@@ -121,13 +125,17 @@ public class MainMenuScreen implements Screen {
     private void loadTextures() {
         gameTitle = new Texture(Gdx.files.internal("menu/GameTitle.png"));
 
-        menuStart = new Texture[2];
-        menuStart[0] = new Texture(Gdx.files.internal("menu/menuItemStart_default.png"));
-        menuStart[1] = new Texture(Gdx.files.internal("menu/menuItemStart_pressed.png"));
+        menuSpTextures = new Texture[2];
+        menuSpTextures[0] = new Texture(Gdx.files.internal("menu/menuItemSP_default.png"));
+        menuSpTextures[1] = new Texture(Gdx.files.internal("menu/menuItemSP_default.png")); //TODO PRESSED
 
-        menuExit = new Texture[2];
-        menuExit[0] = new Texture(Gdx.files.internal("menu/menuItemExit_default.png"));
-        menuExit[1] = new Texture(Gdx.files.internal("menu/menuItemExit_pressed.png"));
+        menuMpTextures = new Texture[2];
+        menuMpTextures[0] = new Texture(Gdx.files.internal("menu/menuItemMP_default.png"));
+        menuMpTextures[1] = new Texture(Gdx.files.internal("menu/menuItemMP_default.png")); //TODO PRESSED
+
+        menuExitTextures = new Texture[2];
+        menuExitTextures[0] = new Texture(Gdx.files.internal("menu/menuItemExit_default.png"));
+        menuExitTextures[1] = new Texture(Gdx.files.internal("menu/menuItemExit_pressed.png"));
     }
 
     private void createUiComponents() {
@@ -138,15 +146,20 @@ public class MainMenuScreen implements Screen {
         skin.add("default", new BitmapFont());
 
         //Creating the UI elements
-        ImageButton.ImageButtonStyle startBtnStyle = new ImageButton.ImageButtonStyle();
-        startBtnStyle.up = new TextureRegionDrawable(new TextureRegion(menuStart[0]));
-        startBtnStyle.down = new TextureRegionDrawable(new TextureRegion(menuStart[1]));
-        startBtnStyle.over = new TextureRegionDrawable(new TextureRegion(menuStart[1]));
+        ImageButton.ImageButtonStyle spBtnStyle = new ImageButton.ImageButtonStyle();
+        spBtnStyle.up = new TextureRegionDrawable(new TextureRegion(menuSpTextures[0]));
+        spBtnStyle.down = new TextureRegionDrawable(new TextureRegion(menuSpTextures[1]));
+        spBtnStyle.over = new TextureRegionDrawable(new TextureRegion(menuSpTextures[1]));
+
+        ImageButton.ImageButtonStyle mpButtonStyle = new ImageButton.ImageButtonStyle();
+        mpButtonStyle.up = new TextureRegionDrawable(new TextureRegion(menuMpTextures[0]));
+        mpButtonStyle.down = new TextureRegionDrawable(new TextureRegion(menuMpTextures[1]));
+        mpButtonStyle.over = new TextureRegionDrawable(new TextureRegion(menuMpTextures[1]));
 
         ImageButton.ImageButtonStyle exitBtnStyle = new ImageButton.ImageButtonStyle();
-        exitBtnStyle.up = new TextureRegionDrawable(new TextureRegion(menuExit[0]));
-        exitBtnStyle.down = new TextureRegionDrawable(new TextureRegion(menuExit[1]));
-        exitBtnStyle.over = new TextureRegionDrawable(new TextureRegion(menuExit[1]));
+        exitBtnStyle.up = new TextureRegionDrawable(new TextureRegion(menuExitTextures[0]));
+        exitBtnStyle.down = new TextureRegionDrawable(new TextureRegion(menuExitTextures[1]));
+        exitBtnStyle.over = new TextureRegionDrawable(new TextureRegion(menuExitTextures[1]));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter());
@@ -154,25 +167,34 @@ public class MainMenuScreen implements Screen {
         //table preferences
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(true); //debugging the ui
+        //table.setDebug(true); //debugging the ui
 
         //declaring the elements
         final Image titleImage = new Image(gameTitle);
         final Label creatorsLabel0 = new Label("A game made by:", labelStyle);
         final Label creatorsLabel1 = new Label("Michelle, Niels, Joe, Teun, Lars and Dane", labelStyle);
 
-        final ImageButton startBtn = new ImageButton(startBtnStyle);
+        final ImageButton spBtn = new ImageButton(spBtnStyle);
+        final ImageButton mpBtn = new ImageButton(mpButtonStyle);
         final ImageButton exitBtn = new ImageButton(exitBtnStyle);
 
 
         //adding element events
-        startBtn.addListener(new ChangeListener() {
+        spBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new GameScreen(game));
                 dispose();
             }
         });
+
+        mpBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                //TODO
+            }
+        });
+
 
         exitBtn.addListener(new ChangeListener() {
             @Override
@@ -187,7 +209,8 @@ public class MainMenuScreen implements Screen {
         table.add(titleImage).row();
         table.add(creatorsLabel0).pad(10).row();
         table.add(creatorsLabel1).row();
-        table.add(startBtn).size(100, 25).row();
+        table.add(spBtn).size(200, 25).padBottom(10).padTop(50).row();
+        table.add(mpBtn).size(200, 25).padBottom(10).row();
         table.add(exitBtn).size(100, 25).row();
 
     }
