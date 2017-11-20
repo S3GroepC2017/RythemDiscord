@@ -1,45 +1,61 @@
 package com.csharp.game.logic;
 
+import jdk.nashorn.internal.objects.annotations.Constructor;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 /**
- * @author Groep C#
+ * Created by Lars on 25-9-2017.
  */
 public class Game
 {
     private char[] nodeList;
     private int nodeListPosition = 0;
+    private int numberOfSequencesLeft;
     private NodeGenerator nodeGenerator;
 
+    //Constructor
     public Game()
     {
         nodeGenerator = new NodeGenerator();
-        nodeList = nodeGenerator.generateNode();
+        numberOfSequencesLeft = 2;
     }
 
-    public char[] getNodes()
-    {
-        if (nodeListPosition == nodeList.length)
-        {
-            nodeList = nodeGenerator.generateNode();
-        }
-
+    //Returns the current nodes of this sequence.
+    public char[] getNodes(){
+        nodeList = nodeGenerator.generateNode();
         return nodeList;
     }
 
-    public boolean checkKeyPressed(char keyPressed)
-    {
-        if (nodeListPosition == nodeList.length)
-        {
-            return false;
-        }
-        if (nodeList[nodeListPosition] == keyPressed)
+    //Checks if the pressed key was correct.
+    public KeyPressedResult checkKeyPressed(char keyPressed){
+        if(nodeList[nodeListPosition] == keyPressed)
         {
             nodeListPosition++;
-            return true;
+            return checkEndOfSequence();
         }
-        else
+        nodeListPosition = 0;
+        return KeyPressedResult.WRONG;
+    }
+
+    //Checks if the end of the Sequence is reached.
+    private KeyPressedResult checkEndOfSequence()
+    {
+        if(nodeListPosition != nodeList.length)
         {
-            nodeListPosition = 0;
-            return false;
+            return KeyPressedResult.CORRECT;
         }
+        nodeListPosition = 0;
+        numberOfSequencesLeft--;
+        return checkEndOfGame();
+    }
+
+    //Checks if the end of the game is reached
+    private KeyPressedResult checkEndOfGame()
+    {
+        if(numberOfSequencesLeft != 0)
+        {
+            return KeyPressedResult.SEQUENCE_FINISHED;
+        }
+        return KeyPressedResult.GAME_FINISHED;
     }
 }
