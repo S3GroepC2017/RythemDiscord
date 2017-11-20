@@ -14,6 +14,11 @@ public class NodeGenerator
      */
     private ArrayList<Character> acceptedUserInputs = null;
 
+    /**
+     * The accepted user inputs for the game
+     */
+    private ArrayList<Character> acceptedUserInputs = null;
+
     public NodeGenerator()
     {
         setPossibleInputKeys(4);
@@ -66,7 +71,7 @@ public class NodeGenerator
 
     public char[] generateNode()
     {
-        char[] outputUserArray = new char[5]; // set output array length
+        char[] outputUserArray = new char[4]; // set output array length
 
         Random random = new Random();
 
