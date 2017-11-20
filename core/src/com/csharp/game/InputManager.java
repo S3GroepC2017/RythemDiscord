@@ -3,6 +3,7 @@ package com.csharp.game;
 import com.badlogic.gdx.InputProcessor;
 import com.csharp.game.logic.GameManager;
 import com.csharp.game.logic.ILogic;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 /**
@@ -41,10 +42,10 @@ public class InputManager implements InputProcessor
     {
         //TODO Handle all keys for the game
         System.out.println(character);
-        lastSucces = logic.keyPressed(character);
-
+// TODO        lastSucces = logic.keyPressed(character);
+        throw new NotImplementedException();
         //IGNORE
-        return false;
+// TODO        return false;
     }
 
     @Override
@@ -79,7 +80,8 @@ public class InputManager implements InputProcessor
 
     public char[] getKeys()
     {
-        return logic.getNodes();
+        // TODO return logic.getNodes();
+        throw new NotImplementedException();
     }
 
     public boolean getLastSuccess()

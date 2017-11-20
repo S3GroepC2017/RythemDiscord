@@ -3,39 +3,78 @@ package com.csharp.game.logic;
 import jdk.nashorn.internal.objects.annotations.Constructor;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.List;
+
 /**
  * Created by Lars on 25-9-2017.
  */
 public class Game
 {
-    private char[] nodeList;
     private int nodeListPosition = 0;
-    private int numberOfSequencesLeft;
-    private NodeGenerator nodeGenerator;
+    private List<Player> players;
+    private Player localPlayer;
 
     //Constructor
     public Game()
     {
-        nodeGenerator = new NodeGenerator();
-        numberOfSequencesLeft = 2;
+        players = new ArrayList<Player>();
     }
 
-    //Returns the current nodes of this sequence.
-    public char[] getNodes(){
-        nodeList = nodeGenerator.generateNode();
-        return nodeList;
+    public void setLocalPlayer(Player localPlayer)
+    {
+        this.localPlayer = localPlayer;
+    }
+
+    public void setPlayers(List<Player> players)
+    {
+        this.players = players;
+
+        for (Player player : players)
+        {
+            if (localPlayer.equals(player))
+            {
+                localPlayer = player;
+                return;
+            }
+        }
+    }
+
+    //Returns the  nodes of this current sequence.
+    public List<Player> getNodes()
+    {
+        return players;
     }
 
     //Checks if the pressed key was correct.
-    public KeyPressedResult checkKeyPressed(char keyPressed){
+    public KeyPressedResult checkKeyPressed(char keyPressed)
+    {
+        if (localPlayer.getNode(nodeListPosition) == keyPressed)
+        {
+            nodeListPosition++;
+
+            // TODO: SEND MESSAGE TO SERVER
+            return KeyPressedResult.CORRECT;
+        }
+
+        // TODO: SEND MESSAGE TO SERVER
+        return KeyPressedResult.WRONG;
+
+        /*
         if(nodeList[nodeListPosition] == keyPressed)
         {
             nodeListPosition++;
             return checkEndOfSequence();
         }
         nodeListPosition = 0;
-        return KeyPressedResult.WRONG;
+        */
     }
+
+    /*
+    // TODO: remove if implemented elsewhere
 
     //Checks if the end of the Sequence is reached.
     private KeyPressedResult checkEndOfSequence()
@@ -58,4 +97,5 @@ public class Game
         }
         return KeyPressedResult.GAME_FINISHED;
     }
+    */
 }
