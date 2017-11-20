@@ -158,16 +158,19 @@ public class MainMenuScreen implements Screen {
 
         //declaring the elements
         final Image titleImage = new Image(gameTitle);
-        final ImageButton startBtn = new ImageButton(startBtnStyle);
-        final ImageButton exitBtn = new ImageButton(exitBtnStyle);
         final Label creatorsLabel0 = new Label("A game made by:", labelStyle);
         final Label creatorsLabel1 = new Label("Michelle, Niels, Joe, Teun, Lars and Dane", labelStyle);
+
+        final ImageButton startBtn = new ImageButton(startBtnStyle);
+        final ImageButton exitBtn = new ImageButton(exitBtnStyle);
+
 
         //adding element events
         startBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                game.setScreen(new GameScreen(game));
+                dispose();
             }
         });
 
@@ -181,10 +184,11 @@ public class MainMenuScreen implements Screen {
 
         //Drawing the UI components (this is in chronological order)
         table.top().padTop(20);
-        table.add(titleImage);
-        table.row();
-        table.add(creatorsLabel0).pad(10);
-        table.add().row();
-        table.add(creatorsLabel1);
+        table.add(titleImage).row();
+        table.add(creatorsLabel0).pad(10).row();
+        table.add(creatorsLabel1).row();
+        table.add(startBtn).size(100, 25).row();
+        table.add(exitBtn).size(100, 25).row();
+
     }
 }
