@@ -347,7 +347,7 @@ public class GameScreen implements Screen {
                         break;
                     }
 
-                    game.spriteBatch.draw(t, ScreenHelper.calculateHMargin(tex.indexOf(t)), ScreenHelper.calculateVMargin(i), 80, 100); //key
+                    //TODO game.spriteBatch.draw(t, ScreenHelper.calculateHMargin(tex.indexOf(t)), ScreenHelper.calculateVMargin(i), 80, 100); //key
                 }
                 game.spriteBatch.end();
             }
