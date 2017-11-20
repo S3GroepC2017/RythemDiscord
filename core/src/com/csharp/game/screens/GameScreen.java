@@ -1,14 +1,21 @@
 package com.csharp.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
 
@@ -22,11 +29,21 @@ import java.util.Random;
  * <p>
  * This is the main game code for the application.
  */
-public class GameScreen implements Screen
-{
+public class GameScreen implements Screen {
 
     final RythemDiscord game;
+    private InputMultiplexer inputMultiplexer;
     private InputManager inputManager;  //!!maybe not needed
+    private int playerIndex = 4;
+
+    //UI Items
+    private Skin skin;
+    private Table table;
+    private Stage stage;
+
+    //Camera & Viewport
+    private OrthographicCamera camera;
+    private Viewport viewport;
 
     //TODO fill amountOfPlayers
     private int amountOfPlayers = 4;
@@ -37,40 +54,62 @@ public class GameScreen implements Screen
 
     //textures and renderers
     private ShapeRenderer shapeRenderer;
-    private ArrayList<Texture> backgroundTextures;
-    private Texture[] escKeys;
+    private Texture backgroundTexture;
+    private Texture[] exitBtnStyleTextures;
 
-    //font
-    private BitmapFont font;
-    private FreeTypeFontGenerator generator;
-    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private GlyphLayout glyphLayout;
-    private float width;
 
-    public GameScreen(final RythemDiscord game)
-    {
+    /**
+     * Public constructor for GameScreen
+     *
+     * @param game the root game object that holds the global SpirteBatch for rendering items on the screen.
+     */
+    public GameScreen(final RythemDiscord game) {
         this.game = game;
+        this.inputMultiplexer = new InputMultiplexer();
+        this.inputManager = new InputManager(game);
+
+        this.skin = new Skin();
+        this.table = new Table();
+        this.stage = new Stage();
+
+        this.inputMultiplexer.addProcessor(inputManager);
+        this.inputMultiplexer.addProcessor(stage);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
+        this.camera = new OrthographicCamera();
+        this.viewport = new FillViewport(1000, 1000, this.camera);
+        this.camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+
         shapeRenderer = new ShapeRenderer();
-        inputManager = new InputManager(game);
-        Gdx.input.setInputProcessor(inputManager); //passing all inputs to the custom input process class
+
+        //loading textures
         loadBackgroundTextures();
+        loadExitTextures();
         //TODO fill amount of players
         //TODO replace with unique keys foreach player
         loadKeyTextures(inputManager.getKeys());
-        loadExitTextures();
-        loadFont();
-        loadFinishText();
+
+        //loading of UI components
+        createUiComponents();
     }
 
     @Override
-    public void show()
-    {
+    public void show() {
 
     }
 
+    /**
+     * Main render function for this screen.
+     * this method is received from the root game object 'game'.
+     *
+     * @param delta is the time that has passed sins the last game loop.
+     */
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
+        //Updating the camera
+        this.camera.update();
+        this.game.spriteBatch.setProjectionMatrix(this.camera.combined);
+
         //clearing the screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -86,45 +125,42 @@ public class GameScreen implements Screen
         //rendering of the current keyframe (Key that needs to be pressed)
         renderCurrentKeyFrame();
 
-        //render exit button
-        renderExitButton();
+        //rendering the stage
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
 
         //Handle user input
         handleUserInput();
     }
 
     @Override
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
+        //Viewport and Camera update for SpriteBatch
+        this.viewport.update(width, height);
+        this.camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        //Viewport for UI Stage
+        this.stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
 
     }
 
     @Override
-    public void pause()
-    {
-    }
-
-    @Override
-    public void resume()
-    {
-
-    }
-
-    @Override
-    public void hide()
-    {
+    public void hide() {
 
     }
 
     //Disposing all loaded items and textures PLS DONT FORGETI!
     @Override
-    public void dispose()
-    {
+    public void dispose() {
         shapeRenderer.dispose();
-        for (Texture t : backgroundTextures)
-        {
-            t.dispose();
-        }
+        backgroundTexture.dispose();
 
         for (ArrayList<Texture> tex : allOriginalKeyTextures)
         {
@@ -142,50 +178,59 @@ public class GameScreen implements Screen
             }
         }
 
-        for (Texture escKey : escKeys)
-        {
+        for (Texture escKey : exitBtnStyleTextures) {
             escKey.dispose();
         }
     }
 
-    private void loadBackgroundTextures()
-    {
-        //choosing and loading the background
+
+    //LOADING OF OBJECTS AND TEXTURES
+
+    /**
+     * Loading the background textures.
+     */
+    private void loadBackgroundTextures() {
         Random rand = new Random();
-        backgroundTextures = new ArrayList<Texture>();
-        switch (rand.nextInt(6))
-        {
+        switch (rand.nextInt(6)) {
             case 0:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/punkcity/PunkCityFinal.png")));
+                backgroundTexture = new Texture(Gdx.files.internal("backgrounds/punkcity/PunkCityFinal.png"));
                 break;
             case 1:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/jungle/JungleFinal.png")));
+                backgroundTexture = new Texture(Gdx.files.internal("backgrounds/jungle/JungleFinal.png"));
                 break;
             case 2:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/cliffs/CliffsFinal.png")));
+                backgroundTexture = new Texture(Gdx.files.internal("backgrounds/cliffs/CliffsFinal.png"));
                 break;
             case 3:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/underwater/UnderwaterFinal.png")));
+                backgroundTexture = new Texture(Gdx.files.internal("backgrounds/underwater/UnderwaterFinal.png"));
                 break;
             case 4:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/forrest/ForestFinal.png")));
+                backgroundTexture = new Texture(Gdx.files.internal("backgrounds/forrest/ForestFinal.png"));
                 break;
             case 5:
-                backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/space/SpaceFinal.png")));
+                backgroundTexture = new Texture(Gdx.files.internal("backgrounds/space/SpaceFinal.png"));
                 break;
         }
     }
 
-    private void loadKeyTextures(char[] keys)
-    {
+    private void loadExitTextures() {
+        exitBtnStyleTextures = new Texture[2];
+        exitBtnStyleTextures[0] = new Texture(Gdx.files.internal("keys/EscKey_default.png"));
+        exitBtnStyleTextures[1] = new Texture(Gdx.files.internal("keys/EscKey_pressed.png"));
+    }
+
+    /**
+     * Loading the textures for the keys you received for the game.
+     *
+     * @param keys character array containing the keys for your game.
+     */
+    private void loadKeyTextures(char[] keys) {
         //TODO unique textures for each player
-        for (int i = 0; i < amountOfPlayers; i++)
-        {
+        for (int i = 0; i < amountOfPlayers; i++) {
             allOriginalKeyTextures[i] = new ArrayList<Texture>();
             allPlayableKeyTextures[i] = new ArrayList<Texture>();
 
-            for (char key : keys)
-            {
+            for (char key : keys) {
                 Texture keyTexture = new Texture(Gdx.files.internal("keys/" + Character.toString(key) + ".png"));
                 allOriginalKeyTextures[i].add(keyTexture);
                 allPlayableKeyTextures[i].add(keyTexture);
@@ -193,58 +238,87 @@ public class GameScreen implements Screen
         }
     }
 
-    private void loadExitTextures()
-    {
-        escKeys = new Texture[2];
-        escKeys[0] = new Texture(Gdx.files.internal("keys/EscKey_default.png"));
-        escKeys[1] = new Texture(Gdx.files.internal("keys/EscKey_pressed.png"));
+    private void createUiComponents() {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("white", new Texture(pixmap));
+        skin.add("default", new BitmapFont());
+
+        //Creating the UI elements
+        ImageButton.ImageButtonStyle exitBtnStyle = new ImageButton.ImageButtonStyle();
+        exitBtnStyle.up = new TextureRegionDrawable(new TextureRegion(exitBtnStyleTextures[0]));
+        exitBtnStyle.down = new TextureRegionDrawable(new TextureRegion(exitBtnStyleTextures[1]));
+        exitBtnStyle.over = new TextureRegionDrawable(new TextureRegion(exitBtnStyleTextures[1]));
+
+        //table preferences
+        table.setFillParent(true);
+        stage.addActor(table);
+        table.setDebug(true); //debugging the ui
+
+        //declaring the elements
+        final ImageButton exitBtn = new ImageButton(exitBtnStyle);
+
+        //adding element events
+        exitBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new MainMenuScreen(game));
+                dispose();
+            }
+        });
+
+        //Drawing the UI components (this is in chronological order)
+        table.top().right();
+        table.add(exitBtn).size(100, 50).padRight(10).padTop(10);
     }
 
-    private void loadFont()
-    {
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF"));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-    }
 
-    private void loadFinishText()
-    {
-        parameter.size = 40;
-        parameter.color = Color.BLACK;
-        font = generator.generateFont(parameter);
-        glyphLayout = new GlyphLayout();
-        glyphLayout.setText(font, "Congrats you did it!!!");
-        width = glyphLayout.width;
-    }
+    //RENDERING OF THE OBJECTS AND TEXTURES
 
-    private void renderBackground()
-    {
+
+    /**
+     * Rendering of the chosen background textures on the screen.
+     */
+    private void renderBackground() {
         game.spriteBatch.begin();
-        for (Texture t : backgroundTextures)
-        {
-            game.spriteBatch.draw(t, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        }
+        game.spriteBatch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
         game.spriteBatch.end();
     }
 
-    private void renderNoteSection()
-    {
+    /**
+     * Render the screen textures for where the notes are displayed.
+     */
+    private void renderNoteSection() {
+        int height = 200;
+        int transparentHeight = 200;
         //render transparent background
         Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(1, 1, 1, 0.1f));
-        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), 200);
         shapeRenderer.end();
         //render border
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(0, 0, 0, 1);
-        shapeRenderer.rect(4, 4, Gdx.graphics.getWidth() - 8, 200);
+        //first line renders line for the first player, second line for player 2
+        shapeRenderer.rect(4, 4, Gdx.graphics.getWidth() - 8, height);
+        //draw line when there is more then one player
+        //TODO add player object from logic
+        for (int i = 0; i < playerIndex; i++)
+        {
+            transparentHeight = transparentHeight + 200;
+            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), transparentHeight);
+            shapeRenderer.rect(4, 4, Gdx.graphics.getWidth() - 8, height);
+        }
         Gdx.gl20.glLineWidth(10);
         shapeRenderer.end();
     }
 
-    private void renderCurrentKeyFrame()
-    {
+    /**
+     * Render the texture for the current note that needs to be pressed.
+     */
+    private void renderCurrentKeyFrame() {
         //render keyframe from current playable note
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(255, 0, 0, 0.7f);
@@ -253,23 +327,21 @@ public class GameScreen implements Screen
         shapeRenderer.end();
     }
 
-    private void renderKeys()
-    {
+    /**
+     * Rendering of the key textures on the screen.
+     */
+    private void renderKeys() {
         //Render keys for all players
-        for (int i = 0; i < allPlayableKeyTextures.length; i++)
-        {
+        for (int i = 0; i < allPlayableKeyTextures.length; i++) {
             ArrayList<Texture> tex = allPlayableKeyTextures[i];
 
-            if (!tex.isEmpty())
-            {
+            if (!tex.isEmpty()) {
                 game.spriteBatch.begin();
                 //game.spriteBatch.draw(tex.get(0), 60, 60, 80, 80); //current key
 
                 //TODO meerdere rijen
-                for (Texture t : tex)
-                {
-                    if (tex.indexOf(t) == 15)
-                    {
+                for (Texture t : tex) {
+                    if (tex.indexOf(t) == 15) {
                         break;
                     }
 
@@ -280,58 +352,11 @@ public class GameScreen implements Screen
         }
     }
 
-    private void renderExitButton()
-    {
-        game.spriteBatch.begin();
-        game.spriteBatch.draw(escKeys[0], 1470, 830, 100, 50);
-        game.spriteBatch.end();
-    }
 
     private void handleUserInput()
     {
         //check if all keys are successfully pressed
 
-        if (allPlayableKeyTextures[0].isEmpty())
-        {
-            //TODO congrats window
-            Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(new Color(1, 1, 1, 0.8f));
-            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            shapeRenderer.end();
-            game.spriteBatch.begin();
-            font.draw(game.spriteBatch, glyphLayout, (Gdx.graphics.getWidth() / 2) - (width / 2), 450);
-            game.spriteBatch.end();
-            if (Gdx.input.isTouched())
-            {
-                game.setScreen(new MainMenuScreen(game));
-                this.dispose();
-            }
-        }
 
-        else
-        {
-            //Tracking and handling of the Esc Key / Exit key
-            if (Gdx.input.getX() > 1470 && Gdx.input.getX() < 1570 && Gdx.input.getY() < 70 && Gdx.input.getY() > 20)
-            {
-                game.spriteBatch.begin();
-                game.spriteBatch.draw(escKeys[1], 1470, 830, 100, 50);
-                game.spriteBatch.end();
-
-                if (Gdx.input.isTouched())
-                {
-                    game.setScreen(new MainMenuScreen(game));
-                    this.dispose();
-                }
-            }
-            //check if key pressed is correct
-            if (inputManager.getLastSuccess())
-            {
-                //TODO for all players, get success
-                allPlayableKeyTextures[0].remove(0);
-                inputManager.resetSuccess();
-            }
-        }
     }
 }
