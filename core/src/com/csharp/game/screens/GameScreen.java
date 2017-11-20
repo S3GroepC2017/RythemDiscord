@@ -254,7 +254,8 @@ public class GameScreen implements Screen {
         //table preferences
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(true); //debugging the ui
+        //TODO DEBUG!
+        table.setDebug(false); //debugging the ui
 
         //declaring the elements
         final ImageButton exitBtn = new ImageButton(exitBtnStyle);
@@ -345,7 +346,7 @@ public class GameScreen implements Screen {
                         break;
                     }
 
-                    game.spriteBatch.draw(t, ScreenHelper.calculateHMargin(tex.indexOf(t)), ScreenHelper.calculateVMargin(i), 80, 80); //key
+                    game.spriteBatch.draw(t, ScreenHelper.calculateHMargin(tex.indexOf(t)), ScreenHelper.calculateVMargin(i), 80, 100); //key
                 }
                 game.spriteBatch.end();
             }
