@@ -22,16 +22,23 @@ import java.util.Random;
  * <p>
  * This is the main game code for the application.
  */
-public class GameScreen implements Screen {
+public class GameScreen implements Screen
+{
 
     final RythemDiscord game;
     private InputManager inputManager;  //!!maybe not needed
 
+    //TODO fill amountOfPlayers
+    private int amountOfPlayers = 4;
+
+    //TODO original- and playableKeyTextures
+    private ArrayList<Texture>[] allOriginalKeyTextures = new ArrayList[amountOfPlayers];
+    private ArrayList<Texture>[] allPlayableKeyTextures = new ArrayList[amountOfPlayers];
+
+    //TODO remove orignal- and playableKeyTextures;
     //textures and renderers
     private ShapeRenderer shapeRenderer;
     private ArrayList<Texture> backgroundTextures;
-    private ArrayList<Texture> originalKeyTextures;
-    private ArrayList<Texture> playableKeyTextures;
     private Texture[] escKeys;
 
     //font
@@ -51,6 +58,8 @@ public class GameScreen implements Screen {
         inputManager = new InputManager(game);
         Gdx.input.setInputProcessor(inputManager); //passing all inputs to the custom input process class
         loadBackgroundTextures();
+        //TODO fill amount of players
+        //TODO replace
         loadKeyTextures(inputManager.getKeys());
         loadExitTextures();
         loadFont();
@@ -58,7 +67,8 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void show() {
+    public void show()
+    {
 
     }
 
@@ -68,7 +78,8 @@ public class GameScreen implements Screen {
      * @param delta is the time that has passed sins the last game loop.
      */
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
         //clearing the screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -92,39 +103,56 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
 
     }
 
     @Override
-    public void pause() {
+    public void pause()
+    {
+    }
+
+    @Override
+    public void resume()
+    {
 
     }
 
     @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
+    public void hide()
+    {
 
     }
 
     //Disposing all loaded items and textures PLS DONT FORGETI!
     @Override
-    public void dispose() {
+    public void dispose()
+    {
         shapeRenderer.dispose();
-        for (Texture t : backgroundTextures) {
+        for (Texture t : backgroundTextures)
+        {
             t.dispose();
         }
-        for (Texture t : originalKeyTextures) {
-            t.dispose();
+
+        for (ArrayList<Texture> tex: allOriginalKeyTextures)
+        {
+            for (Texture t : tex)
+            {
+                t.dispose();
+            }
         }
-        for (Texture t : playableKeyTextures) {
-            t.dispose();
+
+        for (ArrayList<Texture> tex: allPlayableKeyTextures)
+        {
+            for (Texture t: tex)
+            {
+                t.dispose();
+            }
         }
-        for (Texture escKey : escKeys) {
+
+        for (Texture escKey : escKeys)
+        {
             escKey.dispose();
         }
     }
@@ -139,7 +167,8 @@ public class GameScreen implements Screen {
         //choosing and loading the background
         Random rand = new Random();
         backgroundTextures = new ArrayList<Texture>();
-        switch (rand.nextInt(6)) {
+        switch (rand.nextInt(6))
+        {
             case 0:
                 backgroundTextures.add(new Texture(Gdx.files.internal("backgrounds/punkcity/PunkCityFinal.png")));
                 break;
@@ -166,13 +195,18 @@ public class GameScreen implements Screen {
      * @param keys character array containing the keys for your game.
      */
     private void loadKeyTextures(char[] keys) {
-        originalKeyTextures = new ArrayList<Texture>();
-        playableKeyTextures = new ArrayList<Texture>();
+        //TODO unique textures for each player
+        for (int i = 0; i < amountOfPlayers; i++)
+        {
+            allOriginalKeyTextures[i] = new ArrayList<Texture>();
+            allPlayableKeyTextures[i] = new ArrayList<Texture>();
 
-        for (char key : keys) {
-            Texture keyTexture = new Texture(Gdx.files.internal("keys/" + Character.toString(key) + ".png"));
-            originalKeyTextures.add(keyTexture);
-            playableKeyTextures.add(keyTexture);
+            for (char key : keys)
+            {
+                Texture keyTexture = new Texture(Gdx.files.internal("keys/" + Character.toString(key) + ".png"));
+                allOriginalKeyTextures[i].add(keyTexture);
+                allPlayableKeyTextures[i].add(keyTexture);
+            }
         }
     }
 
@@ -214,7 +248,8 @@ public class GameScreen implements Screen {
      */
     private void renderBackground() {
         game.spriteBatch.begin();
-        for (Texture t : backgroundTextures) {
+        for (Texture t : backgroundTextures)
+        {
             game.spriteBatch.draw(t, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         }
         game.spriteBatch.end();
@@ -255,17 +290,28 @@ public class GameScreen implements Screen {
      * Rendering of the key textures on the screen.
      */
     private void renderKeys() {
-        if (!playableKeyTextures.isEmpty()) {
-            game.spriteBatch.begin();
-            game.spriteBatch.draw(playableKeyTextures.get(0), 60, 60, 80, 80); //current key
+        //Render keys for all players
+        for (int i = 0; i < allPlayableKeyTextures.length; i++)
+        {
+            ArrayList<Texture> tex = allPlayableKeyTextures[i];
 
-            for (Texture t : playableKeyTextures) {
-                if (playableKeyTextures.indexOf(t) == 15) {
-                    break;
+            if (!tex.isEmpty())
+            {
+                game.spriteBatch.begin();
+                //game.spriteBatch.draw(tex.get(0), 60, 60, 80, 80); //current key
+
+                //TODO meerdere rijen
+                for (Texture t : tex)
+                {
+                    if (tex.indexOf(t) == 15)
+                    {
+                        break;
+                    }
+    
+                    game.spriteBatch.draw(t, calculateKeyMargin(tex.indexOf(t)), calculateKeyRow(i), 80, 80); //key
                 }
-                game.spriteBatch.draw(t, calculateKeyMargin(playableKeyTextures.indexOf(t)), 60, 80, 80); //key
+                game.spriteBatch.end();
             }
-            game.spriteBatch.end();
         }
     }
 
@@ -286,8 +332,21 @@ public class GameScreen implements Screen {
     private int calculateKeyMargin(int index) {
         int margin = 60;
 
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i < index; i++)
+        {
             margin += 100;
+        }
+
+        return margin;
+    }
+
+    private int calculateKeyRow(int index)
+    {
+        int margin = 900 - 120;
+
+        for (int i = 0; i < index; i++)
+        {
+            margin -= 120;
         }
 
         return margin;
@@ -299,7 +358,8 @@ public class GameScreen implements Screen {
     private void handleUserInput() {
         //check if all keys are successfully pressed
 
-        if (playableKeyTextures.isEmpty()) {
+        if (allPlayableKeyTextures[0].isEmpty())
+        {
             //TODO congrats window
             Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -310,25 +370,33 @@ public class GameScreen implements Screen {
             game.spriteBatch.begin();
             font.draw(game.spriteBatch, glyphLayout, (Gdx.graphics.getWidth() / 2) - (width / 2), 450);
             game.spriteBatch.end();
-            if(Gdx.input.isTouched()) {
+            if (Gdx.input.isTouched())
+            {
                 game.setScreen(new MainMenuScreen(game));
                 this.dispose();
             }
-        } else {
+        }
+
+        else
+        {
             //Tracking and handling of the Esc Key / Exit key
-            if (Gdx.input.getX() > 1470 && Gdx.input.getX() < 1570 &&
-                    Gdx.input.getY() < 70 && Gdx.input.getY() > 20) {
+            if (Gdx.input.getX() > 1470 && Gdx.input.getX() < 1570 && Gdx.input.getY() < 70 && Gdx.input.getY() > 20)
+            {
                 game.spriteBatch.begin();
                 game.spriteBatch.draw(escKeys[1], 1470, 830, 100, 50);
                 game.spriteBatch.end();
-                if (Gdx.input.isTouched()) {
+
+                if (Gdx.input.isTouched())
+                {
                     game.setScreen(new MainMenuScreen(game));
                     this.dispose();
                 }
             }
             //check if key pressed is correct
-            if (inputManager.getLastSuccess()) {
-                playableKeyTextures.remove(0);
+            if (inputManager.getLastSuccess())
+            {
+                //TODO for all players, get success
+                allPlayableKeyTextures[0].remove(0);
                 inputManager.resetSuccess();
             }
         }
