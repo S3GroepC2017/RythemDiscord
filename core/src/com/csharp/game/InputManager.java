@@ -79,6 +79,7 @@ public class InputManager implements InputProcessor
 
     public char[] getKeys()
     {
+        //TODO getNodes for all players
         return logic.getNodes();
     }
 
