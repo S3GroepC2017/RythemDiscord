@@ -1,10 +1,7 @@
 package com.csharp.game.screens.ui.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -15,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.game.screens.GameScreen;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * RythemDiscord
@@ -49,11 +45,11 @@ public class MainMenuScreen extends UIScreen {
 
         menuSpTextures = new Texture[2];
         menuSpTextures[0] = new Texture(Gdx.files.internal("menu/menuItemSP_default.png"));
-        menuSpTextures[1] = new Texture(Gdx.files.internal("menu/menuItemSP_default.png")); //TODO PRESSED
+        menuSpTextures[1] = new Texture(Gdx.files.internal("menu/menuItemSP_pressed.png"));
 
         menuMpTextures = new Texture[2];
         menuMpTextures[0] = new Texture(Gdx.files.internal("menu/menuItemMP_default.png"));
-        menuMpTextures[1] = new Texture(Gdx.files.internal("menu/menuItemMP_default.png")); //TODO PRESSED
+        menuMpTextures[1] = new Texture(Gdx.files.internal("menu/menuItemMP_pressed.png"));
 
         menuExitTextures = new Texture[2];
         menuExitTextures[0] = new Texture(Gdx.files.internal("menu/menuItemExit_default.png"));
@@ -95,16 +91,17 @@ public class MainMenuScreen extends UIScreen {
         spBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game));
                 dispose();
-            }
+                game.setScreen(new GameScreen(game));
+             }
         });
 
         mpBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 //TODO
-                throw new NotImplementedException();
+                dispose();
+                game.setScreen(new CreateLobbyScreen(game));
             }
         });
 

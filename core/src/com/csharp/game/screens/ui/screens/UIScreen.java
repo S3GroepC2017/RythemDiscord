@@ -104,6 +104,6 @@ public abstract class UIScreen implements Screen {
         //table preferences
         table.setFillParent(true);
         stage.addActor(table);
-        //table.setDebug(true); //debugging the ui
+        table.setDebug(true); //debugging the ui
     }
 }
