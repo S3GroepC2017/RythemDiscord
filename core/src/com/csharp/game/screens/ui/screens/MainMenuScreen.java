@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.game.screens.GameScreen;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * RythemDiscord
@@ -20,14 +22,7 @@ import com.csharp.game.screens.game.screens.GameScreen;
  *
  * This class is the application menu screen.
  */
-public class MainMenuScreen extends UIScreen {
-
-    //textures and renderers
-    private Texture gameTitle;
-    private Texture[] menuSpTextures;
-    private Texture[] menuMpTextures;
-    private Texture[] menuExitTextures;
-
+public class MainMenuScreen extends MenuScreen implements IMenuScreen {
 
     public MainMenuScreen(RythemDiscord game) {
         super(game);
@@ -39,47 +34,41 @@ public class MainMenuScreen extends UIScreen {
         createUiComponents();
     }
 
-
-    private void loadTextures() {
-        gameTitle = new Texture(Gdx.files.internal("menu/GameTitle.png"));
-
-        menuSpTextures = new Texture[2];
-        menuSpTextures[0] = new Texture(Gdx.files.internal("menu/menuItemSP_default.png"));
-        menuSpTextures[1] = new Texture(Gdx.files.internal("menu/menuItemSP_pressed.png"));
-
-        menuMpTextures = new Texture[2];
-        menuMpTextures[0] = new Texture(Gdx.files.internal("menu/menuItemMP_default.png"));
-        menuMpTextures[1] = new Texture(Gdx.files.internal("menu/menuItemMP_pressed.png"));
-
-        menuExitTextures = new Texture[2];
-        menuExitTextures[0] = new Texture(Gdx.files.internal("menu/menuItemExit_default.png"));
-        menuExitTextures[1] = new Texture(Gdx.files.internal("menu/menuItemExit_pressed.png"));
+    @Override
+    public void loadTextures() {
+        super.textures = new HashMap<String, Texture>();
+        super.textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
+        super.textures.put("menuItemSP_default", new Texture(Gdx.files.internal("menu/menuItemSP_default.png")));
+        super.textures.put("menuItemSP_pressed", new Texture(Gdx.files.internal("menu/menuItemSP_pressed.png")));
+        super.textures.put("menuItemMP_default", new Texture(Gdx.files.internal("menu/menuItemMP_default.png")));
+        super.textures.put("menuItemMP_pressed", new Texture(Gdx.files.internal("menu/menuItemMP_pressed.png")));
+        super.textures.put("menuItemExit_default", new Texture(Gdx.files.internal("menu/menuItemExit_default.png")));
+        super.textures.put("menuItemExit_pressed", new Texture(Gdx.files.internal("menu/menuItemExit_pressed.png")));
     }
 
-    private void createUiComponents() {
-
-
+    @Override
+    public void createUiComponents() {
         //Creating the UI elements
         ImageButton.ImageButtonStyle spBtnStyle = new ImageButton.ImageButtonStyle();
-        spBtnStyle.up = new TextureRegionDrawable(new TextureRegion(menuSpTextures[0]));
-        spBtnStyle.down = new TextureRegionDrawable(new TextureRegion(menuSpTextures[1]));
-        spBtnStyle.over = new TextureRegionDrawable(new TextureRegion(menuSpTextures[1]));
+        spBtnStyle.up = new TextureRegionDrawable(new TextureRegion(super.textures.get("menuItemSP_default")));
+        spBtnStyle.down = new TextureRegionDrawable(new TextureRegion(super.textures.get("menuItemSP_pressed")));
+        spBtnStyle.over = new TextureRegionDrawable(new TextureRegion(super.textures.get("menuItemSP_pressed")));
 
         ImageButton.ImageButtonStyle mpButtonStyle = new ImageButton.ImageButtonStyle();
-        mpButtonStyle.up = new TextureRegionDrawable(new TextureRegion(menuMpTextures[0]));
-        mpButtonStyle.down = new TextureRegionDrawable(new TextureRegion(menuMpTextures[1]));
-        mpButtonStyle.over = new TextureRegionDrawable(new TextureRegion(menuMpTextures[1]));
+        mpButtonStyle.up = new TextureRegionDrawable(new TextureRegion(super.textures.get("menuItemMP_default")));
+        mpButtonStyle.down = new TextureRegionDrawable(new TextureRegion(super.textures.get("menuItemMP_pressed")));
+        mpButtonStyle.over = new TextureRegionDrawable(new TextureRegion(super.textures.get("menuItemMP_pressed")));
 
         ImageButton.ImageButtonStyle exitBtnStyle = new ImageButton.ImageButtonStyle();
-        exitBtnStyle.up = new TextureRegionDrawable(new TextureRegion(menuExitTextures[0]));
-        exitBtnStyle.down = new TextureRegionDrawable(new TextureRegion(menuExitTextures[1]));
-        exitBtnStyle.over = new TextureRegionDrawable(new TextureRegion(menuExitTextures[1]));
+        exitBtnStyle.up = new TextureRegionDrawable(new TextureRegion(super.textures.get("menuItemExit_default")));
+        exitBtnStyle.down = new TextureRegionDrawable(new TextureRegion(super.textures.get("menuItemExit_pressed")));
+        exitBtnStyle.over = new TextureRegionDrawable(new TextureRegion(super.textures.get("menuItemExit_pressed")));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter());
 
         //declaring the elements
-        final Image titleImage = new Image(gameTitle);
+        final Image titleImage = new Image(super.textures.get("gameTitle"));
         final Label creatorsLabel0 = new Label("A game made by:", labelStyle);
         final Label creatorsLabel1 = new Label("Michelle, Niels, Joe, Teun, Lars and Dane", labelStyle);
 
@@ -125,15 +114,8 @@ public class MainMenuScreen extends UIScreen {
     }
 
     public void dispose() {
-        gameTitle.dispose();
-        for(Texture t : menuSpTextures) {
-            t.dispose();
-        }
-        for(Texture t : menuMpTextures) {
-            t.dispose();
-        }
-        for(Texture t : menuExitTextures) {
-            t.dispose();
+        for(Map.Entry<String, Texture> entry : super.textures.entrySet()) {
+            entry.getValue().dispose();
         }
     }
 }

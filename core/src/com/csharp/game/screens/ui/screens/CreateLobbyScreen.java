@@ -3,7 +3,7 @@ package com.csharp.game.screens.ui.screens;
 
 import com.csharp.game.RythemDiscord;
 
-public class CreateLobbyScreen extends UIScreen {
+public class CreateLobbyScreen extends MenuScreen implements IMenuScreen {
 
     //textures and renderers
 
@@ -11,4 +11,13 @@ public class CreateLobbyScreen extends UIScreen {
         super(game);
     }
 
+    @Override
+    public void loadTextures() {
+
+    }
+
+    @Override
+    public void createUiComponents() {
+
+    }
 }

@@ -11,8 +11,15 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.RythemDiscord;
 
-public abstract class UIScreen implements Screen {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class MenuScreen implements Screen {
     final RythemDiscord game;
+
+    //Textures
+    public Map<String, Texture> textures;
 
     //UI Items
     public Skin skin;
@@ -23,7 +30,7 @@ public abstract class UIScreen implements Screen {
     private OrthographicCamera camera;
     private Viewport viewport;
 
-    public UIScreen(RythemDiscord game) {
+    public MenuScreen(RythemDiscord game) {
         this.game = game;
 
 
