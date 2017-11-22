@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.game.screens.GameScreen;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * RythemDiscord
@@ -60,11 +61,7 @@ public class MainMenuScreen extends UIScreen {
     }
 
     private void createUiComponents() {
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("white", new Texture(pixmap));
-        skin.add("default", new BitmapFont());
+
 
         //Creating the UI elements
         ImageButton.ImageButtonStyle spBtnStyle = new ImageButton.ImageButtonStyle();
@@ -85,11 +82,6 @@ public class MainMenuScreen extends UIScreen {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter());
 
-        //table preferences
-        table.setFillParent(true);
-        stage.addActor(table);
-        //table.setDebug(true); //debugging the ui
-
         //declaring the elements
         final Image titleImage = new Image(gameTitle);
         final Label creatorsLabel0 = new Label("A game made by:", labelStyle);
@@ -98,7 +90,6 @@ public class MainMenuScreen extends UIScreen {
         final ImageButton spBtn = new ImageButton(spBtnStyle);
         final ImageButton mpBtn = new ImageButton(mpButtonStyle);
         final ImageButton exitBtn = new ImageButton(exitBtnStyle);
-
 
         //adding element events
         spBtn.addListener(new ChangeListener() {
@@ -113,6 +104,7 @@ public class MainMenuScreen extends UIScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 //TODO
+                throw new NotImplementedException();
             }
         });
 

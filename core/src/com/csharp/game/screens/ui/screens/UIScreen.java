@@ -2,8 +2,8 @@ package com.csharp.game.screens.ui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -36,6 +36,8 @@ public abstract class UIScreen implements Screen {
         this.camera = new OrthographicCamera();
         this.viewport = new FillViewport(1000, 1000, this.camera);
         this.camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+
+        loadUIComponents();
     }
 
 
@@ -87,6 +89,21 @@ public abstract class UIScreen implements Screen {
 
     @Override
     public void dispose() {
+        this.game.dispose();
+        this.skin.dispose();
+        this.stage.dispose();
+    }
 
+    private void loadUIComponents() {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("white", new Texture(pixmap));
+        skin.add("default", new BitmapFont());
+
+        //table preferences
+        table.setFillParent(true);
+        stage.addActor(table);
+        //table.setDebug(true); //debugging the ui
     }
 }

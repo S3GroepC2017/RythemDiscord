@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
+import com.csharp.game.screens.ScreenHelper;
 import com.csharp.game.screens.ui.screens.MainMenuScreen;
 
 import java.util.ArrayList;
@@ -45,6 +46,9 @@ public class GameScreen implements Screen {
     //Camera & Viewport
     private OrthographicCamera camera;
     private Viewport viewport;
+
+    //TODO Screen helper class
+    ScreenHelper screenHelper = new ScreenHelper();
 
     //TODO fill amountOfPlayers
     private int amountOfPlayers = 4;
@@ -82,6 +86,8 @@ public class GameScreen implements Screen {
         this.camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 
         shapeRenderer = new ShapeRenderer();
+
+
 
         //loading textures
         loadBackgroundTextures();
@@ -346,8 +352,7 @@ public class GameScreen implements Screen {
                     if (tex.indexOf(t) == 15) {
                         break;
                     }
-
-                    //TODO game.spriteBatch.draw(t, ScreenHelper.calculateHMargin(tex.indexOf(t)), ScreenHelper.calculateVMargin(i), 80, 100); //key
+                    game.spriteBatch.draw(t, screenHelper.calculateHMargin(tex.indexOf(t)), screenHelper.calculateVMargin(i), 80, 100); //key
                 }
                 game.spriteBatch.end();
             }

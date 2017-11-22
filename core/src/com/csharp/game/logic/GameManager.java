@@ -22,6 +22,7 @@ public class GameManager implements ILogic
     @Override
     public boolean keyPressed(char keyPressed)
     {
-        return currentGame.checkKeyPressed(keyPressed);
+        //return currentGame.checkKeyPressed(keyPressed);
+        return false;
     }
 }
