@@ -10,9 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.RythemDiscord;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class MenuScreen implements Screen {
@@ -96,7 +93,9 @@ public abstract class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        this.game.dispose();
+        for(Map.Entry<String, Texture> entry : textures.entrySet()) {
+            entry.getValue().dispose();
+        }
         this.skin.dispose();
         this.stage.dispose();
     }
