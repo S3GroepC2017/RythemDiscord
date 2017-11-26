@@ -14,11 +14,6 @@ public class NodeGenerator
      */
     private ArrayList<Character> acceptedUserInputs = null;
 
-    /**
-     * The accepted user inputs for the game
-     */
-    private ArrayList<Character> acceptedUserInputs = null;
-
     public NodeGenerator()
     {
         setPossibleInputKeys(4);

@@ -1,12 +1,10 @@
 package login_server;
 
 import java.io.FileReader;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class LoginChecker extends UnicastRemoteObject implements ILogin {
@@ -15,18 +13,33 @@ public class LoginChecker extends UnicastRemoteObject implements ILogin {
     private Connection connection;
     private ResultSet resultSet = null;
 
-    private final String LogincheckQuery = "SELECT TekenObjectArray FROM Tekenobjecten WHERE DrawingName = ?";
+    private final String LogincheckQuery = "SELECT UserName FROM Account WHERE UserName = ? AND Password = ?";
 
 
-    protected LoginChecker() throws RemoteException {
+    public LoginChecker() throws RemoteException {
     }
 
     @Override
     public Boolean checkLogin(String username, String hashedpassword) {
         init();
+        Boolean succes = false;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(LogincheckQuery)) {
 
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, hashedpassword);
+            resultSet = preparedStatement.executeQuery();
 
-        return true;
+            while (resultSet.next()) {
+                succes = username.contentEquals(resultSet.getNString("UserName"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResultset();
+            closeConnection();
+            return succes;
+        }
+
     }
 
     public Boolean init() {
@@ -39,7 +52,6 @@ public class LoginChecker extends UnicastRemoteObject implements ILogin {
 
             Properties properties = new Properties();
             properties.load(reader);
-
 
 
             connectionstring = "jdbc:sqlserver://" + properties.getProperty("db.driverconnectiondetails") + "" +
