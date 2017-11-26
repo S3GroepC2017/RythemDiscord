@@ -10,6 +10,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop_main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop_main.iml" group="desktop" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop_test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop_test.iml" group="desktop" />
       <module fileurl="file://$PROJECT_DIR$/game_server/game_server.iml" filepath="$PROJECT_DIR$/game_server/game_server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/game_server/game_server.iml" filepath="$PROJECT_DIR$/game_server/game_server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/login_server/login_server.iml" filepath="$PROJECT_DIR$/login_server/login_server.iml" />
       <module fileurl="file://$PROJECT_DIR$/login_server/login_server.iml" filepath="$PROJECT_DIR$/login_server/login_server.iml" />
     </modules>
   </component>
