@@ -35,7 +35,6 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
 
     @Override
     public void loadTextures() {
-        textures = new HashMap<String, Texture>();
         textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemSP_default", new Texture(Gdx.files.internal("menu/menuItemSP_default.png")));
         textures.put("menuItemSP_pressed", new Texture(Gdx.files.internal("menu/menuItemSP_pressed.png")));
