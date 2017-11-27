@@ -10,4 +10,6 @@ public interface ILogic
     char[] getNodes();
 
     boolean keyPressed(char keyPressed);
+
+
 }
