@@ -112,6 +112,15 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
             public void changed(ChangeEvent event, Actor actor)
             {
                 System.out.println(String.format("Login aangeroepen, Name: %s, Password: %s", nameField.getText(), passwordField.getText()));
+
+                //TODO koppeling afmaken
+                //boolean success = LoginChecker.checkLogin(name, password);
+
+                //if(succes)
+                //{
+//                    dispose();
+//                    game.setScreen(new LobbyScreen(game));
+                //}
             }
         });
 
