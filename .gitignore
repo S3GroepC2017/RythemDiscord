@@ -18,7 +18,7 @@ www-test/
 .gwt-tmp/
 
 
-##sonarcube
+## sonarcube
 .scannerwork/
 sonar-project.properties
 
