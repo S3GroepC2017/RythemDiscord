@@ -1,5 +1,6 @@
 package login_server;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -47,7 +48,6 @@ public class LoginChecker extends UnicastRemoteObject implements ILogin {
         Boolean success = false;
 
         ClassLoader classLoader = getClass().getClassLoader();
-
         try (FileReader reader = new FileReader(classLoader.getResource("db.properties").getFile())) {
 
             Properties properties = new Properties();
