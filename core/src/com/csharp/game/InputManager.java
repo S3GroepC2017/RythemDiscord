@@ -80,8 +80,8 @@ public class InputManager implements InputProcessor
 
     public char[] getKeys()
     {
-        // TODO return logic.getNodes();
-        throw new NotImplementedException();
+        //TODO getNodes for all players
+        return logic.getNodes();
     }
 
     public boolean getLastSuccess()
