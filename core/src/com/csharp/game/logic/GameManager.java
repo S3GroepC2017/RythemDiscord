@@ -43,6 +43,6 @@ public class GameManager implements ILogic
     public KeyPressedResult keyPressed(char keyPressed)
     {
         //return currentGame.checkKeyPressed(keyPressed);
-        return false;
+        return KeyPressedResult.WRONG;
     }
 }

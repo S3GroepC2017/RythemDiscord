@@ -1,4 +1,4 @@
-package com.csharp.login.server;
+package com.csharp.game.server;
 /**
  * RythemDiscord
  *

@@ -1,4 +1,4 @@
-package com.csharp.game.logic;
+package com.csharp.game.server;
 
 import java.util.ArrayList;
 import java.util.Random;
