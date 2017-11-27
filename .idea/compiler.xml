@@ -18,6 +18,8 @@
       <module name="login_server_test" target="1.8" />
       <module name="RythemDiscord_main" target="1.8" />
       <module name="RythemDiscord_test" target="1.8" />
+      <module name="SharedClasses_main" target="1.8" />
+      <module name="SharedClasses_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

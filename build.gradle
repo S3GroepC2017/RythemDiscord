@@ -36,6 +36,7 @@ allprojects {
     }
 
     dependencies {
+        compile project(":SharedClasses")
         testCompile(
                 'org.junit.jupiter:junit-jupiter-api:5.0.1'
         )
@@ -51,6 +52,7 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
+
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
@@ -63,10 +65,19 @@ project(":desktop") {
 project(":core") {
     apply plugin: "java"
 
+
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+    }
+}
+
+project(":login_server") {
+    apply plugin: "java"
+
+    dependencies {
+        compile 'mysql:mysql-connector-java:5.1.+'
     }
 }
 

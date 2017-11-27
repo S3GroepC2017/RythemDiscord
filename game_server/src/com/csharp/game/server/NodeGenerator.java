@@ -1,4 +1,4 @@
-package com.csharp.game.logic;
+package com.csharp.game.server;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -66,7 +66,7 @@ public class NodeGenerator
 
     public char[] generateNode()
     {
-        char[] outputUserArray = new char[4]; // set output array length
+        char[] outputUserArray = new char[5]; // set output array length
 
         Random random = new Random();
 
@@ -76,8 +76,7 @@ public class NodeGenerator
             int randomSelectedChar = random.nextInt(acceptedUserInputs.size()); // selected random position from possible inputs
             outputUserArray[i] = acceptedUserInputs.get(randomSelectedChar); // add selected char to output array
         }
-
-      return outputUserArray;
-       // return new char[]{'a', 'a', 'a'};
+        return outputUserArray;
+        //return new char[]{'a', 'a', 'a'};
     }
 }

@@ -94,7 +94,8 @@ public class GameScreen implements Screen {
         loadExitTextures();
         //TODO fill amount of players
         //TODO replace with unique keys foreach player
-        loadKeyTextures(inputManager.getKeys());
+        //TODO uncomment next line
+        //loadKeyTextures(inputManager.getKeys());
 
         //loading of UI components
         createUiComponents();
