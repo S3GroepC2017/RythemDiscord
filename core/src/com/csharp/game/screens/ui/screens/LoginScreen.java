@@ -10,15 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.csharp.game.RythemDiscord;
-import com.sun.javafx.scene.control.skin.TextFieldSkin;
-import jdk.nashorn.internal.ir.annotations.Ignore;
-
-import java.awt.*;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LoginScreen extends MenuScreen implements IMenuScreen
@@ -33,10 +28,13 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
     @Override
     public void loadTextures()
     {
+        //Alle textures inladen
         textures = new HashMap<String, Texture>();
         textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemLogin_default", new Texture(Gdx.files.internal("menu/menuItemLogin_default.png")));
         textures.put("menuItemLogin_pressed", new Texture(Gdx.files.internal("menu/menuItemLogin_pressed.png")));
+        textures.put("menuItemBack_default", new Texture(Gdx.files.internal("menu/menuItemBack_default.png")));
+        textures.put("menuItemBack_pressed", new Texture(Gdx.files.internal("menu/menuItemBack_pressed.png")));
     }
 
     @Override
@@ -52,17 +50,28 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
         loginButtonStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemLogin_pressed")));
         loginButtonStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemLogin_pressed")));
 
+        ImageButton.ImageButtonStyle backButtonStyle = new ImageButton.ImageButtonStyle();
+        backButtonStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_default")));
+        backButtonStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
+        backButtonStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
+
+        Label.LabelStyle defaultlabelStyle = new Label.LabelStyle();
+        defaultlabelStyle.font = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter());
+
         //Nieuwe fields maken
         final com.badlogic.gdx.scenes.scene2d.ui.Image titleImage = new Image(textures.get("gameTitle"));
-        final TextField nameField = new TextField("Naam:", defaultTextFieldStyle);
-        final TextField passwordField = new TextField("Wachtwoord:", defaultTextFieldStyle);
+        final Label loginLabel = new Label("Multiplayer - Login", defaultlabelStyle);
+        final TextField nameField = new TextField("Name:", defaultTextFieldStyle);
+        final TextField passwordField = new TextField("Password:", defaultTextFieldStyle);
         final ImageButton loginButton = new ImageButton(loginButtonStyle);
+        final ImageButton backButton = new ImageButton(backButtonStyle);
 
-        nameField.addListener(new InputListener(){
+        nameField.addListener(new InputListener()
+        {
             @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button)
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
             {
-                if(nameField.getText().equals("Naam:"))
+                if (nameField.getText().equals("Name:"))
                 {
                     nameField.setText("");
                 }
@@ -73,7 +82,7 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
             @Override
             public boolean keyTyped(InputEvent event, char character)
             {
-                if(character == '\t')
+                if (character == '\t')
                 {
                     stage.setKeyboardFocus(passwordField);
                 }
@@ -82,12 +91,13 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
             }
         });
 
-        passwordField.addListener(new FocusListener(){
+        passwordField.addListener(new FocusListener()
+        {
             //Wanneer focus komt op password field, text weghalen
             @Override
-            public void keyboardFocusChanged (FocusEvent event, Actor actor, boolean focused)
+            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused)
             {
-                if(passwordField.getText().equals("Wachtwoord:"))
+                if (passwordField.getText().equals("Password:"))
                 {
                     passwordField.setText("");
                     passwordField.setPasswordMode(true);
@@ -101,14 +111,26 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
             @Override
             public void changed(ChangeEvent event, Actor actor)
             {
-                System.out.println(String.format("Login aangeroepen, Naam: %s, Wachtwoord: %s", nameField.getText(), passwordField.getText()));
+                System.out.println(String.format("Login aangeroepen, Name: %s, Password: %s", nameField.getText(), passwordField.getText()));
+            }
+        });
+
+        backButton.addListener(new ChangeListener()
+        {
+            @Override
+            public void changed(ChangeEvent event, Actor actor)
+            {
+                dispose();
+                game.setScreen(new MainMenuScreen(game));
             }
         });
 
         //Fields toevoegen aan de tabel
-        table.top().add(titleImage).padTop(20).row();
+        table.top().add(titleImage).padTop(20).padBottom(10).row();
+        table.add(loginLabel).padBottom(20).row();
         table.add(nameField).padBottom(10).padTop(100).row();
         table.add(passwordField).padBottom(10).row();
-        table.add(loginButton).size(50).row();
+        table.add(loginButton).size(50).padBottom(50).row();
+        table.add(backButton).size(50);
     }
 }
