@@ -1,5 +1,8 @@
 package com.csharp.game.server;
 
+import com.csharp.sharedclasses.IServerGame;
+import com.csharp.sharedclasses.IServerManager;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;

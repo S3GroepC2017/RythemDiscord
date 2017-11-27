@@ -1,4 +1,4 @@
-package com.csharp.game.logic.fontyspublisher;
+package com.csharp.sharedclasses.fontyspublisher;
 
 import java.util.EventListener;
 

@@ -1,4 +1,4 @@
-package com.csharp.game.server;
+package com.csharp.sharedclasses;
 
 import java.rmi.Remote;
 

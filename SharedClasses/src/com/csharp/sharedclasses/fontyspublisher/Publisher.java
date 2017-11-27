@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.csharp.game.logic.fontyspublisher;
+package com.csharp.sharedclasses.fontyspublisher;
 
 import java.beans.PropertyChangeEvent;
 import java.rmi.RemoteException;

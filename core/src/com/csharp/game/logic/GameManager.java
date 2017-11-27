@@ -1,5 +1,11 @@
 package com.csharp.game.logic;
 
+import com.csharp.sharedclasses.IServerGame;
+import com.csharp.sharedclasses.IServerManager;
+import com.csharp.sharedclasses.KeyPressedResult;
+import com.csharp.sharedclasses.Player;
+
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -12,6 +18,7 @@ public class GameManager implements ILogic
 {
     private Game currentGame;
     private Player localPlayer;
+    private IServerGame serverGame;
 
     //TODO: ADD 2 PRIVATE VARIABLES FOR THE LOGIN AND GAME SERVERS
     private Registry registry = null;
@@ -33,13 +40,32 @@ public class GameManager implements ILogic
     {
         // TODO: CONTACT SERVER FOR GAME OBJECT
         // currentGame = new Game();
-        //registry.lookup("ServerManager");
+        try {
+            IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
+            String gameKey = serverManager.createGame();
+            joinGame(gameKey);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void joinGame(int gameID)
+    public void joinGame(String gameKey)
     {
         // TODO: CONTACT SERVER FOR GAME OBJECT WITH ID
+        try {
+            serverGame = (IServerGame) registry.lookup(gameKey);
+            currentGame = new Game(localPlayer, serverGame);
+            serverGame.subscribe(currentGame, "noteListIndex");
+            serverGame.subscribe(currentGame, "players");
+            serverGame.joinPlayer(localPlayer);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

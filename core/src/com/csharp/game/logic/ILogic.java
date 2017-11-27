@@ -1,5 +1,8 @@
 package com.csharp.game.logic;
 
+import com.csharp.sharedclasses.KeyPressedResult;
+import com.csharp.sharedclasses.Player;
+
 import java.util.List;
 
 /**
@@ -11,7 +14,7 @@ public interface ILogic
     void startGame();
 
     // Join game
-    void joinGame(int gameID);
+    void joinGame(String gameKey);
 
     boolean logIn(String username, String password);
 

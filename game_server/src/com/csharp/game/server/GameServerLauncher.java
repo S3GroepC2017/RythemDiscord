@@ -1,5 +1,7 @@
 package com.csharp.game.server;
 
+import com.csharp.sharedclasses.IServerManager;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

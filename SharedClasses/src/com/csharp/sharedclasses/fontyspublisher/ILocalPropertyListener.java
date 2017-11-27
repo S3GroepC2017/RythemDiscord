@@ -1,4 +1,4 @@
-package com.csharp.game.server.fontyspublisher;
+package com.csharp.sharedclasses.fontyspublisher;
 
 import java.beans.PropertyChangeEvent;
 

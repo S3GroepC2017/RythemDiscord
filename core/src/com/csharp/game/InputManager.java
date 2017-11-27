@@ -3,11 +3,10 @@ package com.csharp.game;
 import com.badlogic.gdx.InputProcessor;
 import com.csharp.game.logic.GameManager;
 import com.csharp.game.logic.ILogic;
-import com.csharp.game.logic.KeyPressedResult;
-import com.csharp.game.logic.Player;
+import com.csharp.sharedclasses.KeyPressedResult;
+import com.csharp.sharedclasses.Player;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.io.Console;
 import java.util.List;
 
 

@@ -1,4 +1,4 @@
-package com.csharp.game.logic;
+package com.csharp.sharedclasses;
 
 import java.io.Serializable;
 
