@@ -8,7 +8,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
 
     }
 }
@@ -16,6 +16,7 @@ buildscript {
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
+    apply plugin: 'org.junit.platform.gradle.plugin'
 
     version = '1.0'
     ext {
@@ -33,11 +34,22 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
+
+    dependencies {
+        testCompile(
+                'org.junit.jupiter:junit-jupiter-api:5.0.1'
+        )
+        testRuntime(
+                'org.junit.jupiter:junit-jupiter-engine:5.0.1',
+                'org.junit.vintage:junit-vintage-engine:4.12.1',
+                'org.junit.platform:junit-platform-launcher:1.0.1',
+                'org.junit.platform:junit-platform-runner:1.0.1'
+        )
+    }
 }
 
 project(":desktop") {
     apply plugin: "java"
-
 
     dependencies {
         compile project(":core")
@@ -50,7 +62,6 @@ project(":desktop") {
 
 project(":core") {
     apply plugin: "java"
-
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
