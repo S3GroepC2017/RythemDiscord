@@ -1,12 +1,9 @@
 package login_server;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import com.csharp.sharedclasses.ILogin;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
-import java.util.Properties;
 
 public class LoginChecker extends UnicastRemoteObject implements ILogin {
 

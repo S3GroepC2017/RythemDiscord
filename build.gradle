@@ -36,6 +36,7 @@ allprojects {
     }
 
     dependencies {
+        compile project(":SharedClasses")
         testCompile(
                 'org.junit.jupiter:junit-jupiter-api:5.0.1'
         )
