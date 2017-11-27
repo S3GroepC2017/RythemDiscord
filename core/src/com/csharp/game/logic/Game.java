@@ -1,9 +1,14 @@
 package com.csharp.game.logic;
 
+import com.csharp.game.logic.fontyspublisher.IPropertyListener;
+import com.csharp.game.logic.fontyspublisher.IRemotePropertyListener;
 import jdk.nashorn.internal.objects.annotations.Constructor;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.beans.PropertyChangeEvent;
 import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -12,15 +17,15 @@ import java.util.List;
 /**
  * Created by Lars on 25-9-2017.
  */
-public class Game
+public class Game extends UnicastRemoteObject implements IRemotePropertyListener
 {
     private int nodeListPosition = 0;
     private List<Player> players;
     private Player localPlayer;
 
     //Constructor
-    public Game()
-    {
+    public Game() throws RemoteException {
+        super();
         players = new ArrayList<Player>();
     }
 
@@ -71,6 +76,11 @@ public class Game
         }
         nodeListPosition = 0;
         */
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
+        //evt.
     }
 
     /*

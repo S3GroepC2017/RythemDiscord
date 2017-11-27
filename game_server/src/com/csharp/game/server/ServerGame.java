@@ -6,28 +6,38 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServerGame extends UnicastRemoteObject implements IServerGame {
     private int noteListIndex;
     private final RemotePublisher remotePublisher;
-
+    private final List<Player> players;
+    private final int gameid;
+    private static int nextId = 0;
 
     public ServerGame() throws RemoteException {
         remotePublisher = new RemotePublisher();
         remotePublisher.registerProperty("noteListIndex");
-        Registry registry = LocateRegistry.createRegistry(1099);
-        registry.rebind("GameServerPublisher", remotePublisher);
-
+        gameid = nextId;
+        nextId++;
+        players = new ArrayList<>();
         noteListIndex = 0;
+    }
+
+    @Override
+    public int getGameId()
+    {
+        return gameid;
     }
 
     @Override
     public void keyPressed(KeyPressedResult result) {
         switch (result) {
-            case KeyPressedResult.CORRECT:
+            case CORRECT:
                 noteListIndex++;
                 break;
-            case KeyPressedResult.WRONG:
+            case WRONG:
                 noteListIndex = 0;
                 break;
             default:

@@ -1,6 +1,4 @@
-package com.csharp.game;
-
-import org.junit.jupiter.api.Test;
+package test.java.com.csharp.game;
 
 /**
  * 27-11-17
