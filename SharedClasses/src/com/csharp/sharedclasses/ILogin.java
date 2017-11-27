@@ -1,4 +1,4 @@
-package login_server;
+package com.csharp.sharedclasses;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

@@ -89,7 +89,7 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 //TODO
                 dispose();
-                game.setScreen(new CreateLobbyScreen(game));
+                game.setScreen(new LoginScreen(game));
             }
         });
 
