@@ -10,15 +10,12 @@ import java.util.Hashtable;
 import java.util.List;
 
 /**
- * @author Groep C#
+ * Created by Lars on 25-9-2017.
  */
 public class Game
 {
-    private char[] nodeList;
     private int nodeListPosition = 0;
-    private int numberOfSequencesLeft;
-    private NodeGenerator nodeGenerator;
-private List<Player> players;
+    private List<Player> players;
     private Player localPlayer;
 
     //Constructor
@@ -30,12 +27,6 @@ private List<Player> players;
     public void setLocalPlayer(Player localPlayer)
     {
         this.localPlayer = localPlayer;
-    }
-
-//Returns the current nodes of this sequence.
-    public char[] getNodes(){
-        nodeList = nodeGenerator.generateNode();
-        return nodeList;
     }
 
     public void setPlayers(List<Player> players)
@@ -71,18 +62,16 @@ private List<Player> players;
 
         // TODO: SEND MESSAGE TO SERVER
         return KeyPressedResult.WRONG;
-/*
-    //Checks if the pressed key was correct.
-    public KeyPressedResult checkKeyPressed(char keyPressed){
+
+        /*
         if(nodeList[nodeListPosition] == keyPressed)
         {
             nodeListPosition++;
             return checkEndOfSequence();
         }
         nodeListPosition = 0;
-        return KeyPressedResult.WRONG;
+        */
     }
-*/
 
     /*
     // TODO: remove if implemented elsewhere
