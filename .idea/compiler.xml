@@ -7,14 +7,17 @@
       <file url="file://$PROJECT_DIR$/testsrc/logic/IGameModeTest.java" />
     </excludeFromCompile>
     <bytecodeTargetLevel>
-      <module name="core_main" target="1.6" />
-      <module name="core_test" target="1.6" />
-      <module name="desktop_main" target="1.6" />
-      <module name="desktop_test" target="1.6" />
-      <module name="game_server_main" target="1.6" />
-      <module name="game_server_test" target="1.6" />
-      <module name="login_server_main" target="1.6" />
-      <module name="login_server_test" target="1.6" />
+      <module name="core_main" target="1.8" />
+      <module name="core_test" target="1.8" />
+      <module name="desktop_main" target="1.8" />
+      <module name="desktop_test" target="1.8" />
+      <module name="game_server_main" target="1.8" />
+      <module name="game_server_test" target="1.8" />
+      <module name="git_projects-RythemDiscord_main" target="1.8" />
+      <module name="login_server_main" target="1.8" />
+      <module name="login_server_test" target="1.8" />
+      <module name="RythemDiscord_main" target="1.8" />
+      <module name="RythemDiscord_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
