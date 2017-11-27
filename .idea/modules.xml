@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_test.iml" group="core" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" group="desktop" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop_main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop_main.iml" group="desktop" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop_test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop_test.iml" group="desktop" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/game_server/game_server.iml" filepath="$PROJECT_DIR$/.idea/modules/game_server/game_server.iml" group="game_server" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/game_server/game_server_main.iml" filepath="$PROJECT_DIR$/.idea/modules/game_server/game_server_main.iml" group="game_server" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/game_server/game_server_test.iml" filepath="$PROJECT_DIR$/.idea/modules/game_server/game_server_test.iml" group="game_server" />
