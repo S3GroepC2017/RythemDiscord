@@ -65,7 +65,11 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
         else {
             result = KeyPressedResult.WRONG;
         }
-        serverGame.keyPressed(result);
+        try {
+            serverGame.keyPressed(result);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         return result;
 
         /*
