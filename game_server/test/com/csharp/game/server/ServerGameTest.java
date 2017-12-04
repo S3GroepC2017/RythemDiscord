@@ -19,6 +19,8 @@ public class ServerGameTest {
         player2 = new Player("player2");
     }
 
+    //This test might fail because of the static integer counting up. This test requires the gameid to start at 0.
+    //If another test created a game before the gameid isn't 0 anymore.
     @Test
     public void getGameId() throws Exception {
         int serverGameId = serverGame.getGameId();

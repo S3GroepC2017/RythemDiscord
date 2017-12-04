@@ -16,6 +16,8 @@ public class ServerManagerTest
         serverManager = new ServerManager(LocateRegistry.createRegistry(1099));
     }
 
+    //This test might fail because of the static integer counting up. This test requires the gameid to start at 0.
+    //If another test created a game before the gameid isn't 0 anymore.
     @Test
     public void createGame() throws Exception {
         String gameRegistryKey = serverManager.createGame();

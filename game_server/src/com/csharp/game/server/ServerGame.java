@@ -24,7 +24,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         remotePublisher.registerProperty("players");
         nodeGenerator = new NodeGenerator();
         gameid = nextId;
-        nextId++;
+        ServerGame.nextId++;
         players = new ArrayList<>();
         noteListIndex = 0;
     }
