@@ -1,4 +1,4 @@
-package login_server;
+package com.csharp.login.server;
 
 import login_server.LoginChecker;
 
@@ -50,5 +50,8 @@ public class LoginServerLauncher {
 
     public static void main (String[] arg) {
 
+        System.out.println("SERVER USING REGISTRY");
+
+        LoginServerLauncher server = new LoginServerLauncher();
     }
 }

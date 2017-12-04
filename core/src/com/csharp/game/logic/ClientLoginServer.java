@@ -14,9 +14,9 @@ public class ClientLoginServer {
     private ILogin loginserver;
     private Registry registry = null;
 
-    public ILogin getLoginServer(){
-        return loginserver;
-    }
+//    public ILogin getLoginServer(){
+//        return loginserver;
+//    }
 
     public ClientLoginServer(){
         try
@@ -64,6 +64,21 @@ public class ClientLoginServer {
         {
             System.out.println("Client: loginserver is null pointer");
         }
+    }
+
+    public boolean login(String userName, String unHashedPassword){
+
+        boolean succes = false;
+        //TODO: HashPassword here
+
+        try {
+            succes = loginserver.checkLogin(userName, unHashedPassword);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } finally {
+            return succes;
+        }
+
     }
 
 
