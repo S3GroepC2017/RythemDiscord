@@ -21,4 +21,6 @@ public interface ILogic
     List<Player> getNodes();
 
     KeyPressedResult keyPressed(char keyPressed);
+
+    int getNodeListPosition();
 }

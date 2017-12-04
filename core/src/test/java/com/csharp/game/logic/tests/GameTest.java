@@ -1,6 +1,7 @@
 package com.csharp.game.logic.tests;
 
 import com.csharp.game.logic.Game;
+import com.csharp.sharedclasses.IGame;
 import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
@@ -19,7 +20,7 @@ public class GameTest
     @Test
     public void getNodes() throws Exception
     {
-        Game game = new Game(new Player("testPlayer"), new IServerGameStub());
+        IGame game = new Game(new Player("testPlayer"), new IServerGameStub());
         //TODO: replace character array with player list.
         List<Player> players = game.getNodes();
         Assert.assertFalse("The player array was null!", players == null);
@@ -45,7 +46,7 @@ public class GameTest
         Player localPlayer = new Player("TestPlayer");
         IServerGameStub serverGameStub = new IServerGameStub();
         localPlayer.setNodeList(new char[]{'a', 'b', 'c', 'd'});
-        Game game = new Game(localPlayer, serverGameStub);
+        IGame game = new Game(localPlayer, serverGameStub);
 
         //TODO: replace character array with player list.
         List<Player> players = game.getNodes();

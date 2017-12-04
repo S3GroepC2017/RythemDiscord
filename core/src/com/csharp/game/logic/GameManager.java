@@ -1,9 +1,6 @@
 package com.csharp.game.logic;
 
-import com.csharp.sharedclasses.IServerGame;
-import com.csharp.sharedclasses.IServerManager;
-import com.csharp.sharedclasses.KeyPressedResult;
-import com.csharp.sharedclasses.Player;
+import com.csharp.sharedclasses.*;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -16,7 +13,7 @@ import java.util.List;
  */
 public class GameManager implements ILogic
 {
-    private Game currentGame;
+    private IGame currentGame;
     private Player localPlayer;
     private IServerGame serverGame;
 
@@ -89,5 +86,10 @@ public class GameManager implements ILogic
         //return currentGame.checkKeyPressed(keyPressed);
         return KeyPressedResult.WRONG;
     }
-    
+
+    @Override
+    public int getNodeListPosition() {
+        return currentGame.getNodeListPosition();
+    }
+
 }

@@ -22,7 +22,9 @@ public class GameServerLauncher {
 
     }
 
-    // Constructor
+    /**
+     * Constructor
+     */
     public GameServerLauncher() {
 
         // Print port number for registry
@@ -38,7 +40,7 @@ public class GameServerLauncher {
             registry = null;
         }
 
-        // Create student administration
+        // Create new instance of server manager.
         //try {
         serverManager = new ServerManager(registry);
         System.out.println("Server: Student administration created");
@@ -49,11 +51,11 @@ public class GameServerLauncher {
             serverManager = null;
         }*/
 
-        // Bind student administration using registry
+        // Bind the servermanager using registry
         try {
             registry.rebind(bindingName, serverManager);
         } catch (RemoteException ex) {
-            System.out.println("Server: Cannot bind student administration");
+            System.out.println("Server: Cannot bind serverManager");
             System.out.println("Server: RemoteException: " + ex.getMessage());
         }
     }

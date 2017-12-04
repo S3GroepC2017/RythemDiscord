@@ -51,8 +51,9 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         return true;
     } catch (RemoteException e) {
         e.printStackTrace();
-    }
         return false;
+    }
+
     }
 
     @Override

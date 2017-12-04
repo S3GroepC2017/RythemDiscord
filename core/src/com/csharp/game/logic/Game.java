@@ -1,5 +1,6 @@
 package com.csharp.game.logic;
 
+import com.csharp.sharedclasses.IGame;
 import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by Lars on 25-9-2017.
  */
-public class Game extends UnicastRemoteObject implements IRemotePropertyListener
+public class Game extends UnicastRemoteObject implements IGame
 {
     private int nodeListPosition = 0;
     private List<Player> players;
@@ -94,6 +95,11 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
         }
         nodeListPosition = 0;
         */
+    }
+
+    @Override
+    public int getNodeListPosition() {
+        return nodeListPosition;
     }
 
     @Override
