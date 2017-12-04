@@ -21,12 +21,14 @@ public class GameManager implements ILogic
     private IServerGame serverGame;
 
     //TODO: ADD 2 PRIVATE VARIABLES FOR THE LOGIN AND GAME SERVERS
+    private ClientLoginServer clientLoginServer;
     private Registry registry = null;
     private String hostAddress = "127.0.0.1";
     private int portNumber = 1099;
 
     public GameManager() {
         try {
+            clientLoginServer = new ClientLoginServer();
             System.out.println("Locating registry at: " + hostAddress + ":" + portNumber);
             registry = LocateRegistry.getRegistry(hostAddress, portNumber);
         } catch (RemoteException e) {
@@ -73,8 +75,16 @@ public class GameManager implements ILogic
     {
         // TODO: CONTACT LOGIN SERVER FOR VERIFICATION
 
-        localPlayer = new Player(username);
-        return true;
+        boolean succes = false;
+
+        if (clientLoginServer.login(username,password))
+        {
+            localPlayer = new Player(username);
+            succes = true;
+        }
+
+        return succes;
+
     }
 
     @Override

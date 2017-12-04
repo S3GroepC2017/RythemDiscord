@@ -64,32 +64,6 @@ public class LoginChecker extends UnicastRemoteObject implements ILogin {
             closeConnection();
             return success;
         }
-
-//        ClassLoader classLoader = getClass().getClassLoader();
-//        try (FileReader reader = new FileReader(classLoader.getResource("db.properties").getFile())) {
-//
-//            Properties properties = new Properties();
-//            properties.load(reader);
-//
-//
-//            connectionstring = "jdbc:sqlserver://" + properties.getProperty("db.driverconnectiondetails") + "" +
-//                    ";databaseName=" + properties.getProperty("db.database") + ";"
-//                    + "user=" + properties.getProperty("db.username") + ";"
-//                    + "password=" + properties.getProperty("db.password") + ";";
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return success;
-//        }
-//        try {
-//            connection = DriverManager.getConnection(connectionstring);
-//            success = true;
-//            return success;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            closeConnection();
-//            return success;
-//        }
     }
 
 
