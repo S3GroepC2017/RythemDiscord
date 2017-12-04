@@ -3,6 +3,11 @@ package com.csharp.game;
 import com.badlogic.gdx.InputProcessor;
 import com.csharp.game.logic.GameManager;
 import com.csharp.game.logic.ILogic;
+import com.csharp.sharedclasses.KeyPressedResult;
+import com.csharp.sharedclasses.Player;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.util.List;
 
 
 /**
@@ -15,7 +20,8 @@ public class InputManager implements InputProcessor
 {
     final RythemDiscord game;
     private ILogic logic;
-    private boolean lastSucces;
+    private KeyPressedResult lastSucces;
+    boolean keyWasPressed;
 
     public InputManager(RythemDiscord game)
     {
@@ -41,10 +47,10 @@ public class InputManager implements InputProcessor
     {
         //TODO Handle all keys for the game
         System.out.println(character);
-        lastSucces = logic.keyPressed(character);
-
+// TODO        lastSucces = logic.keyPressed(character);
+        throw new NotImplementedException();
         //IGNORE
-        return false;
+        //return false;
     }
 
     @Override
@@ -77,20 +83,24 @@ public class InputManager implements InputProcessor
         return false;
     }
 
-    public char[] getKeys()
+    public List<Player> getKeys()
     {
         //TODO getNodes for all players
         return logic.getNodes();
     }
 
-    public boolean getLastSuccess()
-    {
+public boolean isKeyWasPressed() {
+        boolean updateDetected = keyWasPressed;
+        keyWasPressed = false;
+        return updateDetected;
+    }
+
+    public KeyPressedResult getLastSuccess() {
         return lastSucces;
     }
 
-    public void resetSuccess()
-    {
-        lastSucces = false;
+    public void resetSuccess() {
+        lastSucces = KeyPressedResult.WRONG;
     }
 
     public int getKeyIndex()

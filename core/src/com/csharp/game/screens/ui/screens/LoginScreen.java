@@ -114,7 +114,9 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
                 System.out.println(String.format("Login aangeroepen, Name: %s, Password: %s", nameField.getText(), passwordField.getText()));
 
                 //TODO koppeling afmaken
-                //boolean success = LoginChecker.checkLogin(name, password);
+
+
+//                boolean success = LoginChecker.checkLogin(name, password);
 
                 //if(succes)
                 //{
