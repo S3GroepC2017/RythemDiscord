@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * RythemDiscord
+ *
  * @author Groep C#
  * <p>
  * This class handles all events past down from the application.
@@ -26,7 +27,9 @@ public class InputManager implements InputProcessor
     public InputManager(RythemDiscord game)
     {
         this.game = game;
-        this.logic = new GameManager();
+
+        //Changed from new to global logic
+        this.logic = game.getLogic();
         logic.startGame();
     }
 
@@ -47,7 +50,7 @@ public class InputManager implements InputProcessor
     {
         //TODO Handle all keys for the game
         System.out.println(character);
-// TODO        lastSucces = logic.keyPressed(character);
+        // TODO        lastSucces = logic.keyPressed(character);
         throw new NotImplementedException();
         //IGNORE
         //return false;
@@ -89,17 +92,20 @@ public class InputManager implements InputProcessor
         return logic.getNodes();
     }
 
-public boolean isKeyWasPressed() {
+    public boolean isKeyWasPressed()
+    {
         boolean updateDetected = keyWasPressed;
         keyWasPressed = false;
         return updateDetected;
     }
 
-    public KeyPressedResult getLastSuccess() {
+    public KeyPressedResult getLastSuccess()
+    {
         return lastSucces;
     }
 
-    public void resetSuccess() {
+    public void resetSuccess()
+    {
         lastSucces = KeyPressedResult.WRONG;
     }
 

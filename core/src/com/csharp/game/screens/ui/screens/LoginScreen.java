@@ -115,14 +115,20 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
 
                 //TODO koppeling afmaken
 
+                boolean success = game.getLogic().logIn(nameField.getText(), passwordField.getText());
 
-//                boolean success = LoginChecker.checkLogin(name, password);
+                if(success)
+                {
+                    dispose();
+                    game.setScreen(new CreateLobbyScreen(game));
+                }
 
-                //if(succes)
-                //{
-//                    dispose();
-//                    game.setScreen(new LobbyScreen(game));
-                //}
+                else
+                {
+                    nameField.setText("ERROR");
+                    passwordField.setText("ERROR");
+                    passwordField.setPasswordMode(false);
+                }
             }
         });
 
