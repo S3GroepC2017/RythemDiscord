@@ -5,6 +5,7 @@ import com.csharp.sharedclasses.IServerManager;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -19,12 +20,10 @@ public class GameManager implements ILogic
     private Game currentGame;
     private Player localPlayer;
     private IServerGame serverGame;
-
-    //TODO: ADD 2 PRIVATE VARIABLES FOR THE LOGIN AND GAME SERVERS
     private ClientLoginServer clientLoginServer;
     private Registry registry = null;
-    private String hostAddress = "127.0.0.1";
-    private int portNumber = 1099;
+    private static final String hostAddress = "localhost";
+    private static final int portNumber = 1099;
 
     public GameManager() {
         try {
@@ -40,8 +39,6 @@ public class GameManager implements ILogic
     @Override
     public void startGame()
     {
-        // TODO: CONTACT SERVER FOR GAME OBJECT
-        // currentGame = new Game();
         try {
             IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
@@ -56,7 +53,6 @@ public class GameManager implements ILogic
     @Override
     public void joinGame(String gameKey)
     {
-        // TODO: CONTACT SERVER FOR GAME OBJECT WITH ID
         try {
             serverGame = (IServerGame) registry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame);
