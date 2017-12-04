@@ -1,6 +1,4 @@
-package com.csharp.login.server;
-
-import login_server.LoginChecker;
+package login_server;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
