@@ -1,7 +1,5 @@
 package login_server;
 
-import login_server.LoginChecker;
-
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -50,5 +48,8 @@ public class LoginServerLauncher {
 
     public static void main (String[] arg) {
 
+        System.out.println("SERVER USING REGISTRY");
+
+        LoginServerLauncher server = new LoginServerLauncher();
     }
 }
