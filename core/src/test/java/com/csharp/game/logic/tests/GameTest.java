@@ -19,23 +19,31 @@ public class GameTest
     @Test
     public void getNodes() throws Exception
     {
-        Game game = new Game(new Player("testPlayer"), new IServerGameStub());
-        //TODO: replace character array with player list.
+        // setup all the things
+        IServerGameStub serverGameStub = new IServerGameStub();
+        Player testPlayer = new Player("testPlayer");
+        Game game = new Game(testPlayer, serverGameStub);
+
+        // set the players to have notes
+        List<Player> playersWithNodes = new ArrayList<>();
+        testPlayer.setNodeList(new char[]{'a'});
+        playersWithNodes.add(testPlayer);
+
+        game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, playersWithNodes));
+
+        // retrieve and check the notes
         List<Player> players = game.getNodes();
         Assert.assertFalse("The player array was null!", players == null);
 
+        int numbplayer = 1;
         for (Player player : players)
         {
-            int numbplayer = 1;
-            int i = 0;
-            char key;
-            do
-            {
-                key = player.getNode(i);
-                Assert.assertFalse("Position " + i + " of player:" + numbplayer + "'s array was empty", key == '\u0000');
-                i++;
-                numbplayer++;
-            } while (key != ' ');
+            char key = player.getNode(0);
+            Assert.assertFalse("Player:" + numbplayer + "'s array was empty", key == '\u0000');
+
+            char key2 = player.getNode(1);
+            Assert.assertTrue("Player:" + numbplayer + "'s array was empty", key2 == '\u0000');
+            numbplayer++;
         }
     }
 
@@ -64,7 +72,7 @@ public class GameTest
 
         game.checkKeyPressed('\u0000');
         Assert.assertEquals("The incorrect key was typed, but the result was correct", KeyPressedResult.WRONG, serverGameStub.lastReceivedResultKeyPressResult);
-        
+
         players = new ArrayList<>();
         localPlayer.setNodeList(new char[]{nodes[0]});
         players.add(localPlayer);
