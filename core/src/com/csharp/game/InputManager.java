@@ -4,6 +4,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.csharp.game.logic.ILogic;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
+import javafx.animation.AnimationTimer;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;

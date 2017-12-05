@@ -106,8 +106,8 @@ public class GameManager implements ILogic
     @Override
     public KeyPressedResult keyPressed(char keyPressed)
     {
-        //return currentGame.checkKeyPressed(keyPressed);
-        return KeyPressedResult.WRONG;
+        return currentGame.checkKeyPressed(keyPressed);
+//        return KeyPressedResult.WRONG;
     }
 
     @Override
@@ -116,9 +116,9 @@ public class GameManager implements ILogic
         return localPlayer;
     }
 
-
     @Override
-    public int getNodeListPosition() {
+    public int getCurrentPosition()
+    {
         return currentGame.getNodeListPosition();
     }
 

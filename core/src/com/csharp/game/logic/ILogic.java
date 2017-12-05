@@ -34,5 +34,5 @@ public interface ILogic
 
     Player getLocalPlayer();
 
-    int getNodeListPosition();
+    int getCurrentPosition();
 }

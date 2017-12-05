@@ -24,6 +24,11 @@ public class Game extends UnicastRemoteObject implements IGame
     private IServerGame serverGame;
     private boolean started = false;
 
+    public int getNodeListPosition()
+    {
+        return nodeListPosition;
+    }
+
     //Constructor
     public Game(Player localPlayer, IServerGame serverGame) throws RemoteException
     {
@@ -68,8 +73,10 @@ public class Game extends UnicastRemoteObject implements IGame
     {
         if (!started)
         {
+            System.out.println("Received input but not started yet: " + keyPressed);
             return KeyPressedResult.NONE;
         }
+        System.out.println("Logic received key press: " + keyPressed);
         //TODO: Add ALL the results.
         KeyPressedResult result;
         if (localPlayer.getNode(nodeListPosition) == keyPressed)
@@ -129,6 +136,7 @@ public class Game extends UnicastRemoteObject implements IGame
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException
     {
+        System.out.println("PROP CHANGE");
         if (evt.getPropertyName().equals("players"))
         {
             this.players = (ArrayList<Player>) evt.getNewValue();
@@ -152,7 +160,7 @@ public class Game extends UnicastRemoteObject implements IGame
         else if (evt.getPropertyName().equals("noteListIndex"))
         {
             this.nodeListPosition = (Integer) evt.getNewValue();
-
+            System.out.println("New node list position: " + nodeListPosition);
             //TODO: HANDLE THE LAST KEY IN THE SEQUENCE
             // if(localPlayer.getNode(nodeListPosition) == '\u0000')
         }
