@@ -16,25 +16,27 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     private final int gameid;
     private static int nextId = 0;
     private Player hostPlayer = null;
+    NodeGenerator nodeGenerator;
 
     public ServerGame() throws RemoteException {
         remotePublisher = new RemotePublisher();
         remotePublisher.registerProperty("noteListIndex");
         remotePublisher.registerProperty("players");
+        nodeGenerator = new NodeGenerator();
         gameid = nextId;
-        nextId++;
+        ServerGame.nextId++;
         players = new ArrayList<>();
         noteListIndex = 0;
     }
 
     @Override
-    public int getGameId()
+    public int getGameId() throws RemoteException
     {
         return gameid;
     }
 
     @Override
-    public boolean joinPlayer(Player player)
+    public boolean joinPlayer(Player player)throws RemoteException
     {
         if(players.contains(player) || !players.add(player))
         {
@@ -53,11 +55,17 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        remotePublisher.inform("players", null, players);
+        return true;
+    } catch (RemoteException e) {
+        e.printStackTrace();
         return false;
     }
 
+    }
+
     @Override
-    public void subscribe(IRemotePropertyListener listener, String propertyName) {
+    public void subscribe(IRemotePropertyListener listener, String propertyName) throws RemoteException {
         try {
             remotePublisher.subscribeRemoteListener(listener, propertyName);
         } catch (RemoteException e) {
@@ -66,12 +74,16 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     }
 
     @Override
-    public void startGame(Player localPlayer) {
+    public void startGame(Player localPlayer) throws RemoteException {
         if(!localPlayer.equals(hostPlayer))
         {
             return;
         }
-        NodeGenerator nodeGenerator = new NodeGenerator();
+        distributeNodes();
+    }
+
+    private void distributeNodes()
+    {
         for(Player player : players)
         {
             player.setNodeList(nodeGenerator.generateNode());
@@ -86,13 +98,17 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     }
 
     @Override
-    public void keyPressed(KeyPressedResult result) {
+    public void keyPressed(KeyPressedResult result) throws RemoteException {
         switch (result) {
             case CORRECT:
                 noteListIndex++;
                 break;
             case WRONG:
                 noteListIndex = 0;
+                break;
+            case SEQUENCE_FINISHED:
+                noteListIndex = 0;
+                distributeNodes();
                 break;
             default:
                 //TODO: Handle other outcome.

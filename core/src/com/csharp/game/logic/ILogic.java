@@ -33,4 +33,6 @@ public interface ILogic
     KeyPressedResult keyPressed(char keyPressed);
 
     Player getLocalPlayer();
+
+    int getNodeListPosition();
 }

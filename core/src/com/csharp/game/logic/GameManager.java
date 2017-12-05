@@ -1,9 +1,6 @@
 package com.csharp.game.logic;
 
-import com.csharp.sharedclasses.IServerGame;
-import com.csharp.sharedclasses.IServerManager;
-import com.csharp.sharedclasses.KeyPressedResult;
-import com.csharp.sharedclasses.Player;
+import com.csharp.sharedclasses.*;
 
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
@@ -17,10 +14,10 @@ import java.util.List;
  */
 public class GameManager implements ILogic
 {
-    private Game currentGame;
-
     // TODO REMOVE HARDCODED VALUE
     private Player localPlayer = new Player("DebugPlayer");
+    private IGame currentGame;
+
     private IServerGame serverGame;
     private ClientLoginServer clientLoginServer;
     private Registry registry = null;
@@ -117,6 +114,12 @@ public class GameManager implements ILogic
     public Player getLocalPlayer()
     {
         return localPlayer;
+    }
+
+
+    @Override
+    public int getNodeListPosition() {
+        return currentGame.getNodeListPosition();
     }
 
 }
