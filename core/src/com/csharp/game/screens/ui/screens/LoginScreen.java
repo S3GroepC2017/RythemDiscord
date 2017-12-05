@@ -113,8 +113,6 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
             {
                 System.out.println(String.format("Login aangeroepen, Name: %s, Password: %s", nameField.getText(), passwordField.getText()));
 
-                //TODO koppeling afmaken
-
                 boolean success = game.getLogic().logIn(nameField.getText(), passwordField.getText());
 
                 if(success)
@@ -126,8 +124,8 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
                 else
                 {
                     nameField.setText("ERROR");
-                    passwordField.setText("ERROR");
-                    passwordField.setPasswordMode(false);
+                    passwordField.setText("");
+                    passwordField.setPasswordMode(true);
                 }
             }
         });

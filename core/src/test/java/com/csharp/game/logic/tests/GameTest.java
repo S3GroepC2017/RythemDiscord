@@ -97,7 +97,7 @@ public class GameTest
 //        game.checkKeyPressed(nodes[3]);
 //        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.SEQUENCE_FINISHED, serverGameStub.lastReceivedResultKeyPressResult);
 
-//        //nodes = game.getNodes();
+//        //nodes = game.getPlayers();
 //
 //        game.checkKeyPressed(nodes[0]);
 //        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, serverGameStub.lastReceivedResultKeyPressResult);

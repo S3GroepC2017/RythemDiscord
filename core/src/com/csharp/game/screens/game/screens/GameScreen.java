@@ -20,8 +20,10 @@ import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.ScreenHelper;
 import com.csharp.game.screens.ui.screens.MainMenuScreen;
+import com.csharp.sharedclasses.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -51,11 +53,11 @@ public class GameScreen implements Screen {
     ScreenHelper screenHelper = new ScreenHelper();
 
     //TODO fill amountOfPlayers
-    private int amountOfPlayers = 4;
+    private int amountOfPlayers;
 
     //TODO original- and playableKeyTextures
-    private ArrayList<Texture>[] allOriginalKeyTextures = new ArrayList[amountOfPlayers];
-    private ArrayList<Texture>[] allPlayableKeyTextures = new ArrayList[amountOfPlayers];
+    private ArrayList<Texture>[] allOriginalKeyTextures;
+    private ArrayList<Texture>[] allPlayableKeyTextures;
 
     //textures and renderers
     private ShapeRenderer shapeRenderer;
@@ -70,6 +72,14 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final RythemDiscord game) {
         this.game = game;
+        game.getLogic().newGame();
+        game.getLogic().startGame();
+
+        //Textures voor amount of players laden
+        amountOfPlayers = game.getLogic().getPlayers().size();
+        allOriginalKeyTextures = new ArrayList[amountOfPlayers];
+        allPlayableKeyTextures = new ArrayList[amountOfPlayers];
+
         this.inputMultiplexer = new InputMultiplexer();
         this.inputManager = new InputManager(game);
 
@@ -87,15 +97,13 @@ public class GameScreen implements Screen {
 
         shapeRenderer = new ShapeRenderer();
 
-
-
         //loading textures
         loadBackgroundTextures();
         loadExitTextures();
-        //TODO fill amount of players
+
         //TODO replace with unique keys foreach player
         //TODO uncomment next line
-        //loadKeyTextures(inputManager.getKeys());
+        loadKeyTextures(game.getLogic().getPlayers());
 
         //loading of UI components
         createUiComponents();
@@ -227,18 +235,35 @@ public class GameScreen implements Screen {
         exitBtnStyleTextures[1] = new Texture(Gdx.files.internal("keys/EscKey_pressed.png"));
     }
 
+
+//    private void loadKeyTextures(char[] keys) {
+//        //TODO unique textures for each player
+//        for (int i = 0; i < amountOfPlayers; i++) {
+//            allOriginalKeyTextures[i] = new ArrayList<Texture>();
+//            allPlayableKeyTextures[i] = new ArrayList<Texture>();
+//
+//            for (char key : keys) {
+//                Texture keyTexture = new Texture(Gdx.files.internal("keys/" + Character.toString(key) + ".png"));
+//                allOriginalKeyTextures[i].add(keyTexture);
+//                allPlayableKeyTextures[i].add(keyTexture);
+//            }
+//        }
+//    }
+
     /**
      * Loading the textures for the keys you received for the game.
      *
-     * @param keys character array containing the keys for your game.
+     * @param players player array containing the keys for your game.
      */
-    private void loadKeyTextures(char[] keys) {
+    private void loadKeyTextures(List<Player> players) {
         //TODO unique textures for each player
         for (int i = 0; i < amountOfPlayers; i++) {
+            Player player = players.get(i);
+
             allOriginalKeyTextures[i] = new ArrayList<Texture>();
             allPlayableKeyTextures[i] = new ArrayList<Texture>();
 
-            for (char key : keys) {
+            for (char key : player.getNodeList()) {
                 Texture keyTexture = new Texture(Gdx.files.internal("keys/" + Character.toString(key) + ".png"));
                 allOriginalKeyTextures[i].add(keyTexture);
                 allPlayableKeyTextures[i].add(keyTexture);

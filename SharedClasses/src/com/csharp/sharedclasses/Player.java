@@ -33,6 +33,11 @@ public class Player implements Serializable
         this.nodeList = nodeList;
     }
 
+    public char[] getNodeList()
+    {
+        return nodeList;
+    }
+
     public Player(String name)
     {
         this.name = name;

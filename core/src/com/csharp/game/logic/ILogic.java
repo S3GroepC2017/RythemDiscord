@@ -28,7 +28,7 @@ public interface ILogic
 
     boolean logIn(String username, String password);
 
-    List<Player> getNodes();
+    List<Player> getPlayers();
 
     KeyPressedResult keyPressed(char keyPressed);
 
