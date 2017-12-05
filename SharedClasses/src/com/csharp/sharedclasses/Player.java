@@ -72,7 +72,12 @@ public class Player implements Serializable
 
         if (nodeList != null)
         {
-            str += " Nodes: " + nodeList.toString();
+            str += " Nodes:";
+            for (char c : nodeList)
+            {
+                str += " ";
+                str += c;
+            }
         }
 
         return str;

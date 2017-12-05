@@ -7,6 +7,7 @@ import com.csharp.sharedclasses.Player;
 import com.csharp.sharedclasses.fontyspublisher.*;
 
 import java.beans.PropertyChangeEvent;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -16,18 +17,13 @@ import java.util.List;
 /**
  * Created by Lars on 25-9-2017.
  */
-public class Game extends UnicastRemoteObject implements IGame
+public class Game extends UnicastRemoteObject implements IGame, Remote
 {
     private int nodeListPosition = 0;
     private List<Player> players;
     private Player localPlayer;
     private IServerGame serverGame;
     private boolean started = false;
-
-    public int getNodeListPosition()
-    {
-        return nodeListPosition;
-    }
 
     //Constructor
     public Game(Player localPlayer, IServerGame serverGame) throws RemoteException

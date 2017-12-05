@@ -16,7 +16,7 @@ public class GameManager implements ILogic
 {
     // TODO REMOVE HARDCODED VALUE
     private Player localPlayer = new Player("DebugPlayer");
-    private IGame currentGame;
+    private Game currentGame;
 
     private IServerGame serverGame;
     private ClientLoginServer clientLoginServer;

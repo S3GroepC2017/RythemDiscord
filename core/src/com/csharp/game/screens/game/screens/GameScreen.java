@@ -160,7 +160,9 @@ public class GameScreen implements Screen {
             player.setNodeList(fixedNodes);
         }
 
+        // TODO DRAW THE NEW KEYS IN THE LIST ON THE SCREEN
         loadKeyTextures(players);
+        renderKeys();
     }
 
     @Override
