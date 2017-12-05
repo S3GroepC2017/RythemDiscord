@@ -39,6 +39,17 @@ public class GameManager implements ILogic
     @Override
     public void startGame()
     {
+        if (currentGame == null)
+        {
+            return;
+        }
+
+        currentGame.beginGame();
+    }
+
+    @Override
+    public void newGame()
+    {
         try {
             IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
@@ -95,5 +106,11 @@ public class GameManager implements ILogic
         //return currentGame.checkKeyPressed(keyPressed);
         return KeyPressedResult.WRONG;
     }
-    
+
+    @Override
+    public Player getLocalPlayer()
+    {
+        return localPlayer;
+    }
+
 }

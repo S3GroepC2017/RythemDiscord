@@ -94,6 +94,16 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
         */
     }
 
+    public void beginGame()
+    {
+        if (serverGame == null)
+        {
+            return;
+        }
+
+        serverGame.startGame(localPlayer);
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException
     {
