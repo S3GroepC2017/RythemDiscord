@@ -12,48 +12,55 @@ import java.rmi.registry.Registry;
  * @author Groep C#
  */
 
-public class GameServerLauncher {
-    private final int portNumber = 1099;
+public class GameServerLauncher
+{
+    private static final String hostAdress = "localhost";
+    private static final int portNumber = 1099;
     private Registry registry = null;
     private final String bindingName = "ServerManager";
     private IServerManager serverManager;
 
-    public static void main (String[] arg) {
-
+    public static void main(String[] arg)
+    {
+        GameServerLauncher gameServer = new GameServerLauncher();
     }
 
     // Constructor
-    public GameServerLauncher() {
-
+    public GameServerLauncher()
+    {
         // Print port number for registry
         System.out.println("Server: Port number " + portNumber);
 
         // Create registry at port number
-        try {
-            registry = LocateRegistry.createRegistry(portNumber);
-            System.out.println("Server: Registry created on port number " + portNumber);
-        } catch (RemoteException ex) {
-            System.out.println("Server: Cannot create registry");
+        try
+        {
+            registry = LocateRegistry.getRegistry(hostAdress, portNumber);
+            System.out.println("Server: Registry located on: " + hostAdress + " with port number " + portNumber);
+        }
+        catch (RemoteException ex)
+        {
+            System.out.println("Server: Cannot locate registry");
             System.out.println("Server: RemoteException: " + ex.getMessage());
             registry = null;
         }
 
-        // Create student administration
-        //try {
-        serverManager = new ServerManager(registry);
-        System.out.println("Server: Student administration created");
-        //}
-        /*catch (RemoteException ex) {
-            System.out.println("Server: Cannot create student administration");
-            System.out.println("Server: RemoteException: " + ex.getMessage());
-            serverManager = null;
-        }*/
+        try
+        {
+            serverManager = new ServerManager(registry);
+            System.out.println("Server: server manager created");
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
 
-        // Bind student administration using registry
-        try {
+        try
+        {
             registry.rebind(bindingName, serverManager);
-        } catch (RemoteException ex) {
-            System.out.println("Server: Cannot bind student administration");
+        }
+        catch (RemoteException ex)
+        {
+            System.out.println("Server: Cannot bind server manager");
             System.out.println("Server: RemoteException: " + ex.getMessage());
         }
     }

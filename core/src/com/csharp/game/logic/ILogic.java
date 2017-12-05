@@ -10,10 +10,20 @@ import java.util.List;
  */
 public interface ILogic
 {
-    // New game
+    /**
+     * begin the game once in an existing game
+     */
     void startGame();
 
-    // Join game
+    /**
+     * make new game on the server
+     */
+    void newGame();
+
+    /**
+     * join existing game on the server
+     * @param gameKey key to look up the existing game
+     */
     void joinGame(String gameKey);
 
     boolean logIn(String username, String password);
@@ -21,4 +31,6 @@ public interface ILogic
     List<Player> getNodes();
 
     KeyPressedResult keyPressed(char keyPressed);
+
+    Player getLocalPlayer();
 }

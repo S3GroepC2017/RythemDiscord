@@ -23,13 +23,24 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
     private boolean started = false;
 
     //Constructor
-    public Game(Player localPlayer, IServerGame serverGame) throws RemoteException {
+    public Game(Player localPlayer, IServerGame serverGame) throws RemoteException
+    {
         super();
         this.localPlayer = localPlayer;
         this.serverGame = serverGame;
         players = new ArrayList<Player>();
+        players.add(localPlayer);
     }
 
+    /**
+     * Matches all the players in the list to the localPlayer.
+     * If the Player objects are the same (as identified by the Username),
+     * then the localPlayer will be replaced with the player from the list.
+     * (So that if the player in the list has their notes defined the local player
+     * will know them as well)
+     *
+     * @param players The pool of players the localPlayer should be chosen from.
+     */
     private void setLocalPlayer(List<Player> players)
     {
         for (Player player : players)
@@ -51,20 +62,25 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
     //Checks if the pressed key was correct.
     public KeyPressedResult checkKeyPressed(char keyPressed)
     {
-        if(!started)
+        if (!started)
         {
             return KeyPressedResult.NONE;
         }
         //TODO: Add ALL the results.
-        KeyPressedResult result = KeyPressedResult.NONE;
+        KeyPressedResult result;
         if (localPlayer.getNode(nodeListPosition) == keyPressed)
         {
-            nodeListPosition++;
             result = KeyPressedResult.CORRECT;
+            if (localPlayer.getNode(nodeListPosition + 1) == '\u0000')
+            {
+                result = KeyPressedResult.SEQUENCE_FINISHED;
+            }
         }
-        else {
+        else
+        {
             result = KeyPressedResult.WRONG;
         }
+
         serverGame.keyPressed(result);
         return result;
 
@@ -78,21 +94,35 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
         */
     }
 
+    public void beginGame()
+    {
+        if (serverGame == null)
+        {
+            return;
+        }
+
+        serverGame.startGame(localPlayer);
+    }
+
     @Override
-    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        if(evt.getPropertyName().equals("players"))
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException
+    {
+        if (evt.getPropertyName().equals("players"))
         {
             this.players = (ArrayList<Player>) evt.getNewValue();
             setLocalPlayer(players);
-            if(players.get(0).getNode(0) != ' ')
+            if (players.get(0).getNode(0) != '\u0000')
             {
                 //TODO: BeginGame!!!!
                 started = true;
             }
         }
-        else if(evt.getPropertyName().equals("noteListIndex"))
+        else if (evt.getPropertyName().equals("noteListIndex"))
         {
             this.nodeListPosition = (Integer) evt.getNewValue();
+
+            //TODO: HANDLE THE LAST KEY IN THE SEQUENCE
+            // if(localPlayer.getNode(nodeListPosition) == '\u0000')
         }
 
     }

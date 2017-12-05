@@ -1,9 +1,15 @@
 package com.csharp.game.logic.tests;
 
 import com.csharp.game.logic.Game;
+import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
+import com.csharp.sharedclasses.Player;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Lars on 30-10-2017.
@@ -13,65 +19,96 @@ public class GameTest
     @Test
     public void getNodes() throws Exception
     {
-        //Game game = new Game();
-        //TODO: replace character array with player list.
-        char[] nodes = new char[10];
-        //char[] nodes = game.getNodes();
-        Assert.assertFalse("The node array was null!", nodes == null);
-        int i = 0;
-        for(char node : nodes)
+        // setup all the things
+        IServerGameStub serverGameStub = new IServerGameStub();
+        Player testPlayer = new Player("testPlayer");
+        Game game = new Game(testPlayer, serverGameStub);
+
+        // set the players to have notes
+        List<Player> playersWithNodes = new ArrayList<>();
+        testPlayer.setNodeList(new char[]{'a'});
+        playersWithNodes.add(testPlayer);
+
+        game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, playersWithNodes));
+
+        // retrieve and check the notes
+        List<Player> players = game.getNodes();
+        Assert.assertFalse("The player array was null!", players == null);
+
+        int numbplayer = 1;
+        for (Player player : players)
         {
-            Assert.assertFalse("The " + i + "nd position of the array was empty",node == '\u0000');
-            i++;
+            char key = player.getNode(0);
+            Assert.assertFalse("Player:" + numbplayer + "'s array was empty", key == '\u0000');
+
+            char key2 = player.getNode(1);
+            Assert.assertTrue("Player:" + numbplayer + "'s array was empty", key2 == '\u0000');
+            numbplayer++;
         }
     }
 
     @Test
     public void checkKeyPressed() throws Exception
     {
-        /*Game game = new Game();
+        Player localPlayer = new Player("TestPlayer");
+        IServerGameStub serverGameStub = new IServerGameStub();
+        localPlayer.setNodeList(new char[]{'a', 'b', 'c', 'd'});
+        Game game = new Game(localPlayer, serverGameStub);
+
         //TODO: replace character array with player list.
-        char[] nodes = new char[10];
-        //char[] nodes = game.getNodes();
+        List<Player> players = game.getNodes();
 
-        KeyPressedResult keyPressedResult = game.checkKeyPressed(nodes[0]);
-        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, keyPressedResult);
+        char[] nodes = new char[]{
+                players.get(0).getNode(0),
+                players.get(0).getNode(1),
+                players.get(0).getNode(2),
+                players.get(0).getNode(3)
+        };
 
-        keyPressedResult = game.checkKeyPressed('\u0000');
-        Assert.assertEquals("The incorrect key was typed, but the result was correct", KeyPressedResult.WRONG, keyPressedResult);
+        game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, players));
 
-        if(nodes[0] != nodes[2])
-        {
-            keyPressedResult = game.checkKeyPressed(nodes[2]);
-            Assert.assertEquals("The incorrect key was typed, but the result was correct", KeyPressedResult.WRONG, keyPressedResult);
-        }
+        game.checkKeyPressed(nodes[0]);
+        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, serverGameStub.lastReceivedResultKeyPressResult);
 
-        keyPressedResult = game.checkKeyPressed(nodes[0]);
-        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, keyPressedResult);
+        game.checkKeyPressed('\u0000');
+        Assert.assertEquals("The incorrect key was typed, but the result was correct", KeyPressedResult.WRONG, serverGameStub.lastReceivedResultKeyPressResult);
 
-        keyPressedResult = game.checkKeyPressed(nodes[1]);
-        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, keyPressedResult);
+        players = new ArrayList<>();
+        localPlayer.setNodeList(new char[]{nodes[0]});
+        players.add(localPlayer);
+        game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, players));
 
-        keyPressedResult = game.checkKeyPressed(nodes[2]);
-        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, keyPressedResult);
+        game.checkKeyPressed(nodes[0]);
+        Assert.assertEquals("The end of sequence wasn't reached", KeyPressedResult.SEQUENCE_FINISHED, serverGameStub.lastReceivedResultKeyPressResult);
 
-        keyPressedResult = game.checkKeyPressed(nodes[3]);
-        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.SEQUENCE_FINISHED, keyPressedResult);
+//        game.checkKeyPressed(nodes[2]);
+//        Assert.assertEquals("The incorrect key was typed, but the result was correct", KeyPressedResult.WRONG, serverGameStub.lastReceivedResultKeyPressResult);
+//
+//
+//        game.checkKeyPressed(nodes[0]);
+//        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, serverGameStub.lastReceivedResultKeyPressResult);
+//
+//        game.checkKeyPressed(nodes[1]);
+//        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, serverGameStub.lastReceivedResultKeyPressResult);
+//
+//        game.checkKeyPressed(nodes[2]);
+//        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, serverGameStub.lastReceivedResultKeyPressResult);
+//
+//        game.checkKeyPressed(nodes[3]);
+//        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.SEQUENCE_FINISHED, serverGameStub.lastReceivedResultKeyPressResult);
 
-        //nodes = game.getNodes();
-
-        keyPressedResult = game.checkKeyPressed(nodes[0]);
-        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, keyPressedResult);
-
-        keyPressedResult = game.checkKeyPressed(nodes[1]);
-        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, keyPressedResult);
-
-        keyPressedResult = game.checkKeyPressed(nodes[2]);
-        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, keyPressedResult);
-
-        keyPressedResult = game.checkKeyPressed(nodes[3]);
-        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.GAME_FINISHED, keyPressedResult);
-    */
+//        //nodes = game.getNodes();
+//
+//        game.checkKeyPressed(nodes[0]);
+//        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, serverGameStub.lastReceivedResultKeyPressResult);
+//
+//        game.checkKeyPressed(nodes[1]);
+//        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, serverGameStub.lastReceivedResultKeyPressResult);
+//
+//        game.checkKeyPressed(nodes[2]);
+//        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, serverGameStub.lastReceivedResultKeyPressResult);
+//
+//        game.checkKeyPressed(nodes[3]);
+//        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.GAME_FINISHED, serverGameStub.lastReceivedResultKeyPressResult);
     }
-
 }
