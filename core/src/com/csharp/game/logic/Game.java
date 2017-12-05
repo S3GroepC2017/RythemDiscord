@@ -9,6 +9,7 @@ import java.beans.PropertyChangeEvent;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
         this.serverGame = serverGame;
         players = new ArrayList<Player>();
         players.add(localPlayer);
+        System.out.println("local game created");
     }
 
     /**
@@ -48,6 +50,7 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
             if (localPlayer.equals(player))
             {
                 localPlayer = player;
+                System.out.println("local player set: " + player.toString());
                 return;
             }
         }
@@ -81,7 +84,14 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
             result = KeyPressedResult.WRONG;
         }
 
-        serverGame.keyPressed(result);
+        try
+        {
+            serverGame.keyPressed(result);
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
         return result;
 
         /*
@@ -101,7 +111,14 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
             return;
         }
 
-        serverGame.startGame(localPlayer);
+        try
+        {
+            serverGame.startGame(localPlayer);
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -111,10 +128,20 @@ public class Game extends UnicastRemoteObject implements IRemotePropertyListener
         {
             this.players = (ArrayList<Player>) evt.getNewValue();
             setLocalPlayer(players);
-            if (players.get(0).getNode(0) != '\u0000')
+            if (players.get(0).getNode(0) != '\u0000' && !started)
             {
                 //TODO: BeginGame!!!!
                 started = true;
+                System.out.println("Players have nodes: " + Arrays.toString(players.get(0).getNodeList()));
+            }
+            else
+            {
+                if (started)
+                {
+                    System.out.println("Game started already");
+                    return;
+                }
+                System.out.println("New player joined, these are the players now: " + players);
             }
         }
         else if (evt.getPropertyName().equals("noteListIndex"))

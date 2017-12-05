@@ -18,7 +18,9 @@ import java.util.List;
 public class GameManager implements ILogic
 {
     private Game currentGame;
-    private Player localPlayer;
+
+    // TODO REMOVE HARDCODED VALUE
+    private Player localPlayer = new Player("DebugPlayer");
     private IServerGame serverGame;
     private ClientLoginServer clientLoginServer;
     private Registry registry = null;
@@ -43,16 +45,17 @@ public class GameManager implements ILogic
         {
             return;
         }
-
         currentGame.beginGame();
     }
 
     @Override
     public void newGame()
     {
+        System.out.println("NEW GAME CALLED");
         try {
             IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
+//            System.out.println("Game created with game key: " + gameKey);
             joinGame(gameKey);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -64,12 +67,15 @@ public class GameManager implements ILogic
     @Override
     public void joinGame(String gameKey)
     {
+        System.out.println("JOIN GAME CALLED");
         try {
             serverGame = (IServerGame) registry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame);
             serverGame.subscribe(currentGame, "noteListIndex");
             serverGame.subscribe(currentGame, "players");
-            serverGame.joinPlayer(localPlayer);
+            if (serverGame.joinPlayer(localPlayer)){
+//                System.out.println("Game join successful with local player: " + localPlayer.getName());
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {

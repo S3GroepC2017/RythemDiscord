@@ -36,7 +36,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     @Override
     public boolean joinPlayer(Player player)
     {
-        if(!players.add(player))
+        if(players.contains(player) || !players.add(player))
         {
             return false;
         }
@@ -44,8 +44,11 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
             if(hostPlayer == null)
             {
                 hostPlayer = player;
+                System.out.println("host set");
             }
+            System.out.println("Player joined successfully");
             remotePublisher.inform("players", null, players);
+            System.out.println("Broadcast sent for new player");
             return true;
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -73,12 +76,13 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         {
             player.setNodeList(nodeGenerator.generateNode());
         }
+
         try {
             remotePublisher.inform("players", null, players);
+            System.out.println("Broadcast sent with nodes");
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

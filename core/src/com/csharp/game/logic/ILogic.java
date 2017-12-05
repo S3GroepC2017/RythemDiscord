@@ -16,7 +16,7 @@ public interface ILogic
     void startGame();
 
     /**
-     * make new game on the server
+     * make new game on the server and join that game
      */
     void newGame();
 

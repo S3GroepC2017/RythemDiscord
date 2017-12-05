@@ -29,7 +29,9 @@ public class InputManager implements InputProcessor
 
         //Changed from new to global logic
         this.logic = game.getLogic();
-        logic.newGame();
+
+//      TODO: DEZE FUNCITE WORD IN DE CLASS VAN GameScreen AL AANGEROEPEN
+//        logic.newGame();
     }
 
     @Override
@@ -50,9 +52,24 @@ public class InputManager implements InputProcessor
         //TODO Handle all keys for the game
         System.out.println(character);
         // TODO        lastSucces = logic.keyPressed(character);
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
         //IGNORE
-        //return false;
+
+        KeyPressedResult keyResult = logic.keyPressed(character);
+        boolean success = false;
+
+        switch (keyResult)
+        {
+            case SEQUENCE_FINISHED:
+            case CORRECT:
+                success = true;
+                break;
+            default:
+                success = false;
+                break;
+        }
+
+        return success;
     }
 
     @Override

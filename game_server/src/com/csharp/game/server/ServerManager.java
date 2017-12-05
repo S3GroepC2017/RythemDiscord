@@ -27,6 +27,7 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
             games.add(game);
             String registryKey = "Game:" + game.getGameId();
             registry.rebind(registryKey, game);
+            System.out.println("bound game to: " + registryKey + " GameID: " + game.getGameId());
             return registryKey;
         } catch (RemoteException e) {
             e.printStackTrace();
