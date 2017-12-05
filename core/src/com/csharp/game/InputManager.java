@@ -87,8 +87,8 @@ public class InputManager implements InputProcessor
 
     public List<Player> getKeys()
     {
-        //TODO getNodes for all players
-        return logic.getNodes();
+        //TODO getPlayers for all players
+        return logic.getPlayers();
     }
 
     public boolean isKeyWasPressed()

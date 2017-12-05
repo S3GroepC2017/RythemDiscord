@@ -95,7 +95,7 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public List<Player> getNodes()
+    public List<Player> getPlayers()
     {
         return currentGame.getNodes();
     }
