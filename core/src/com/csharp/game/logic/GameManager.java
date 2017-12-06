@@ -1,5 +1,6 @@
 package com.csharp.game.logic;
 
+import com.csharp.game.screens.game.screens.IAfterPosUpdateCallback;
 import com.csharp.sharedclasses.*;
 
 import java.rmi.AccessException;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 public class GameManager implements ILogic
 {
+    private IAfterPosUpdateCallback uiCallback;
     // TODO REMOVE HARDCODED VALUE
     private Player localPlayer = new Player("DebugPlayer");
     private Game currentGame;
@@ -67,7 +69,7 @@ public class GameManager implements ILogic
         System.out.println("JOIN GAME CALLED");
         try {
             serverGame = (IServerGame) registry.lookup(gameKey);
-            currentGame = new Game(localPlayer, serverGame);
+            currentGame = new Game(localPlayer, serverGame, uiCallback);
             serverGame.subscribe(currentGame, "noteListIndex");
             serverGame.subscribe(currentGame, "players");
             if (serverGame.joinPlayer(localPlayer)){
@@ -117,9 +119,8 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public int getCurrentPosition()
+    public void setCallback(IAfterPosUpdateCallback callback)
     {
-        return currentGame.getNodeListPosition();
+        this.uiCallback = callback;
     }
-
 }

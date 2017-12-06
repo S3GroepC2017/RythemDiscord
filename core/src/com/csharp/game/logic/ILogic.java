@@ -1,5 +1,6 @@
 package com.csharp.game.logic;
 
+import com.csharp.game.screens.game.screens.IAfterPosUpdateCallback;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 
@@ -34,5 +35,5 @@ public interface ILogic
 
     Player getLocalPlayer();
 
-    int getCurrentPosition();
+    void setCallback(IAfterPosUpdateCallback callback);
 }

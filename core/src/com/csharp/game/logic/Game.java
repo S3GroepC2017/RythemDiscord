@@ -1,5 +1,6 @@
 package com.csharp.game.logic;
 
+import com.csharp.game.screens.game.screens.IAfterPosUpdateCallback;
 import com.csharp.sharedclasses.IGame;
 import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
@@ -23,14 +24,17 @@ public class Game extends UnicastRemoteObject implements IGame, Remote
     private List<Player> players;
     private Player localPlayer;
     private IServerGame serverGame;
+    private final IAfterPosUpdateCallback uiCallback;
     private boolean started = false;
 
+
     //Constructor
-    public Game(Player localPlayer, IServerGame serverGame) throws RemoteException
+    public Game(Player localPlayer, IServerGame serverGame, IAfterPosUpdateCallback uiCallback) throws RemoteException
     {
         super();
         this.localPlayer = localPlayer;
         this.serverGame = serverGame;
+        this.uiCallback = uiCallback;
         players = new ArrayList<Player>();
         players.add(localPlayer);
         System.out.println("local game created");
@@ -159,6 +163,8 @@ public class Game extends UnicastRemoteObject implements IGame, Remote
             System.out.println("New node list position: " + nodeListPosition);
             //TODO: HANDLE THE LAST KEY IN THE SEQUENCE
             // if(localPlayer.getNode(nodeListPosition) == '\u0000')
+
+            uiCallback.afterCallback(this.nodeListPosition);
         }
 
     }

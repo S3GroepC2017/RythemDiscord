@@ -22,6 +22,7 @@ import com.csharp.game.screens.ScreenHelper;
 import com.csharp.game.screens.ui.screens.MainMenuScreen;
 import com.csharp.sharedclasses.Player;
 import javafx.animation.AnimationTimer;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +36,7 @@ import java.util.Random;
  * <p>
  * This is the main game code for the application.
  */
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, IAfterPosUpdateCallback {
 
     final RythemDiscord game;
     private InputMultiplexer inputMultiplexer;
@@ -66,12 +67,6 @@ public class GameScreen implements Screen {
     private Texture backgroundTexture;
     private Texture[] exitBtnStyleTextures;
 
-    // this is the Timer that gets the current position from the logic at a scheduled rate
-    private AnimationTimer timer;
-
-    // the nano seconds after which the timer to contact the logic tics
-    private static long NANO_TICKS = 250000000;
-
     /**
      * Public constructor for GameScreen
      *
@@ -79,6 +74,7 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final RythemDiscord game) {
         this.game = game;
+        game.getLogic().setCallback(this);
         game.getLogic().newGame();
         game.getLogic().startGame();
 
@@ -108,52 +104,23 @@ public class GameScreen implements Screen {
         loadBackgroundTextures();
         loadExitTextures();
 
-        // setup the timer that creates the correct lists of nodes with the nodes and index received from the Logic
-        this.timer = new AnimationTimer()
-        {
-            private long prevUpdate;
-
-            @Override
-            public void handle(long now)
-            {
-                long lag = now - prevUpdate;
-                if (lag >= NANO_TICKS)
-                {
-                    handleAnimationTimer();
-                    prevUpdate = now;
-                }
-            }
-
-            @Override
-            public void start()
-            {
-                prevUpdate = System.nanoTime();
-                super.start();
-            }
-        };
-
-        // start the timer that gets the keys from the logic and prints them on the screen
-        timer.start();
-
-        //TODO Remove this when replaced with the AnimationTimer
         //TODO replace with unique keys foreach player
         //TODO uncomment next line
-//        loadKeyTextures(game.getLogic().getPlayers());
-
-        handleAnimationTimer();
+        loadKeyTextures(game.getLogic().getPlayers());
+        renderKeys();
 
         //loading of UI components
         createUiComponents();
     }
 
-    private void handleAnimationTimer()
+    private void handleAnimationTimer(int nodePosition)
     {
         List<Player> players = game.getLogic().getPlayers();
         for (Player player : players)
         {
             char[] fixedNodes = player.getNodeList();
             int originalLength = fixedNodes.length;
-            while (fixedNodes.length > originalLength - game.getLogic().getCurrentPosition())
+            while (fixedNodes.length > originalLength - nodePosition)
             {
                 fixedNodes = Arrays.copyOfRange(fixedNodes, 1, fixedNodes.length-1);
             }
@@ -161,7 +128,6 @@ public class GameScreen implements Screen {
         }
 
         // TODO DRAW THE NEW KEYS IN THE LIST ON THE SCREEN
-        loadKeyTextures(players);
         renderKeys();
     }
 
@@ -447,5 +413,12 @@ public class GameScreen implements Screen {
         //check if all keys are successfully pressed
 
 
+    }
+
+    @Override
+    public void afterCallback(int pos)
+    {
+        throw new NotImplementedException();
+//        handleAnimationTimer(pos);
     }
 }
