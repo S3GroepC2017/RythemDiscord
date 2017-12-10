@@ -1,6 +1,5 @@
-package test.java.login_server;
+package login_server;
 
-import login_server.LoginChecker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
