@@ -13,7 +13,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     private int noteListIndex;
     private final RemotePublisher remotePublisher;
     private final List<Player> players;
-    private final int gameid;
+    private final int gameId;
     private static int nextId = 0;
     private Player hostPlayer = null;
 
@@ -21,7 +21,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         remotePublisher = new RemotePublisher();
         remotePublisher.registerProperty("noteListIndex");
         remotePublisher.registerProperty("players");
-        gameid = nextId;
+        gameId = nextId;
         nextId++;
         players = new ArrayList<>();
         noteListIndex = 0;
@@ -30,7 +30,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     @Override
     public int getGameId()
     {
-        return gameid;
+        return gameId;
     }
 
     @Override

@@ -7,22 +7,25 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class ClientLoginServer {
+public class ClientLoginServer
+{
 
     private String hostIP = "192.168.247.131";
     private int port = 1099;
-    private ILogin loginserver;
+    private ILogin loginServer;
     private Registry registry = null;
 
-//    public ILogin getLoginServer(){
-//        return loginserver;
-//    }
+    //    public ILogin getLoginServer(){
+    //        return loginServer;
+    //    }
 
-    public ClientLoginServer(){
+    public ClientLoginServer()
+    {
         try
         {
             registry = LocateRegistry.getRegistry(hostIP, port);
-        } catch (RemoteException ex)
+        }
+        catch (RemoteException ex)
         {
             System.out.println("Client: Cannot locate registry");
             System.out.println("Client: RemoteException: " + ex.getMessage());
@@ -32,7 +35,8 @@ public class ClientLoginServer {
         if (registry != null)
         {
             System.out.println("Client: Registry located");
-        } else
+        }
+        else
         {
             System.out.println("Client: Cannot locate registry");
             System.out.println("Client: Registry is null pointer");
@@ -42,41 +46,50 @@ public class ClientLoginServer {
         {
             try
             {
-                loginserver = (ILogin) registry.lookup("LoginServer");
-            } catch (RemoteException ex)
+                loginServer = (ILogin) registry.lookup("LoginServer");
+            }
+            catch (RemoteException ex)
             {
                 System.out.println("Client: Cannot bind loginserver");
                 System.out.println("Client: RemoteException: " + ex.getMessage());
-                loginserver = null;
-            } catch (NotBoundException ex)
+                loginServer = null;
+            }
+            catch (NotBoundException ex)
             {
                 System.out.println("Client: Cannot bind loginserver");
                 System.out.println("Client: NotBoundException: " + ex.getMessage());
-                loginserver = null;
+                loginServer = null;
             }
 
         }
 
-        if (loginserver != null)
+        if (loginServer != null)
         {
             System.out.println("Client: loginserver bound");
-        } else
+        }
+        else
         {
             System.out.println("Client: loginserver is null pointer");
         }
     }
 
-    public boolean login(String userName, String unHashedPassword){
+    public boolean login(String username, String unHashedPassword)
+    {
 
-        boolean succes = false;
+        boolean success = false;
         //TODO: HashPassword here
 
-        try {
-            succes = loginserver.checkLogin(userName, unHashedPassword);
-        } catch (RemoteException e) {
+        try
+        {
+            success = loginServer.checkLogin(username, unHashedPassword);
+        }
+        catch (RemoteException e)
+        {
             e.printStackTrace();
-        } finally {
-            return succes;
+        }
+        finally
+        {
+            return success;
         }
 
     }

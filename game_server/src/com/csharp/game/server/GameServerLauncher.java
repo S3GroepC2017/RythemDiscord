@@ -12,27 +12,33 @@ import java.rmi.registry.Registry;
  * @author Groep C#
  */
 
-public class GameServerLauncher {
+public class GameServerLauncher
+{
     private final int portNumber = 1099;
     private Registry registry = null;
     private final String bindingName = "ServerManager";
     private IServerManager serverManager;
 
-    public static void main (String[] arg) {
+    public static void main(String[] arg)
+    {
 
     }
 
     // Constructor
-    public GameServerLauncher() {
+    public GameServerLauncher()
+    {
 
         // Print port number for registry
         System.out.println("Server: Port number " + portNumber);
 
         // Create registry at port number
-        try {
+        try
+        {
             registry = LocateRegistry.createRegistry(portNumber);
             System.out.println("Server: Registry created on port number " + portNumber);
-        } catch (RemoteException ex) {
+        }
+        catch (RemoteException ex)
+        {
             System.out.println("Server: Cannot create registry");
             System.out.println("Server: RemoteException: " + ex.getMessage());
             registry = null;
@@ -50,9 +56,12 @@ public class GameServerLauncher {
         }*/
 
         // Bind student administration using registry
-        try {
+        try
+        {
             registry.rebind(bindingName, serverManager);
-        } catch (RemoteException ex) {
+        }
+        catch (RemoteException ex)
+        {
             System.out.println("Server: Cannot bind student administration");
             System.out.println("Server: RemoteException: " + ex.getMessage());
         }
