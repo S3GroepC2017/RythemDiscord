@@ -1,11 +1,10 @@
 package com.csharp.game.logic;
 
-import com.csharp.game.screens.game.screens.IAfterPosUpdateCallback;
+import com.csharp.sharedclasses.IAfterPosUpdateCallback;
 import com.csharp.sharedclasses.IGame;
 import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
-import com.csharp.sharedclasses.fontyspublisher.*;
 
 import java.beans.PropertyChangeEvent;
 import java.rmi.Remote;
@@ -22,6 +21,8 @@ public class Game extends UnicastRemoteObject implements IGame, Remote
 {
     private int nodeListPosition = 0;
     private List<Player> players;
+    private KeyPressedResult lastKeyPressResult = KeyPressedResult.NONE;
+
     private Player localPlayer;
     private IServerGame serverGame;
     private final IAfterPosUpdateCallback uiCallback;
@@ -163,8 +164,11 @@ public class Game extends UnicastRemoteObject implements IGame, Remote
             System.out.println("New node list position: " + nodeListPosition);
             //TODO: HANDLE THE LAST KEY IN THE SEQUENCE
             // if(localPlayer.getNode(nodeListPosition) == '\u0000')
-
-            uiCallback.afterCallback(this.nodeListPosition);
+        }
+        else if (evt.getPropertyName().equals("lastKeyPressResult"))
+        {
+            lastKeyPressResult = (KeyPressedResult) evt.getNewValue();
+            uiCallback.afterCallback(this.nodeListPosition, lastKeyPressResult);
         }
 
     }

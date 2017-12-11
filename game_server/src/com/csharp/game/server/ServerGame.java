@@ -11,8 +11,10 @@ import java.util.List;
 
 public class ServerGame extends UnicastRemoteObject implements IServerGame {
     private int noteListIndex;
-    private final RemotePublisher remotePublisher;
     private final List<Player> players;
+    private KeyPressedResult lastKeyPressResult = KeyPressedResult.NONE;
+
+    private final RemotePublisher remotePublisher;
     private final int gameid;
     private static int nextId = 0;
     private Player hostPlayer = null;
@@ -22,6 +24,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         remotePublisher = new RemotePublisher();
         remotePublisher.registerProperty("noteListIndex");
         remotePublisher.registerProperty("players");
+        remotePublisher.registerProperty("lastKeyPressResult");
         nodeGenerator = new NodeGenerator();
         gameid = nextId;
         ServerGame.nextId++;
@@ -102,12 +105,15 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         switch (result) {
             case CORRECT:
                 noteListIndex++;
+                lastKeyPressResult = KeyPressedResult.CORRECT;
                 break;
             case WRONG:
                 noteListIndex = 0;
+                lastKeyPressResult = KeyPressedResult.WRONG;
                 break;
             case SEQUENCE_FINISHED:
                 noteListIndex = 0;
+                lastKeyPressResult = KeyPressedResult.SEQUENCE_FINISHED;
                 distributeNodes();
                 break;
             default:
@@ -116,6 +122,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         }
         try {
             remotePublisher.inform("noteListIndex", null, noteListIndex);
+            remotePublisher.inform("lastKeyPressResult", null, lastKeyPressResult);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

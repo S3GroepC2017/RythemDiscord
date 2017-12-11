@@ -1,6 +1,4 @@
 buildscript {
-    
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -8,24 +6,30 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
-
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M5'
     }
 }
 
 allprojects {
+    apply plugin: 'java'
     apply plugin: "eclipse"
     apply plugin: "idea"
     apply plugin: 'org.junit.platform.gradle.plugin'
 
     version = '1.0'
     ext {
-        appName = "RythemDiscord"
-        gdxVersion = '1.9.7'
-        roboVMVersion = '2.3.1'
-        box2DLightsVersion = '1.4'
-        ashleyVersion = '1.7.0'
-        aiVersion = '1.8.0'
+        appName              = "RythemDiscord"
+        gdxVersion           = '1.9.7'
+        roboVMVersion        = '2.3.1'
+        box2DLightsVersion   = '1.4'
+        ashleyVersion        = '1.7.0'
+        aiVersion            = '1.8.0'
+        junit4Version        = '4.12'
+        junitVintageVersion  = '4.12.2'
+        junitPlatformVersion = '1.0.2'
+        junitJupiterVersion  = '5.0.2'
+        log4jVersion         = '2.6.2'
+        logbackVersion       = '1.2.3'
     }
 
     repositories {
@@ -34,19 +38,48 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
-
     dependencies {
-        compile project(":SharedClasses")
-        testCompile(
-                'org.junit.jupiter:junit-jupiter-api:5.0.1'
-        )
-        testRuntime(
-                'org.junit.jupiter:junit-jupiter-engine:5.0.1',
-                'org.junit.vintage:junit-vintage-engine:4.12.1',
-                'org.junit.platform:junit-platform-launcher:1.0.1',
-                'org.junit.platform:junit-platform-runner:1.0.1'
-        )
+
+        // JUnit Jupiter API and TestEngine implementation
+        testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+        testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
+        testCompile("org.junit.platform:junit-platform-runner:${junitPlatformVersion}")
+
+        // If you also want to support JUnit 3 and JUnit 4 tests
+        testCompile("junit:junit:${junit4Version}")
+        testRuntime("org.junit.vintage:junit-vintage-engine:${junitVintageVersion}")
+
+        testRuntime("org.apache.logging.log4j:log4j-core:${log4jVersion}")
+        testRuntime("org.apache.logging.log4j:log4j-jul:${log4jVersion}")
+
+        testCompile("ch.qos.logback:logback-classic:${logbackVersion}")
     }
+
+    compileTestJava {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+        options.compilerArgs += '-parameters'
+    }
+
+    junitPlatform {
+        platformVersion '1.0.2'
+        filters {
+            engines {
+                // include 'junit-jupiter', 'junit-vintage'
+                // exclude 'custom-engine'
+            }
+            tags {
+                // include 'fast'
+                exclude 'slow'
+            }
+            // includeClassNamePattern '.*Test'
+        }
+        // enableStandardTestTask true
+        // reportsDir file('build/test-results/junit-platform') // this is the default
+        logManager 'org.apache.logging.log4j.jul.LogManager'
+    }
+
 }
 
 project(":desktop") {
@@ -67,6 +100,7 @@ project(":core") {
 
 
     dependencies {
+        compile project(":SharedClasses");
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
@@ -77,7 +111,8 @@ project(":login_server") {
     apply plugin: "java"
 
     dependencies {
-        compile 'mysql:mysql-connector-java:5.1.+'
+        compile project(":SharedClasses");
+        compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '6.2.1.jre8'
     }
 }
 

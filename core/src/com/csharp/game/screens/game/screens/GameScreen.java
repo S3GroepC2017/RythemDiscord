@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.ui.screens.MainMenuScreen;
+import com.csharp.sharedclasses.IAfterPosUpdateCallback;
+import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 
 import java.util.ArrayList;
@@ -32,7 +34,8 @@ import java.util.Random;
  * <p>
  * This is the main game code for the application.
  */
-public class GameScreen implements Screen, IAfterPosUpdateCallback {
+public class GameScreen implements Screen, IAfterPosUpdateCallback
+{
 
     final RythemDiscord game;
     private InputMultiplexer inputMultiplexer;
@@ -352,12 +355,20 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
     }
 
     @Override
-    public void afterCallback(int pos) {
-        if (pos <= allOriginalKeyTextures[0].size()) {
-            for (ArrayList<Texture> keyTexture : allPlayableKeyTextures) {
+    public void afterCallback(int pos, KeyPressedResult result)
+    {
+        System.out.println(result.toString());
+
+        if (result == KeyPressedResult.CORRECT)
+        {
+            for(ArrayList<Texture> keyTexture : allPlayableKeyTextures)
+            {
                 keyTexture.remove(pos - 1);
             }
-        } else {
+        }
+
+        if (result == KeyPressedResult.SEQUENCE_FINISHED)
+        {
             System.out.println("Gehaald!");
         }
 
