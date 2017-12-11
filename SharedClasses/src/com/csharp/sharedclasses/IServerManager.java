@@ -1,7 +1,8 @@
 package com.csharp.sharedclasses;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface IServerManager extends Remote{
-    String createGame();
+    String createGame() throws RemoteException;
 }
