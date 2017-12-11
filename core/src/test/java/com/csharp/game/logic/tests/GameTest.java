@@ -38,7 +38,7 @@ public class GameTest
 
         for (Player player : players)
         {
-            numbplayer = 1;
+            int numbplayer = 1;
             int i = 0;
             char key;
             do
