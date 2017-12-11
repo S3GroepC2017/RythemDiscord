@@ -1,5 +1,6 @@
 package com.csharp.game.logic;
 
+import com.csharp.game.screens.game.screens.IAfterPosUpdateCallback;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 
@@ -16,7 +17,7 @@ public interface ILogic
     void startGame();
 
     /**
-     * make new game on the server
+     * make new game on the server and join that game
      */
     void newGame();
 
@@ -33,4 +34,6 @@ public interface ILogic
     KeyPressedResult keyPressed(char keyPressed);
 
     Player getLocalPlayer();
+
+    void setCallback(IAfterPosUpdateCallback callback);
 }

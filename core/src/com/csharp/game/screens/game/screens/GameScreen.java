@@ -21,8 +21,11 @@ import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.ScreenHelper;
 import com.csharp.game.screens.ui.screens.MainMenuScreen;
 import com.csharp.sharedclasses.Player;
+import javafx.animation.AnimationTimer;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -33,7 +36,7 @@ import java.util.Random;
  * <p>
  * This is the main game code for the application.
  */
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, IAfterPosUpdateCallback {
 
     final RythemDiscord game;
     private InputMultiplexer inputMultiplexer;
@@ -64,7 +67,6 @@ public class GameScreen implements Screen {
     private Texture backgroundTexture;
     private Texture[] exitBtnStyleTextures;
 
-
     /**
      * Public constructor for GameScreen
      *
@@ -72,6 +74,7 @@ public class GameScreen implements Screen {
      */
     public GameScreen(final RythemDiscord game) {
         this.game = game;
+        game.getLogic().setCallback(this);
         game.getLogic().newGame();
         game.getLogic().startGame();
 
@@ -104,9 +107,28 @@ public class GameScreen implements Screen {
         //TODO replace with unique keys foreach player
         //TODO uncomment next line
         loadKeyTextures(game.getLogic().getPlayers());
+        renderKeys();
 
         //loading of UI components
         createUiComponents();
+    }
+
+    private void handleAnimationTimer(int nodePosition)
+    {
+        List<Player> players = game.getLogic().getPlayers();
+        for (Player player : players)
+        {
+            char[] fixedNodes = player.getNodeList();
+            int originalLength = fixedNodes.length;
+            while (fixedNodes.length > originalLength - nodePosition)
+            {
+                fixedNodes = Arrays.copyOfRange(fixedNodes, 1, fixedNodes.length-1);
+            }
+            player.setNodeList(fixedNodes);
+        }
+
+        // TODO DRAW THE NEW KEYS IN THE LIST ON THE SCREEN
+        renderKeys();
     }
 
     @Override
@@ -391,5 +413,12 @@ public class GameScreen implements Screen {
         //check if all keys are successfully pressed
 
 
+    }
+
+    @Override
+    public void afterCallback(int pos)
+    {
+        throw new NotImplementedException();
+//        handleAnimationTimer(pos);
     }
 }

@@ -1,6 +1,7 @@
 package com.csharp.game.logic.tests;
 
 import com.csharp.game.logic.Game;
+import com.csharp.sharedclasses.IGame;
 import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
@@ -22,7 +23,7 @@ public class GameTest
         // setup all the things
         IServerGameStub serverGameStub = new IServerGameStub();
         Player testPlayer = new Player("testPlayer");
-        Game game = new Game(testPlayer, serverGameStub);
+        IGame game = new Game(testPlayer, serverGameStub, new IUIstub());
 
         // set the players to have notes
         List<Player> playersWithNodes = new ArrayList<>();
@@ -35,15 +36,18 @@ public class GameTest
         List<Player> players = game.getNodes();
         Assert.assertFalse("The player array was null!", players == null);
 
-        int numbplayer = 1;
         for (Player player : players)
         {
-            char key = player.getNode(0);
-            Assert.assertFalse("Player:" + numbplayer + "'s array was empty", key == '\u0000');
-
-            char key2 = player.getNode(1);
-            Assert.assertTrue("Player:" + numbplayer + "'s array was empty", key2 == '\u0000');
-            numbplayer++;
+            int numbplayer = 1;
+            int i = 0;
+            char key;
+            do
+            {
+                key = player.getNode(i);
+                Assert.assertFalse("Position " + i + " of player:" + numbplayer + "'s array was empty", key == '\u0000');
+                i++;
+                numbplayer++;
+            } while (key != ' ');
         }
     }
 
@@ -53,7 +57,7 @@ public class GameTest
         Player localPlayer = new Player("TestPlayer");
         IServerGameStub serverGameStub = new IServerGameStub();
         localPlayer.setNodeList(new char[]{'a', 'b', 'c', 'd'});
-        Game game = new Game(localPlayer, serverGameStub);
+        IGame game = new Game(localPlayer, serverGameStub, new IUIstub());
 
         //TODO: replace character array with player list.
         List<Player> players = game.getNodes();
@@ -72,7 +76,7 @@ public class GameTest
 
         game.checkKeyPressed('\u0000');
         Assert.assertEquals("The incorrect key was typed, but the result was correct", KeyPressedResult.WRONG, serverGameStub.lastReceivedResultKeyPressResult);
-
+        
         players = new ArrayList<>();
         localPlayer.setNodeList(new char[]{nodes[0]});
         players.add(localPlayer);

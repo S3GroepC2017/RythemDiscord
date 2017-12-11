@@ -1,6 +1,7 @@
 package com.csharp.game.server;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -33,7 +34,7 @@ public class NodeGenerator
     private void setPossibleInputKeys(int amountPossibleDifferentUserInputs)
     {
         String potentialInputKeys = "qwertyuiopasdfghjklzxcvbnm"; // all values from which can be chosen
-        ArrayList<Integer> chosenNumbers = new ArrayList<Integer>(); //temp arraylist to keep track of the chosen string possitions
+        List<Integer> chosenNumbers = new ArrayList<Integer>(); //temp arraylist to keep track of the chosen string possitions
         Random random = new Random();
 
         for (int i = 0; i < amountPossibleDifferentUserInputs; i++)
