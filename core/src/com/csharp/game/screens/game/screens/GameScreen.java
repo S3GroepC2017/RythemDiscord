@@ -20,12 +20,11 @@ import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.ScreenHelper;
 import com.csharp.game.screens.ui.screens.MainMenuScreen;
+import com.csharp.sharedclasses.IAfterPosUpdateCallback;
+import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
-import javafx.animation.AnimationTimer;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -36,7 +35,8 @@ import java.util.Random;
  * <p>
  * This is the main game code for the application.
  */
-public class GameScreen implements Screen, IAfterPosUpdateCallback {
+public class GameScreen implements Screen, IAfterPosUpdateCallback
+{
 
     final RythemDiscord game;
     private InputMultiplexer inputMultiplexer;
@@ -414,7 +414,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
     }
 
     @Override
-    public void afterCallback(int pos)
+    public void afterCallback(int pos, KeyPressedResult result)
     {
         if (pos <= allOriginalKeyTextures[0].size())
         {
@@ -424,7 +424,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
             }
         }
 
-        else
+        if (result == KeyPressedResult.SEQUENCE_FINISHED)
         {
             System.out.println("Gehaald!");
         }

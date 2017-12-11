@@ -1,9 +1,8 @@
 package com.csharp.game.logic;
 
-import com.csharp.game.screens.game.screens.IAfterPosUpdateCallback;
+import com.csharp.sharedclasses.IAfterPosUpdateCallback;
 import com.csharp.sharedclasses.*;
 
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
