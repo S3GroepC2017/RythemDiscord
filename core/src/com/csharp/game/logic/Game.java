@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Lars on 25-9-2017.
  */
-public class Game extends UnicastRemoteObject implements IGame, Remote
+public class Game extends UnicastRemoteObject implements IGame
 {
     private int nodeListPosition = 0;
     private List<Player> players;

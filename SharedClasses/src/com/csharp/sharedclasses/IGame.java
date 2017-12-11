@@ -4,11 +4,13 @@ import com.csharp.sharedclasses.fontyspublisher.IPropertyListener;
 import com.csharp.sharedclasses.fontyspublisher.IRemotePropertyListener;
 
 import java.beans.PropertyChangeEvent;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface IGame extends IRemotePropertyListener {
+public interface IGame extends IRemotePropertyListener, Remote
+{
     //Returns the  nodes of this current sequence.
     List<Player> getNodes() throws RemoteException;
 
