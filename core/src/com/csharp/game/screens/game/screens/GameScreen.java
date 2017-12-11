@@ -52,7 +52,6 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
     private OrthographicCamera camera;
     private Viewport viewport;
 
-    //TODO Screen helper class
     ScreenHelper screenHelper = new ScreenHelper();
 
     //TODO fill amountOfPlayers
@@ -113,23 +112,23 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
         createUiComponents();
     }
 
-    private void handleAnimationTimer(int nodePosition)
-    {
-        List<Player> players = game.getLogic().getPlayers();
-        for (Player player : players)
-        {
-            char[] fixedNodes = player.getNodeList();
-            int originalLength = fixedNodes.length;
-            while (fixedNodes.length > originalLength - nodePosition)
-            {
-                fixedNodes = Arrays.copyOfRange(fixedNodes, 1, fixedNodes.length-1);
-            }
-            player.setNodeList(fixedNodes);
-        }
-
-        // TODO DRAW THE NEW KEYS IN THE LIST ON THE SCREEN
-        renderKeys();
-    }
+//    private void handleAnimationTimer(int nodePosition)
+//    {
+//        List<Player> players = game.getLogic().getPlayers();
+//        for (Player player : players)
+//        {
+//            char[] fixedNodes = player.getNodeList();
+//            int originalLength = fixedNodes.length;
+//            while (fixedNodes.length > originalLength - nodePosition)
+//            {
+//                fixedNodes = Arrays.copyOfRange(fixedNodes, 1, fixedNodes.length-1);
+//            }
+//            player.setNodeList(fixedNodes);
+//        }
+//
+//        // TODO DRAW THE NEW KEYS IN THE LIST ON THE SCREEN
+//        renderKeys();
+//    }
 
     @Override
     public void show() {
@@ -411,14 +410,25 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
     private void handleUserInput()
     {
         //check if all keys are successfully pressed
-
-
+        //TODO lege methode??
     }
 
     @Override
     public void afterCallback(int pos)
     {
-        throw new NotImplementedException();
-//        handleAnimationTimer(pos);
+        if (pos <= allOriginalKeyTextures[0].size())
+        {
+            for(ArrayList<Texture> keyTexture : allPlayableKeyTextures)
+            {
+                keyTexture.remove(pos - 1);
+            }
+        }
+
+        else
+        {
+            System.out.println("Gehaald!");
+        }
+
+        renderKeys();
     }
 }
