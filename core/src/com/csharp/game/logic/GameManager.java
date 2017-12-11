@@ -1,9 +1,8 @@
 package com.csharp.game.logic;
 
-import com.csharp.game.screens.game.screens.IAfterPosUpdateCallback;
+import com.csharp.sharedclasses.IAfterPosUpdateCallback;
 import com.csharp.sharedclasses.*;
 
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -72,6 +71,7 @@ public class GameManager implements ILogic
             currentGame = new Game(localPlayer, serverGame, uiCallback);
             serverGame.subscribe(currentGame, "noteListIndex");
             serverGame.subscribe(currentGame, "players");
+            serverGame.subscribe(currentGame, "lastKeyPressResult");
             if (serverGame.joinPlayer(localPlayer)){
 //                System.out.println("Game join successful with local player: " + localPlayer.getName());
             }
