@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
 import java.util.HashMap;
 
@@ -33,8 +34,8 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
         textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemLogin_default", new Texture(Gdx.files.internal("menu/menuItemLogin_default.png")));
         textures.put("menuItemLogin_pressed", new Texture(Gdx.files.internal("menu/menuItemLogin_pressed.png")));
-        textures.put("menuItemBack_default", new Texture(Gdx.files.internal("menu/menuItemBack_default.png")));
-        textures.put("menuItemBack_pressed", new Texture(Gdx.files.internal("menu/menuItemBack_pressed.png")));
+        textures.put("menuItemBack_default", new Texture(Gdx.files.internal("keys/EscKey_default.png")));
+        textures.put("menuItemBack_pressed", new Texture(Gdx.files.internal("keys/EscKey_pressed.png")));
     }
 
     @Override
@@ -111,6 +112,10 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
             @Override
             public void changed(ChangeEvent event, Actor actor)
             {
+                dispose();
+                game.setScreen(new SecondMenuScreen(game));
+                //TODO ff inloggen fixen met database
+                /*
                 System.out.println(String.format("Login aangeroepen, Name: %s, Password: %s", nameField.getText(), passwordField.getText()));
 
                 boolean success = game.getLogic().logIn(nameField.getText(), passwordField.getText());
@@ -127,6 +132,7 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
                     passwordField.setText("");
                     passwordField.setPasswordMode(true);
                 }
+                */
             }
         });
 
@@ -141,11 +147,11 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
         });
 
         //Fields toevoegen aan de tabel
+        table.top().add(backButton).size(80, 50).expandX().align(Align.right).padTop(20).padRight(20).row();
         table.top().add(titleImage).padTop(20).padBottom(10).row();
-        table.add(loginLabel).padBottom(20).row();
-        table.add(nameField).padBottom(10).padTop(100).row();
-        table.add(passwordField).padBottom(10).row();
-        table.add(loginButton).size(50).padBottom(50).row();
-        table.add(backButton).size(50);
+        table.add(loginLabel).padTop(20).row();
+        table.add(nameField).align(Align.center).padBottom(10).padTop(100).row();
+        table.add(passwordField).align(Align.center).padBottom(10).row();
+        table.add(loginButton).padTop(20).size(50);
     }
 }
