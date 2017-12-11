@@ -71,6 +71,7 @@ public class GameManager implements ILogic
             currentGame = new Game(localPlayer, serverGame, uiCallback);
             serverGame.subscribe(currentGame, "noteListIndex");
             serverGame.subscribe(currentGame, "players");
+            serverGame.subscribe(currentGame, "lastKeyPressResult");
             if (serverGame.joinPlayer(localPlayer)){
 //                System.out.println("Game join successful with local player: " + localPlayer.getName());
             }
