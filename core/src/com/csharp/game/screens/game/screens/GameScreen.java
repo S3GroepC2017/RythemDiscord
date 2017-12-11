@@ -416,7 +416,9 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     @Override
     public void afterCallback(int pos, KeyPressedResult result)
     {
-        if (pos <= allOriginalKeyTextures[0].size())
+        System.out.println(result.toString());
+
+        if (result == KeyPressedResult.CORRECT)
         {
             for(ArrayList<Texture> keyTexture : allPlayableKeyTextures)
             {
