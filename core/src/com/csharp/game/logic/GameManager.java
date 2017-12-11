@@ -1,7 +1,9 @@
 package com.csharp.game.logic;
 
+import com.csharp.game.screens.game.screens.IAfterPosUpdateCallback;
 import com.csharp.sharedclasses.*;
 
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -13,15 +15,16 @@ import java.util.List;
  */
 public class GameManager implements ILogic
 {
-    private IGame currentGame;
-    private Player localPlayer;
-    private IServerGame serverGame;
+    private IAfterPosUpdateCallback uiCallback;
+    // TODO REMOVE HARDCODED VALUE
+    private Player localPlayer = new Player("DebugPlayer");
+    private Game currentGame;
 
-    //TODO: ADD 2 PRIVATE VARIABLES FOR THE LOGIN AND GAME SERVERS
+    private IServerGame serverGame;
     private ClientLoginServer clientLoginServer;
     private Registry registry = null;
-    private String hostAddress = "127.0.0.1";
-    private int portNumber = 1099;
+    private static final String hostAddress = "localhost";
+    private static final int portNumber = 1099;
 
     public GameManager() {
         try {
@@ -37,11 +40,21 @@ public class GameManager implements ILogic
     @Override
     public void startGame()
     {
-        // TODO: CONTACT SERVER FOR GAME OBJECT
-        // currentGame = new Game();
+        if (currentGame == null)
+        {
+            return;
+        }
+        currentGame.beginGame();
+    }
+
+    @Override
+    public void newGame()
+    {
+        System.out.println("NEW GAME CALLED");
         try {
             IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
+//            System.out.println("Game created with game key: " + gameKey);
             joinGame(gameKey);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -53,13 +66,15 @@ public class GameManager implements ILogic
     @Override
     public void joinGame(String gameKey)
     {
-        // TODO: CONTACT SERVER FOR GAME OBJECT WITH ID
+        System.out.println("JOIN GAME CALLED");
         try {
             serverGame = (IServerGame) registry.lookup(gameKey);
-            currentGame = new Game(localPlayer, serverGame);
+            currentGame = new Game(localPlayer, serverGame, uiCallback);
             serverGame.subscribe(currentGame, "noteListIndex");
             serverGame.subscribe(currentGame, "players");
-            serverGame.joinPlayer(localPlayer);
+            if (serverGame.joinPlayer(localPlayer)){
+//                System.out.println("Game join successful with local player: " + localPlayer.getName());
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
@@ -85,7 +100,7 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public List<Player> getNodes()
+    public List<Player> getPlayers()
     {
         return currentGame.getNodes();
     }
@@ -93,13 +108,19 @@ public class GameManager implements ILogic
     @Override
     public KeyPressedResult keyPressed(char keyPressed)
     {
-        //return currentGame.checkKeyPressed(keyPressed);
-        return KeyPressedResult.WRONG;
+        return currentGame.checkKeyPressed(keyPressed);
+//        return KeyPressedResult.WRONG;
     }
 
     @Override
-    public int getNodeListPosition() {
-        return currentGame.getNodeListPosition();
+    public Player getLocalPlayer()
+    {
+        return localPlayer;
     }
 
+    @Override
+    public void setCallback(IAfterPosUpdateCallback callback)
+    {
+        this.uiCallback = callback;
+    }
 }

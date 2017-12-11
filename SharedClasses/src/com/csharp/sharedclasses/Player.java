@@ -1,6 +1,7 @@
 package com.csharp.sharedclasses;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Player implements Serializable
 {
@@ -33,6 +34,11 @@ public class Player implements Serializable
         this.nodeList = nodeList;
     }
 
+    public char[] getNodeList()
+    {
+        return nodeList;
+    }
+
     public Player(String name)
     {
         this.name = name;
@@ -53,5 +59,27 @@ public class Player implements Serializable
     public int hashCode()
     {
         return getName().hashCode();
+    }
+
+    @Override
+    public String toString()
+    {
+        String str = "";
+        if (name != null)
+        {
+            str += "Player: " + name;
+        }
+
+        if (nodeList != null)
+        {
+            str += " Nodes:";
+            for (char c : nodeList)
+            {
+                str += " ";
+                str += c;
+            }
+        }
+
+        return str;
     }
 }

@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface IGame extends IRemotePropertyListener {
     //Returns the  nodes of this current sequence.
-    List<Player> getNodes();
+    List<Player> getNodes() throws RemoteException;
 
     //Checks if the pressed key was correct.
-    KeyPressedResult checkKeyPressed(char keyPressed);
+    KeyPressedResult checkKeyPressed(char keyPressed) throws RemoteException;
 
-    int getNodeListPosition();
+    int getNodeListPosition() throws RemoteException;
 }

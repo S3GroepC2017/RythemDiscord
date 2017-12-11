@@ -14,14 +14,15 @@ import java.rmi.registry.Registry;
 
 public class GameServerLauncher
 {
-    private final int portNumber = 1099;
+    private static final String hostAdress = "localhost";
+    private static final int portNumber = 1099;
     private Registry registry = null;
     private final String bindingName = "ServerManager";
     private IServerManager serverManager;
 
     public static void main(String[] arg)
     {
-        
+        GameServerLauncher gameServer = new GameServerLauncher();
     }
 
     // Constructor
@@ -33,35 +34,33 @@ public class GameServerLauncher
         // Create registry at port number
         try
         {
-            registry = LocateRegistry.createRegistry(portNumber);
-            System.out.println("Server: Registry created on port number " + portNumber);
+            registry = LocateRegistry.getRegistry(hostAdress, portNumber);
+            System.out.println("Server: Registry located on: " + hostAdress + " with port number " + portNumber);
         }
         catch (RemoteException ex)
         {
-            System.out.println("Server: Cannot create registry");
+            System.out.println("Server: Cannot locate registry");
             System.out.println("Server: RemoteException: " + ex.getMessage());
             registry = null;
         }
 
-        // Create new instance of server manager.
-        //try {
-        serverManager = new ServerManager(registry);
-        System.out.println("Server: Student administration created");
-        //}
-        /*catch (RemoteException ex) {
-            System.out.println("Server: Cannot create student administration");
-            System.out.println("Server: RemoteException: " + ex.getMessage());
-            serverManager = null;
-        }*/
+        try
+        {
+            serverManager = new ServerManager(registry);
+            System.out.println("Server: server manager created");
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
 
-        // Bind student administration using registry
         try
         {
             registry.rebind(bindingName, serverManager);
         }
         catch (RemoteException ex)
         {
-            System.out.println("Server: Cannot bind student administration");
+            System.out.println("Server: Cannot bind server manager");
             System.out.println("Server: RemoteException: " + ex.getMessage());
         }
     }

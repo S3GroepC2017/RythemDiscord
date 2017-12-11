@@ -1,10 +1,10 @@
 package com.csharp.game;
 
 import com.badlogic.gdx.InputProcessor;
-import com.csharp.game.logic.GameManager;
 import com.csharp.game.logic.ILogic;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
+import javafx.animation.AnimationTimer;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
@@ -30,7 +30,9 @@ public class InputManager implements InputProcessor
 
         //Changed from new to global logic
         this.logic = game.getLogic();
-        logic.startGame();
+
+//      TODO: DEZE FUNCITE WORD IN DE CLASS VAN GameScreen AL AANGEROEPEN
+//        logic.newGame();
     }
 
     @Override
@@ -51,9 +53,24 @@ public class InputManager implements InputProcessor
         //TODO Handle all keys for the game
         System.out.println(character);
         // TODO        lastSucces = logic.keyPressed(character);
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
         //IGNORE
-        //return false;
+
+        KeyPressedResult keyResult = logic.keyPressed(character);
+        boolean success = false;
+
+        switch (keyResult)
+        {
+            case SEQUENCE_FINISHED:
+            case CORRECT:
+                success = true;
+                break;
+            default:
+                success = false;
+                break;
+        }
+
+        return success;
     }
 
     @Override
@@ -88,8 +105,8 @@ public class InputManager implements InputProcessor
 
     public List<Player> getKeys()
     {
-        //TODO getNodes for all players
-        return logic.getNodes();
+        //TODO getPlayers for all players
+        return logic.getPlayers();
     }
 
     public boolean isKeyWasPressed()

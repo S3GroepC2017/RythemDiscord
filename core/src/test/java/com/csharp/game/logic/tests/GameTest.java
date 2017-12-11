@@ -23,7 +23,7 @@ public class GameTest
         // setup all the things
         IServerGameStub serverGameStub = new IServerGameStub();
         Player testPlayer = new Player("testPlayer");
-        IGame game = new Game(testPlayer, serverGameStub);
+        IGame game = new Game(testPlayer, serverGameStub, new IUIstub());
 
         // set the players to have notes
         List<Player> playersWithNodes = new ArrayList<>();
@@ -36,7 +36,6 @@ public class GameTest
         List<Player> players = game.getNodes();
         Assert.assertFalse("The player array was null!", players == null);
 
-        int numbplayer = 1;
         for (Player player : players)
         {
             numbplayer = 1;
@@ -58,7 +57,7 @@ public class GameTest
         Player localPlayer = new Player("TestPlayer");
         IServerGameStub serverGameStub = new IServerGameStub();
         localPlayer.setNodeList(new char[]{'a', 'b', 'c', 'd'});
-        IGame game = new Game(localPlayer, serverGameStub);
+        IGame game = new Game(localPlayer, serverGameStub, new IUIstub());
 
         //TODO: replace character array with player list.
         List<Player> players = game.getNodes();
@@ -102,7 +101,7 @@ public class GameTest
 //        game.checkKeyPressed(nodes[3]);
 //        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.SEQUENCE_FINISHED, serverGameStub.lastReceivedResultKeyPressResult);
 
-//        //nodes = game.getNodes();
+//        //nodes = game.getPlayers();
 //
 //        game.checkKeyPressed(nodes[0]);
 //        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.CORRECT, serverGameStub.lastReceivedResultKeyPressResult);

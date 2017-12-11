@@ -5,7 +5,8 @@ import com.csharp.sharedclasses.fontyspublisher.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface IServerGame extends Remote {
+public interface IServerGame extends Remote
+{
     void keyPressed(KeyPressedResult result) throws RemoteException;
     boolean joinPlayer(Player player) throws RemoteException;
     int getGameId() throws RemoteException;
