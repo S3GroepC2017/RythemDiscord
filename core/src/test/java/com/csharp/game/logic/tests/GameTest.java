@@ -1,6 +1,7 @@
 package com.csharp.game.logic.tests;
 
 import com.csharp.game.logic.Game;
+import com.csharp.sharedclasses.IGame;
 import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
@@ -38,7 +39,7 @@ public class GameTest
         int numbplayer = 1;
         for (Player player : players)
         {
-            int numbplayer = 1;
+            numbplayer = 1;
             int i = 0;
             char key;
             do
