@@ -1,6 +1,8 @@
-package com.csharp.game.server;
+package com.csharp.game.server.com.csharp.game.server;
 
+import com.csharp.game.server.ServerGame;
 import com.csharp.sharedclasses.Player;
+import com.csharp.sharedclasses.fontyspublisher.IPropertyListener;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,7 +10,8 @@ import java.rmi.registry.LocateRegistry;
 
 import static org.junit.Assert.*;
 
-public class ServerGameTest {
+public class ServerGameTest implements IPropertyListener
+{
     ServerGame serverGame;
     Player player1;
     Player player2;
@@ -41,8 +44,15 @@ public class ServerGameTest {
     }
 
     @Test
-    public void subscribe() throws Exception {
+    public void joinPlayerFail() throws Exception
+    {
+        boolean joinPlayerSucceeded = serverGame.joinPlayer(null);
+        assertFalse("Test joinPlayer null", joinPlayerSucceeded);
+    }
 
+    @Test
+    public void subscribe() throws Exception {
+        ;
     }
 
     @Test

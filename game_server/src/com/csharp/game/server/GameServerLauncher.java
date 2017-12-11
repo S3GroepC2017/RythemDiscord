@@ -21,7 +21,7 @@ public class GameServerLauncher
 
     public static void main(String[] arg)
     {
-
+        
     }
 
     // Constructor

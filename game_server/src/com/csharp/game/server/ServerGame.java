@@ -37,6 +37,10 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     @Override
     public boolean joinPlayer(Player player)throws RemoteException
     {
+        if(player == null)
+        {
+            return false;
+        }
         if(players.contains(player) || !players.add(player))
         {
             return false;

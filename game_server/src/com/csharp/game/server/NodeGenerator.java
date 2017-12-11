@@ -22,6 +22,10 @@ public class NodeGenerator
 
     public NodeGenerator(int amountPossibleDifferentUserInputs)
     {
+        if(amountPossibleDifferentUserInputs <= 0)
+        {
+            throw new IllegalArgumentException("There was an illegal argument in the constructor");
+        }
         setPossibleInputKeys(amountPossibleDifferentUserInputs);
     }
 

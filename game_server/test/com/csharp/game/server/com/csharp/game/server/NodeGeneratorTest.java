@@ -33,10 +33,16 @@ public class NodeGeneratorTest
         checkArrayForEmptySlots(nodes);
     }
 
-    @Test
-    public void generateNodeFail1() throws Exception
+    @Test(expected = IllegalArgumentException.class)
+    public void generateNodeFail1()
     {
         nodeGenerator = new NodeGenerator(-1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void generateNodeFail2()
+    {
+        nodeGenerator = new NodeGenerator(0);
     }
 
     private void checkArrayForEmptySlots(char[] nodes)
@@ -45,7 +51,5 @@ public class NodeGeneratorTest
         {
             assertNotEquals("Check for empty array slots", null, node);
         }
-
     }
-
 }
