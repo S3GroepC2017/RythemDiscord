@@ -105,12 +105,15 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         switch (result) {
             case CORRECT:
                 noteListIndex++;
+                lastKeyPressResult = KeyPressedResult.CORRECT;
                 break;
             case WRONG:
                 noteListIndex = 0;
+                lastKeyPressResult = KeyPressedResult.WRONG;
                 break;
             case SEQUENCE_FINISHED:
                 noteListIndex = 0;
+                lastKeyPressResult = KeyPressedResult.SEQUENCE_FINISHED;
                 distributeNodes();
                 break;
             default:

@@ -164,7 +164,6 @@ public class Game extends UnicastRemoteObject implements IGame, Remote
             System.out.println("New node list position: " + nodeListPosition);
             //TODO: HANDLE THE LAST KEY IN THE SEQUENCE
             // if(localPlayer.getNode(nodeListPosition) == '\u0000')
-
         }
         else if (evt.getPropertyName().equals("lastKeyPressResult"))
         {
