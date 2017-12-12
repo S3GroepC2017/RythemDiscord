@@ -1,18 +1,0 @@
-
-:squid:S2068" Remove this hard-coded password.(“Ìûªúÿÿÿÿ
-Esquid:S2160"+Override the "equals" method in this class.(äñøúÿÿÿÿ
-tsquid:S1450"_Remove the "connectionstring" field and declare it as a local variable in the relevant methods.(›€¾á
-M
-squid:S106"9Replace this use of System.out or System.err by a logger.(ìÍ¦‡
-M
-squid:S106"9Replace this use of System.out or System.err by a logger.(ìÍ¦‡
-6squid:S1170"!Make this final field static too.(ı˜·Ê
-•squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Øü’(
-psquid:S00116"ZRename this field "LogincheckQuery" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ı˜·Ê
-msquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(‰ÃáÊ
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-Osquid:S1143"5Remove this return statement from this finally block.(ıÍŸ’úÿÿÿÿ
-Asquid:S1948",Make "connection" transient or serializable.(ÿ›ÅÒ
-@squid:S1948"+Make "resultSet" transient or serializable.(Şşö€

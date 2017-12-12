@@ -1,29 +1,0 @@
-
-Isquid:S1313"4Make this IP "192.168.247.131" address configurable.(Àö¼
-`squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(»ŸÓØ
-_squid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(±ÈÅ?
-M
-squid:S106"9Replace this use of System.out or System.err by a logger.(ƒ¶İ™
-R
-squid:S106"9Replace this use of System.out or System.err by a logger.(ÄÿÂûşÿÿÿÿ
-R
-squid:S106"9Replace this use of System.out or System.err by a logger.(ÚúúÙúÿÿÿÿ
-M
-squid:S106"9Replace this use of System.out or System.err by a logger.(ƒ¶İ™
-M
-squid:S106"9Replace this use of System.out or System.err by a logger.(½ø÷º
-R
-squid:S106"9Replace this use of System.out or System.err by a logger.(êÔ÷úÿÿÿÿÿ
-R
-squid:S106"9Replace this use of System.out or System.err by a logger.(ÄÿÂûşÿÿÿÿ
-R
-squid:S106"9Replace this use of System.out or System.err by a logger.(êÔ÷úÿÿÿÿÿ
-M
-squid:S106"9Replace this use of System.out or System.err by a logger.(î®İ
-R
-squid:S106"9Replace this use of System.out or System.err by a logger.(¨éèÁøÿÿÿÿ
-R
-squid:S106"9Replace this use of System.out or System.err by a logger.(ûÒ®¦üÿÿÿÿ
-Gsquid:S1135"2Complete the task associated to this TODO comment.(êêÚé
-=squid:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
-Osquid:S1143"5Remove this return statement from this finally block.(ıÍŸ’úÿÿÿÿ
