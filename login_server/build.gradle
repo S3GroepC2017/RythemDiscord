@@ -25,11 +25,3 @@ dependencies {
     testRuntime(
     )
 }
-
-sourceSets {
-    test {
-        java {
-            srcDirs = ["test/model"]
-        }
-    }
-}

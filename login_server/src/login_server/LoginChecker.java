@@ -48,7 +48,7 @@ public class LoginChecker extends UnicastRemoteObject implements ILogin {
 
         Boolean success;
 
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         connectionstring = "jdbc:sqlserver://PTLoginServer;" +
                 "databaseName=LoginDB;"
                 + "user=admin;"
