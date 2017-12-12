@@ -13,9 +13,9 @@ import java.util.Objects;
 
 public class GameServerDriver implements IRemotePropertyListener
 {
-    public List<Player> players;
-    public int nodeListIndex;
-    public KeyPressedResult keyPressedResult;
+    public List<Player> players = null;
+    public int nodeListIndex = -1;
+    public KeyPressedResult keyPressedResult = null;
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException

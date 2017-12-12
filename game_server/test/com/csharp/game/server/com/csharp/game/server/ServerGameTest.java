@@ -1,25 +1,37 @@
 package com.csharp.game.server.com.csharp.game.server;
 
 import com.csharp.game.server.ServerGame;
+import com.csharp.game.server.ServerManager;
+import com.csharp.game.server.ServerManagerTest;
+import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.Player;
 import com.csharp.sharedclasses.fontyspublisher.IPropertyListener;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import static org.junit.Assert.*;
 
 public class ServerGameTest implements IPropertyListener
 {
+    Registry registry;
     ServerGame serverGame;
+    ServerManager serverManager;
     Player player1;
     Player player2;
+    GameServerDriver gameServerDriver;
+
     @Before
     public void setUp() throws Exception {
+        registry = LocateRegistry.createRegistry(1099);
+        serverManager = new ServerManager(registry);
         serverGame = new ServerGame();
         player1 = new Player("player1");
         player2 = new Player("player2");
+        gameServerDriver = new GameServerDriver();
     }
 
     //This test might fail because of the static integer counting up. This test requires the gameid to start at 0.
@@ -35,13 +47,17 @@ public class ServerGameTest implements IPropertyListener
 
     @Test
     public void joinPlayer() throws Exception {
-        boolean joinPlayerSucceeded = serverGame.joinPlayer(player1);
-        assertTrue("Test joinPlayer1 for the first time", joinPlayerSucceeded);
-        joinPlayerSucceeded = serverGame.joinPlayer(player1);
-        assertFalse("Test joinPlayer1 for the seccond time", joinPlayerSucceeded);
-        joinPlayerSucceeded = serverGame.joinPlayer(player2);
-        assertTrue("Test joinPlayer2 for the first time", joinPlayerSucceeded);
+        joinPlayer(serverGame, true, "Test joinPlayer1 for the first time", player1);
+        joinPlayer(serverGame, false, "Test joinPlayer1 for the seccond time", player1);
+        joinPlayer(serverGame, false, "Test joinPlayer2 for the first time", player2);
     }
+
+    public void joinPlayer(IServerGame serverGame, boolean expected, String message, Player player) throws RemoteException
+    {
+        boolean succeeded = serverGame.joinPlayer(player);
+        assertEquals(message, expected, succeeded);
+    }
+
 
     @Test
     public void joinPlayerFail() throws Exception
@@ -52,11 +68,27 @@ public class ServerGameTest implements IPropertyListener
 
     @Test
     public void subscribe() throws Exception {
-        ;
+        subscribeToPropertyListener(serverGame);
+    }
+
+    public void subscribeToPropertyListener(ServerGame serverGame) throws RemoteException
+    {
+        serverGame.subscribe(gameServerDriver, "players");
+        serverGame.subscribe(gameServerDriver, "noteListIndex");
+        serverGame.subscribe(gameServerDriver, "lastKeyPressResult");
     }
 
     @Test
     public void startGame() throws Exception {
+        ServerManagerTest serverManagerTest = new ServerManagerTest();
+        String gameId = serverManagerTest.createServerGame(serverManager);
+        IServerGame serverGameTest = (IServerGame) registry.lookup(gameId);
+        subscribeToPropertyListener((ServerGame) serverGameTest);
+        joinPlayer(serverGameTest, true, "Test join Player by Interface", player1);
+        assertEquals("Test Player list is updated after joining", 1, gameServerDriver.players.size());
+        assertEquals("Test Correct Player has joined the game", player1, gameServerDriver.players.get(0));
+        serverGameTest.startGame(player1);
+        assertEquals("Test NodeListIndex is updated", 1, gameServerDriver.nodeListIndex);
     }
 
     @Test
