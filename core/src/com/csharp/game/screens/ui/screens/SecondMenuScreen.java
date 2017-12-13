@@ -29,7 +29,7 @@ public class SecondMenuScreen extends MenuScreen implements IMenuScreen {
 
     @Override
     public void loadTextures() {
-        textures = new HashMap<>();
+        textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemBack_default", new Texture(Gdx.files.internal("keys/EscKey_default.png")));
         textures.put("menuItemBack_pressed", new Texture(Gdx.files.internal("keys/EscKey_pressed.png")));
         textures.put("joinGameButton_default", new Texture(Gdx.files.internal("menu/joinGameButton_default.png")));
@@ -58,6 +58,7 @@ public class SecondMenuScreen extends MenuScreen implements IMenuScreen {
         backButtonStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
         backButtonStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
 
+        final com.badlogic.gdx.scenes.scene2d.ui.Image titleImage = new Image(textures.get("gameTitle"));
         final ImageButton joinGameButton = new ImageButton(joinGameButtonStyle);
         final ImageButton hostGameButton = new ImageButton(hostGameButtonStyle);
         final ImageButton backButton = new ImageButton(backButtonStyle);
@@ -88,8 +89,9 @@ public class SecondMenuScreen extends MenuScreen implements IMenuScreen {
         });
 
         table.top().add(backButton).size(80, 50).expandX().align(Align.right).padTop(20).padRight(20).row();
-        table.add(text).padTop(150).row();
-        table.add(joinGameButton).size(300, 100).padTop(50).row();
-        table.add(hostGameButton).size(300, 100).padTop(20);
+        table.top().add(titleImage).padTop(20).padBottom(10).row();
+        table.add(text).padTop(120).row();
+        table.add(joinGameButton).size(200, 65).padTop(50).row();
+        table.add(hostGameButton).size(200, 65).padTop(20);
     }
 }

@@ -30,7 +30,6 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
     public void loadTextures()
     {
         //Alle textures inladen
-        textures = new HashMap<String, Texture>();
         textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemLogin_default", new Texture(Gdx.files.internal("menu/menuItemLogin_default.png")));
         textures.put("menuItemLogin_pressed", new Texture(Gdx.files.internal("menu/menuItemLogin_pressed.png")));

@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.RythemDiscord;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class MenuScreen implements Screen {
@@ -106,10 +108,11 @@ public abstract class MenuScreen implements Screen {
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
         skin.add("default", new BitmapFont());
+        textures = new HashMap<>();
 
         //table preferences
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(true); //debugging the ui
+        //table.setDebug(true); //debugging the ui
     }
 }

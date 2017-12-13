@@ -10,6 +10,8 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
 
     public LobbyScreen(RythemDiscord game) {
         super(game);
+        loadTextures();
+        createUiComponents();
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -31,7 +32,7 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
 
     @Override
     public void loadTextures() {
-        textures = new HashMap<>();
+        textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemBack_default", new Texture(Gdx.files.internal("keys/EscKey_default.png")));
         textures.put("menuItemBack_pressed", new Texture(Gdx.files.internal("keys/EscKey_pressed.png")));
         textures.put("joinButton_default", new Texture(Gdx.files.internal("menu/joinButton_default.png")));
@@ -55,11 +56,16 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
         joinButtonStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("joinButton_pressed")));
         joinButtonStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("joinButton_pressed")));
 
+        final com.badlogic.gdx.scenes.scene2d.ui.Image titleImage = new Image(textures.get("gameTitle"));
         final TextField playerNameField = new TextField("Enter name", defaultTextFieldStyle);
         final TextField ipField = new TextField("IP address", defaultTextFieldStyle);
         final TextField gamekeyField = new TextField("Gamekey", defaultTextFieldStyle);
         final ImageButton backButton = new ImageButton(backButtonStyle);
         final ImageButton joinButton = new ImageButton(joinButtonStyle);
+
+        playerNameField.setAlignment(Align.center);
+        ipField.setAlignment(Align.center);
+        gamekeyField.setAlignment(Align.center);
 
         playerNameField.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -108,9 +114,10 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
         });
 
         table.top().add(backButton).size(80, 50).expandX().align(Align.right).padTop(20).padRight(20).row();
-        table.add(playerNameField).padTop(200).row();
+        table.top().add(titleImage).padTop(20).padBottom(10).row();
+        table.add(playerNameField).padTop(140).row();
         table.add(ipField).padTop(20).row();
         table.add(gamekeyField).pad(20).row();
-        table.add(joinButton).size(150, 60).padTop(50);
+        table.add(joinButton).size(100, 40).padTop(20);
     }
 }
