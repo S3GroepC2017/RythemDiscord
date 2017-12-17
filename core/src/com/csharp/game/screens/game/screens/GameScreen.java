@@ -70,8 +70,6 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     public GameScreen(final RythemDiscord game) {
         this.game = game;
         game.getLogic().setCallback(this);
-        game.getLogic().newGame();
-        game.getLogic().startGame();
 
         this.inputMultiplexer = new InputMultiplexer();
         this.inputManager = new InputManager(game);

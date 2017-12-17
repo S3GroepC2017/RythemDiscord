@@ -2,6 +2,7 @@ package com.csharp.game.screens.ui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -44,6 +45,9 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
         TextField.TextFieldStyle defaultTextFieldStyle = new TextField.TextFieldStyle();
         defaultTextFieldStyle.font = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter());
         defaultTextFieldStyle.fontColor = Color.WHITE;
+        defaultTextFieldStyle.focusedFontColor = new Color(0.49f, 0.63f, 0.92f, 1f);
+        defaultTextFieldStyle.background = skin.getDrawable("textfieldBackground");
+        defaultTextFieldStyle.cursor = skin.getDrawable("white");
 
         ImageButton.ImageButtonStyle loginButtonStyle = new ImageButton.ImageButtonStyle();
         loginButtonStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemLogin_default")));
@@ -61,50 +65,17 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
         //Nieuwe fields maken
         final com.badlogic.gdx.scenes.scene2d.ui.Image titleImage = new Image(textures.get("gameTitle"));
         final Label loginLabel = new Label("Multiplayer - Login", defaultlabelStyle);
-        final TextField nameField = new TextField("Name:", defaultTextFieldStyle);
-        final TextField passwordField = new TextField("Password:", defaultTextFieldStyle);
+        final TextField nameField = new TextField("", defaultTextFieldStyle);
+        final TextField passwordField = new TextField("", defaultTextFieldStyle);
         final ImageButton loginButton = new ImageButton(loginButtonStyle);
         final ImageButton backButton = new ImageButton(backButtonStyle);
 
-        nameField.addListener(new InputListener()
-        {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-            {
-                if (nameField.getText().equals("Name:"))
-                {
-                    nameField.setText("");
-                }
-
-                return false;
-            }
-
-            @Override
-            public boolean keyTyped(InputEvent event, char character)
-            {
-                if (character == '\t')
-                {
-                    stage.setKeyboardFocus(passwordField);
-                }
-
-                return false;
-            }
-        });
-
-        passwordField.addListener(new FocusListener()
-        {
-            //Wanneer focus komt op password field, text weghalen
-            @Override
-            public void keyboardFocusChanged(FocusEvent event, Actor actor, boolean focused)
-            {
-                if (passwordField.getText().equals("Password:"))
-                {
-                    passwordField.setText("");
-                    passwordField.setPasswordMode(true);
-                    passwordField.setPasswordCharacter('*');
-                }
-            }
-        });
+        nameField.setAlignment(Align.center);
+        nameField.setMessageText("Name:");
+        passwordField.setAlignment(Align.center);
+        passwordField.setMessageText("Password:");
+        passwordField.setPasswordMode(true);
+        passwordField.setPasswordCharacter('*');
 
         loginButton.addListener(new ChangeListener()
         {
@@ -149,8 +120,8 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
         table.top().add(backButton).size(80, 50).expandX().align(Align.right).padTop(20).padRight(20).row();
         table.top().add(titleImage).padTop(20).padBottom(10).row();
         table.add(loginLabel).padTop(20).row();
-        table.add(nameField).align(Align.center).padBottom(10).padTop(100).row();
-        table.add(passwordField).align(Align.center).padBottom(10).row();
+        table.add(nameField).align(Align.center).padBottom(10).padTop(100).size(200, 20).row();
+        table.add(passwordField).align(Align.center).padBottom(10).size(200, 20).row();
         table.add(loginButton).padTop(20).size(50);
     }
 }
