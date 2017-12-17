@@ -62,17 +62,12 @@ public class LoginChecker extends UnicastRemoteObject implements ILogin
 
         boolean success;
 
-<<<<<<< HEAD
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        connectionstring = "jdbc:sqlserver://PTLoginServer;" +
+        connectionString = "jdbc:sqlserver://PTLoginServer;" +
                 "databaseName=LoginDB;"
                 + "user=admin;"
                 + "password=admin;";
-=======
-        Class.forName("com.mysql.jdbc.Driver");
-        connectionString =
-                "jdbc:sqlserver://PTLoginServer;" + "databaseName=LoginDB;" + "user=admin;" + "password=admin;";
->>>>>>> Michelle
+
         success = true;
 
         try

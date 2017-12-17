@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
@@ -43,7 +40,7 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
     {
         //Style aanmaken
         TextField.TextFieldStyle defaultTextFieldStyle = new TextField.TextFieldStyle();
-        defaultTextFieldStyle.font = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter());
+        defaultTextFieldStyle.font = skin.getFont("default");
         defaultTextFieldStyle.fontColor = Color.WHITE;
         defaultTextFieldStyle.focusedFontColor = new Color(0.49f, 0.63f, 0.92f, 1f);
         defaultTextFieldStyle.background = skin.getDrawable("textfieldBackground");
@@ -60,7 +57,7 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
         backButtonStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
 
         Label.LabelStyle defaultlabelStyle = new Label.LabelStyle();
-        defaultlabelStyle.font = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter());
+        defaultlabelStyle.font = skin.getFont("default");
 
         //Nieuwe fields maken
         final com.badlogic.gdx.scenes.scene2d.ui.Image titleImage = new Image(textures.get("gameTitle"));

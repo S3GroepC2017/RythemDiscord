@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RythemDiscord.iml" filepath="$PROJECT_DIR$/.idea/modules/RythemDiscord.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RythemDiscord.iml" filepath="$PROJECT_DIR$/.idea/modules/RythemDiscord.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RythemDiscord_main.iml" filepath="$PROJECT_DIR$/.idea/modules/RythemDiscord_main.iml" group="RythemDiscord" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RythemDiscord_test.iml" filepath="$PROJECT_DIR$/.idea/modules/RythemDiscord_test.iml" group="RythemDiscord" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SharedClasses/SharedClasses.iml" filepath="$PROJECT_DIR$/.idea/modules/SharedClasses/SharedClasses.iml" group="SharedClasses" />
