@@ -9,3 +9,19 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project {
     name = appName + "-login_server"
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'login_server.LoginServerLauncher'
+    }
+}
+
+dependencies {
+
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.0.0-M2'
+    )
+    compile(
+    )
+    testRuntime(
+    )
+}

@@ -13,7 +13,7 @@ public class NodeGenerator
     /**
      * The accepted user inputs for the game
      */
-    private ArrayList<Character> acceptedUserInputs = null;
+    private List<Character> acceptedUserInputs = null;
 
     public NodeGenerator()
     {
@@ -22,6 +22,10 @@ public class NodeGenerator
 
     public NodeGenerator(int amountPossibleDifferentUserInputs)
     {
+        if(amountPossibleDifferentUserInputs <= 0)
+        {
+            throw new IllegalArgumentException("There was an illegal argument in the constructor");
+        }
         setPossibleInputKeys(amountPossibleDifferentUserInputs);
     }
 
@@ -34,14 +38,15 @@ public class NodeGenerator
     private void setPossibleInputKeys(int amountPossibleDifferentUserInputs)
     {
         String potentialInputKeys = "qwertyuiopasdfghjklzxcvbnm"; // all values from which can be chosen
-        List<Integer> chosenNumbers = new ArrayList<Integer>(); //temp arraylist to keep track of the chosen string possitions
+
+        List<Integer> chosenNumbers = new ArrayList<>(); //temp arraylist to keep track of the chosen string possitions
         Random random = new Random();
 
         for (int i = 0; i < amountPossibleDifferentUserInputs; i++)
         {
             //loop for the amount of chars what can be used in the generation
-            int tempchosen = random.nextInt(potentialInputKeys.length());
-            if (chosenNumbers.contains(tempchosen))
+            int tempChosen = random.nextInt(potentialInputKeys.length());
+            if (chosenNumbers.contains(tempChosen))
             {
                 // if number has already been chosen, subtract and don't add
                 i--;
@@ -49,7 +54,7 @@ public class NodeGenerator
 
             else
             {
-                chosenNumbers.add(tempchosen); // if not already chosen, add to list
+                chosenNumbers.add(tempChosen); // if not already chosen, add to list
             }
         }
 
