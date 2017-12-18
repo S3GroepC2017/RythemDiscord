@@ -1,18 +1,15 @@
 package login_server;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
 
 import java.rmi.RemoteException;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LoginCheckerTest {
 
     //Fields
     LoginChecker loginChecker;
 
-    @BeforeEach
+    @Before
     void setUp() throws RemoteException {
         loginChecker = new LoginChecker();
     }
@@ -20,7 +17,7 @@ class LoginCheckerTest {
     @Test
     void checkLogin() {
 
-        assertTrue(loginChecker.checkLogin("joe","admin"));
+        Assert.assertTrue(loginChecker.checkLogin("joe","admin"));
 
     }
 

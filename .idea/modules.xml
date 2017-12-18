@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/RythemDiscord.iml" filepath="$PROJECT_DIR$/RythemDiscord.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RythemDiscord_main.iml" filepath="$PROJECT_DIR$/.idea/modules/RythemDiscord_main.iml" group="RythemDiscord" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RythemDiscord_test.iml" filepath="$PROJECT_DIR$/.idea/modules/RythemDiscord_test.iml" group="RythemDiscord" />
@@ -20,6 +21,14 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/login_server/login_server.iml" filepath="$PROJECT_DIR$/.idea/modules/login_server/login_server.iml" group="login_server" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/login_server/login_server_main.iml" filepath="$PROJECT_DIR$/.idea/modules/login_server/login_server_main.iml" group="login_server" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/login_server/login_server_test.iml" filepath="$PROJECT_DIR$/.idea/modules/login_server/login_server_test.iml" group="login_server" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RythemDiscord.iml" filepath="$PROJECT_DIR$/.idea/modules/RythemDiscord.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SharedClasses/SharedClasses.iml" filepath="$PROJECT_DIR$/.idea/modules/SharedClasses/SharedClasses.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/game_server/game_server.iml" filepath="$PROJECT_DIR$/.idea/modules/game_server/game_server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/login_server/login_server.iml" filepath="$PROJECT_DIR$/.idea/modules/login_server/login_server.iml" />
+>>>>>>> Joe
     </modules>
   </component>
 </project>
