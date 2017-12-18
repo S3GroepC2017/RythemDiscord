@@ -91,7 +91,6 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
 
     private void distributeNodes()
     {
-
         players = nodeGenerator.generateNode(players);
 
         try {
