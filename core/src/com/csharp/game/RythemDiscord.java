@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.csharp.game.logic.GameManager;
 import com.csharp.game.logic.ILogic;
+import com.csharp.game.screens.ui.screens.LoginScreen;
 import com.csharp.game.screens.ui.screens.MainMenuScreen;
 
 
@@ -34,10 +35,7 @@ public class RythemDiscord extends Game
         spriteBatch = new SpriteBatch();
 
         //load and set the menu screen
-        this.setScreen(new MainMenuScreen(this)
-        {
-
-        });
+        this.setScreen(new MainMenuScreen(this));
     }
 
     @Override

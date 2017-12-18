@@ -16,7 +16,7 @@ public class GameManager implements ILogic
 {
     private IAfterPosUpdateCallback uiCallback;
     // TODO REMOVE HARDCODED VALUE
-    private Player localPlayer = new Player("DebugPlayer");
+    private Player localPlayer;
     private Game currentGame;
 
     private IServerGame serverGame;
@@ -47,14 +47,14 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public void newGame()
+    public void newGame(String username)
     {
         System.out.println("NEW GAME CALLED");
         try {
             IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
-//            System.out.println("Game created with game key: " + gameKey);
-            joinGame(gameKey);
+            System.out.println("Game created with game key: " + gameKey);
+            joinGame(gameKey, username);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
@@ -63,10 +63,11 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public void joinGame(String gameKey)
+    public void joinGame(String gameKey, String username)
     {
         System.out.println("JOIN GAME CALLED");
         try {
+            localPlayer = new Player(username);
             serverGame = (IServerGame) registry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame, uiCallback);
             serverGame.subscribe(currentGame, "noteListIndex");
