@@ -458,9 +458,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
                 }
                 break;
             case SEQUENCE_FINISHED:
-                removeFirstKeyFromArrays();
                 System.out.println("Done");
-                loadKeyTextures(game.getLogic().getPlayers());
                 break;
             case CORRECT:
                 removeFirstKeyFromArrays();
@@ -470,6 +468,15 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         }
 
         renderKeys();
+    }
+
+    @Override
+    public void afterEndOfSequenceCallBack(List<Player> players)
+    {
+        System.out.println("voor update");
+        loadKeyTextures(players);
+        renderKeys();
+        System.out.println("na update");
     }
 
     private void removeFirstKeyFromArrays()
