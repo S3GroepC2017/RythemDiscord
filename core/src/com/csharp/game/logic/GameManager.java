@@ -47,27 +47,29 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public void newGame(String username)
+    public String newGame()
     {
         System.out.println("NEW GAME CALLED");
         try {
             IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
             System.out.println("Game created with game key: " + gameKey);
-            joinGame(gameKey, username);
+            joinGame(gameKey);
+            return gameKey;
         } catch (RemoteException e) {
             e.printStackTrace();
+            return null;
         } catch (NotBoundException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
     @Override
-    public void joinGame(String gameKey, String username)
+    public void joinGame(String gameKey)
     {
         System.out.println("JOIN GAME CALLED");
         try {
-            localPlayer = new Player(username);
             serverGame = (IServerGame) registry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame, uiCallback);
             serverGame.subscribe(currentGame, "noteListIndex");

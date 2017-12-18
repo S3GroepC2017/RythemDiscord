@@ -13,20 +13,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
+
 import java.util.HashMap;
 
-public class LoginScreen extends MenuScreen implements IMenuScreen
-{
-    public LoginScreen(RythemDiscord game)
-    {
+public class LoginScreen extends MenuScreen implements IMenuScreen {
+    public LoginScreen(RythemDiscord game) {
         super(game);
         loadTextures();
         createUiComponents();
     }
 
     @Override
-    public void loadTextures()
-    {
+    public void loadTextures() {
         //Alle textures inladen
         textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemLogin_default", new Texture(Gdx.files.internal("menu/menuItemLogin_default.png")));
@@ -36,8 +34,7 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
     }
 
     @Override
-    public void createUiComponents()
-    {
+    public void createUiComponents() {
         //Style aanmaken
         TextField.TextFieldStyle defaultTextFieldStyle = new TextField.TextFieldStyle();
         defaultTextFieldStyle.font = skin.getFont("modes");
@@ -74,40 +71,27 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
 
-        loginButton.addListener(new ChangeListener()
-        {
+        loginButton.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor)
-            {
-                dispose();
-                game.setScreen(new SecondMenuScreen(game));
-                //TODO ff inloggen fixen met database
-                /*
+            public void changed(ChangeEvent event, Actor actor) {
                 System.out.println(String.format("Login aangeroepen, Name: %s, Password: %s", nameField.getText(), passwordField.getText()));
 
                 boolean success = game.getLogic().logIn(nameField.getText(), passwordField.getText());
 
-                if(success)
-                {
+                if (success) {
                     dispose();
-                    game.setScreen(new CreateLobbyScreen(game));
-                }
-
-                else
-                {
+                    game.setScreen(new SecondMenuScreen(game));
+                } else {
                     nameField.setText("ERROR");
                     passwordField.setText("");
                     passwordField.setPasswordMode(true);
                 }
-                */
             }
         });
 
-        backButton.addListener(new ChangeListener()
-        {
+        backButton.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor)
-            {
+            public void changed(ChangeEvent event, Actor actor) {
                 dispose();
                 game.setScreen(new MainMenuScreen(game));
             }

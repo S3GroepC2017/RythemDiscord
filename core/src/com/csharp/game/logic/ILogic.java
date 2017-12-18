@@ -19,13 +19,13 @@ public interface ILogic
     /**
      * make new game on the server and join that game
      */
-    void newGame(String username);
+    String newGame();
 
     /**
      * join existing game on the server
      * @param gameKey key to look up the existing game
      */
-    void joinGame(String gameKey, String username);
+    void joinGame(String gameKey);
 
     boolean logIn(String username, String password);
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -44,6 +45,9 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
         defaultTextFieldStyle.background = skin.getDrawable("textfieldBackground");
         defaultTextFieldStyle.cursor = skin.getDrawable("white");
 
+        Label.LabelStyle defaultLabelStyle = new Label.LabelStyle();
+        defaultLabelStyle.font = skin.getFont("modes");
+
         ImageButton.ImageButtonStyle backButtonStyle = new ImageButton.ImageButtonStyle();
         backButtonStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_default")));
         backButtonStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
@@ -55,25 +59,24 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
         joinButtonStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("joinButton_pressed")));
 
         final com.badlogic.gdx.scenes.scene2d.ui.Image titleImage = new Image(textures.get("gameTitle"));
-        final TextField playerNameField = new TextField("", defaultTextFieldStyle);
-        final TextField ipField = new TextField("",defaultTextFieldStyle);
+        final TextField playerNameField = new TextField(game.getLogic().getLocalPlayer().getName(), defaultTextFieldStyle);
         final TextField gamekeyField = new TextField("", defaultTextFieldStyle);
         final ImageButton backButton = new ImageButton(backButtonStyle);
         final ImageButton joinButton = new ImageButton(joinButtonStyle);
+        final Label playerNameLabel = new Label("PlayerName",defaultLabelStyle);
+        final Label gamekeyLabel = new Label("GameKey", defaultLabelStyle);
 
         playerNameField.setAlignment(Align.center);
-        playerNameField.setMessageText("Enter player name");
-        ipField.setAlignment(Align.center);
-        ipField.setMessageText("IP Address");
+
         gamekeyField.setAlignment(Align.center);
         gamekeyField.setMessageText("Gamekey");
 
         joinButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.getLogic().joinGame(gamekeyField.getText(), playerNameField.getText());
+                game.getLogic().joinGame(gamekeyField.getText());
                 dispose();
-                game.setScreen(new LobbyScreen(game));
+                game.setScreen(new LobbyScreen(game, gamekeyField.getText()));
             }
         });
 
@@ -87,8 +90,9 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
 
         table.top().add(backButton).size(80, 50).expandX().align(Align.right).padTop(20).padRight(20).row();
         table.top().add(titleImage).padTop(20).padBottom(10).row();
-        table.add(playerNameField).padTop(140).size(200, 20).row();
-        table.add(ipField).padTop(20).size(200, 20).row();
+        table.add(playerNameLabel).padTop(140).row();
+        table.add(playerNameField).padTop(20).size(200, 20).row();
+        table.add(gamekeyLabel).padTop(20).row();
         table.add(gamekeyField).pad(20).size(200, 20).row();
         table.add(joinButton).size(100, 40).padTop(20);
     }
