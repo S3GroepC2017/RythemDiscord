@@ -1,11 +1,14 @@
 package com.csharp.game.server;
 
+import com.csharp.sharedclasses.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
  * RythemDiscord
+ *
  * @author Groep C#
  */
 public class NodeGenerator
@@ -17,12 +20,12 @@ public class NodeGenerator
 
     public NodeGenerator()
     {
-        setPossibleInputKeys(4);
+        this(5);
     }
 
     public NodeGenerator(int amountPossibleDifferentUserInputs)
     {
-        if(amountPossibleDifferentUserInputs <= 0)
+        if (amountPossibleDifferentUserInputs <= 0)
         {
             throw new IllegalArgumentException("There was an illegal argument in the constructor");
         }
@@ -58,7 +61,7 @@ public class NodeGenerator
             }
         }
 
-        ArrayList<Character> returnListAcceptedUserInputs = new ArrayList<Character>(); // new temp list to override class possible input list: "acceptedUserInputs"
+        ArrayList<Character> returnListAcceptedUserInputs = new ArrayList<>(); // new temp list to override class possible input list: "acceptedUserInputs"
 
         for (Integer i : chosenNumbers)
         {
@@ -70,19 +73,46 @@ public class NodeGenerator
     }
 
 
-    public char[] generateNode()
+    public List<Player> generateNode(List<Player> players)
     {
-        char[] outputUserArray = new char[5]; // set output array length
+        // Change this number to the amount of keys that have to be pressed
+        final int amountOfNodesForSequence = 5;
 
         Random random = new Random();
 
-        for (int i = 0; i < outputUserArray.length; i++)
+        // Create arrays for the players
+        char[][] listOfPlayerLists = new char[players.size()][];
+
+        for (int i = 0; i < players.size(); i++)
         {
-            //loop amount of array length
-            int randomSelectedChar = random.nextInt(acceptedUserInputs.size()); // selected random position from possible inputs
-            outputUserArray[i] = acceptedUserInputs.get(randomSelectedChar); // add selected char to output array
+            listOfPlayerLists[i] = new char[amountOfNodesForSequence];
         }
-        return outputUserArray;
-        //return new char[]{'a', 'a', 'a'};
+
+        /*
+            Add nodes to the lists
+            Now the lists are hardcoded to have 'amountOfNodesForSequence' nodes each
+        */
+        for (int i = 0; i <= amountOfNodesForSequence; i++)
+        {
+            // Add to one player the node, and give the other players ' '
+            int playerToReceiveNode = random.nextInt(players.size());
+            listOfPlayerLists[playerToReceiveNode][i] = acceptedUserInputs.get(i);
+
+            for (int j = 0; j < listOfPlayerLists.length; j++)
+            {
+                if (playerToReceiveNode != j)
+                {
+                    listOfPlayerLists[j][i] = ' ';
+                }
+            }
+        }
+
+        // Add the created Arrays to the players
+        for (int i = 0; i < players.size(); i++)
+        {
+            players.get(i).setNodeList(listOfPlayerLists[i]);
+        }
+
+        return players;
     }
 }
