@@ -14,6 +14,11 @@ import java.util.Random;
 public class NodeGenerator
 {
     /**
+     * The Random object to generate pseudo-random numbers for assigning the nodes to the players
+     */
+    private final Random random = new Random();
+
+    /**
      * The accepted user inputs for the game
      */
     private List<Character> acceptedUserInputs = null;
@@ -78,8 +83,6 @@ public class NodeGenerator
         // Change this number to the amount of keys that have to be pressed
         final int amountOfNodesForSequence = 5;
 
-        Random random = new Random();
-
         // Create arrays for the players
         char[][] listOfPlayerLists = new char[players.size()][];
 
@@ -92,7 +95,7 @@ public class NodeGenerator
             Add nodes to the lists
             Now the lists are hardcoded to have 'amountOfNodesForSequence' nodes each
         */
-        for (int i = 0; i <= amountOfNodesForSequence; i++)
+        for (int i = 0; i < amountOfNodesForSequence; i++)
         {
             // Add to one player the node, and give the other players ' '
             int playerToReceiveNode = random.nextInt(players.size());
