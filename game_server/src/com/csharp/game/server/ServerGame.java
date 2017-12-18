@@ -89,6 +89,23 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
         distributeNodes();
     }
 
+    @Override
+    public void unsubscribe(IRemotePropertyListener listener, String propertyName) throws RemoteException
+    {
+        remotePublisher.unsubscribeRemoteListener(listener, propertyName);
+    }
+
+    @Override
+    public void leave(Player player)
+    {
+        players.remove(player);
+
+        if(hostPlayer.equals(player) && players.isEmpty())
+        {
+            hostPlayer = players.get(0);
+        }
+    }
+
     private void distributeNodes()
     {
         players = nodeGenerator.generateNode(players);
