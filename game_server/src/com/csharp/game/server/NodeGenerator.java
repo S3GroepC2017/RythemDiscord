@@ -48,7 +48,6 @@ public class NodeGenerator
         String potentialInputKeys = "qwertyuiopasdfghjklzxcvbnm"; // all values from which can be chosen
 
         List<Integer> chosenNumbers = new ArrayList<>(); //temp arraylist to keep track of the chosen string possitions
-        Random random = new Random();
 
         for (int i = 0; i < amountPossibleDifferentUserInputs; i++)
         {
@@ -82,6 +81,9 @@ public class NodeGenerator
     {
         // Change this number to the amount of keys that have to be pressed
         final int amountOfNodesForSequence = 5;
+
+        // Get a new set of possible keys
+        setPossibleInputKeys(amountOfNodesForSequence);
 
         // Create arrays for the players
         char[][] listOfPlayerLists = new char[players.size()][];
