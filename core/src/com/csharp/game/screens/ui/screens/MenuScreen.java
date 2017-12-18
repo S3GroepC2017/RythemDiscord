@@ -4,12 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.RythemDiscord;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class MenuScreen implements Screen {
@@ -104,12 +110,17 @@ public abstract class MenuScreen implements Screen {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
+
         skin.add("white", new Texture(pixmap));
+        skin.add("modes", new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter()));
+        skin.add("textfieldBackground", new Texture(Gdx.files.internal("skin/textfieldBackground.png")));
         skin.add("default", new BitmapFont());
+
+        textures = new HashMap<>();
 
         //table preferences
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(true); //debugging the ui
+        //table.setDebug(true); //debugging the ui
     }
 }
