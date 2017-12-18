@@ -13,7 +13,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     private int noteListIndex;
     private KeyPressedResult lastKeyPressResult = KeyPressedResult.NONE;
     private final RemotePublisher remotePublisher;
-    private final List<Player> players;
+    private List<Player> players;
     private final int gameId;
     private static int nextId = 0;
     private Player hostPlayer = null;
@@ -91,10 +91,8 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
 
     private void distributeNodes()
     {
-        for(Player player : players)
-        {
-            player.setNodeList(nodeGenerator.generateNode());
-        }
+
+        players = nodeGenerator.generateNode(players);
 
         try {
             remotePublisher.inform("players", null, players);
