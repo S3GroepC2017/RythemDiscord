@@ -169,7 +169,9 @@ public class Game extends UnicastRemoteObject implements IGame
             System.out.println("Prop change 'lastKeyPressResult' : " + lastKeyPressResult);
             uiCallback.afterCallback(this.nodeListPosition, lastKeyPressResult);
 
-            if (lastKeyPressResult == KeyPressedResult.SEQUENCE_FINISHED)
+            lastKeyPressResult = lastKeyPressResult;
+
+            if (lastKeyPressResult.equals(KeyPressedResult.SEQUENCE_FINISHED))
             {
                 System.out.println("pre - UICallbackEndOfSequenceCallBack");
                 uiCallback.afterEndOfSequenceCallBack(players);

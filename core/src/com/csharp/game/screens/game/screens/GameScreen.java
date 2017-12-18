@@ -456,18 +456,20 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
                 {
                     allPlayableKeyTextures[i] = new ArrayList<>(allOriginalKeyTextures[i]);
                 }
+                renderKeys();
                 break;
             case SEQUENCE_FINISHED:
                 System.out.println("Done");
                 break;
             case CORRECT:
                 removeFirstKeyFromArrays();
+                renderKeys();
                 break;
             case GAME_FINISHED:
                 break;
         }
 
-        renderKeys();
+        System.out.println("Klaar met callback");
     }
 
     @Override
