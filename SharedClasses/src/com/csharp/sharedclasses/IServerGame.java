@@ -26,5 +26,5 @@ public interface IServerGame extends Remote
      * Will remove the player from the game.
      * @param player
      */
-    void leave(Player player);
+    void leave(Player player) throws RemoteException;
 }
