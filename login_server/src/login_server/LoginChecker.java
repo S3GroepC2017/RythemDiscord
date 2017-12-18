@@ -9,7 +9,7 @@ import java.sql.*;
 public class LoginChecker extends UnicastRemoteObject implements ILogin
 {
 
-    private String connectionString;
+    private String connectionstring;
     private Connection connection;
     private ResultSet resultSet = null;
 
@@ -60,24 +60,17 @@ public class LoginChecker extends UnicastRemoteObject implements ILogin
     public boolean init() throws ClassNotFoundException
     {
 
-        boolean success;
+        boolean success = false;
 
-<<<<<<< HEAD
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         connectionstring = "jdbc:sqlserver://PTLoginServer;" +
                 "databaseName=LoginDB;"
                 + "user=admin;"
                 + "password=admin;";
-=======
-        Class.forName("com.mysql.jdbc.Driver");
-        connectionString =
-                "jdbc:sqlserver://PTLoginServer;" + "databaseName=LoginDB;" + "user=admin;" + "password=admin;";
->>>>>>> Michelle
-        success = true;
 
         try
         {
-            connection = DriverManager.getConnection(connectionString);
+            connection = DriverManager.getConnection(connectionstring);
             success = true;
             return success;
         }
