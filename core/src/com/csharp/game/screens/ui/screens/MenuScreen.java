@@ -112,7 +112,7 @@ public abstract class MenuScreen implements Screen {
         pixmap.fill();
 
         skin.add("white", new Texture(pixmap));
-        skin.add("default", new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter()));
+        skin.add("modes", new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter()));
         skin.add("textfieldBackground", new Texture(Gdx.files.internal("skin/textfieldBackground.png")));
         skin.add("default", new BitmapFont());
 

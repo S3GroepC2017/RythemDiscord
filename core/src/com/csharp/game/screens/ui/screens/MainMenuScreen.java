@@ -63,7 +63,7 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
         exitBtnStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemExit_pressed")));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = skin.getFont("default");
+        labelStyle.font = skin.getFont("modes");
 
         //declaring the elements
         final Image titleImage = new Image(textures.get("gameTitle"));

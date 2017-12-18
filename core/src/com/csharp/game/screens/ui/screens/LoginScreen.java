@@ -40,7 +40,7 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
     {
         //Style aanmaken
         TextField.TextFieldStyle defaultTextFieldStyle = new TextField.TextFieldStyle();
-        defaultTextFieldStyle.font = skin.getFont("default");
+        defaultTextFieldStyle.font = skin.getFont("modes");
         defaultTextFieldStyle.fontColor = Color.WHITE;
         defaultTextFieldStyle.focusedFontColor = new Color(0.49f, 0.63f, 0.92f, 1f);
         defaultTextFieldStyle.background = skin.getDrawable("textfieldBackground");
@@ -56,12 +56,12 @@ public class LoginScreen extends MenuScreen implements IMenuScreen
         backButtonStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
         backButtonStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
 
-        Label.LabelStyle defaultlabelStyle = new Label.LabelStyle();
-        defaultlabelStyle.font = skin.getFont("default");
+        Label.LabelStyle defaultLabelStyle = new Label.LabelStyle();
+        defaultLabelStyle.font = skin.getFont("modes");
 
         //Nieuwe fields maken
         final com.badlogic.gdx.scenes.scene2d.ui.Image titleImage = new Image(textures.get("gameTitle"));
-        final Label loginLabel = new Label("Multiplayer - Login", defaultlabelStyle);
+        final Label loginLabel = new Label("Multiplayer - Login", defaultLabelStyle);
         final TextField nameField = new TextField("", defaultTextFieldStyle);
         final TextField passwordField = new TextField("", defaultTextFieldStyle);
         final ImageButton loginButton = new ImageButton(loginButtonStyle);

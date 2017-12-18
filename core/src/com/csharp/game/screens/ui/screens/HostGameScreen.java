@@ -42,7 +42,7 @@ public class HostGameScreen extends MenuScreen implements IMenuScreen {
         backButtonStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
 
         TextField.TextFieldStyle defaultTextFieldStyle = new TextField.TextFieldStyle();
-        defaultTextFieldStyle.font = skin.getFont("default");
+        defaultTextFieldStyle.font = skin.getFont("modes");
         defaultTextFieldStyle.fontColor = Color.WHITE;
         defaultTextFieldStyle.focusedFontColor = new Color(0.49f, 0.63f, 0.92f, 1f);
         defaultTextFieldStyle.background = skin.getDrawable("textfieldBackground");

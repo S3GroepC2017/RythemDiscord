@@ -41,7 +41,7 @@ public class SecondMenuScreen extends MenuScreen implements IMenuScreen {
     @Override
     public void createUiComponents() {
         Label.LabelStyle defaultLabelStyle = new Label.LabelStyle();
-        defaultLabelStyle.font = skin.getFont("default");
+        defaultLabelStyle.font = skin.getFont("modes");
 
         ImageButton.ImageButtonStyle joinGameButtonStyle = new ImageButton.ImageButtonStyle();
         joinGameButtonStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("joinGameButton_default")));
