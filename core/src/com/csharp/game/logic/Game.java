@@ -162,13 +162,19 @@ public class Game extends UnicastRemoteObject implements IGame
         {
             this.nodeListPosition = (Integer) evt.getNewValue();
             System.out.println("New node list position: " + nodeListPosition);
-            //TODO: HANDLE THE LAST KEY IN THE SEQUENCE
-            // if(localPlayer.getNode(nodeListPosition) == '\u0000')
         }
         else if (evt.getPropertyName().equals("lastKeyPressResult"))
         {
             lastKeyPressResult = (KeyPressedResult) evt.getNewValue();
+            System.out.println("Prop change 'lastKeyPressResult' : " + lastKeyPressResult);
             uiCallback.afterCallback(this.nodeListPosition, lastKeyPressResult);
+
+            if (lastKeyPressResult == KeyPressedResult.SEQUENCE_FINISHED)
+            {
+                System.out.println("pre - UICallbackEndOfSequenceCallBack");
+                uiCallback.afterEndOfSequenceCallBack(players);
+                System.out.println("post - UICallbackEndOfSequenceCallBack");
+            }
         }
 
     }

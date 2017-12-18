@@ -13,11 +13,12 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     private int noteListIndex;
     private KeyPressedResult lastKeyPressResult = KeyPressedResult.NONE;
     private final RemotePublisher remotePublisher;
-    private final List<Player> players;
+    private List<Player> players;
     private final int gameId;
     private static int nextId = 0;
     private Player hostPlayer = null;
     NodeGenerator nodeGenerator;
+    private boolean started = false;
 
     public ServerGame() throws RemoteException {
         remotePublisher = new RemotePublisher();
@@ -40,7 +41,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     @Override
     public boolean joinPlayer(Player player)throws RemoteException
     {
-        if(player == null)
+        if(player == null || started)
         {
             return false;
         }
@@ -79,19 +80,35 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
 
     @Override
     public void startGame(Player localPlayer) throws RemoteException {
-        if(!localPlayer.equals(hostPlayer))
+        if(!localPlayer.equals(hostPlayer) || started)
         {
             return;
         }
+
+        started = true;
         distributeNodes();
+    }
+
+    @Override
+    public void unsubscribe(IRemotePropertyListener listener, String propertyName) throws RemoteException
+    {
+        remotePublisher.unsubscribeRemoteListener(listener, propertyName);
+    }
+
+    @Override
+    public void leave(Player player)
+    {
+        players.remove(player);
+
+        if(hostPlayer.equals(player) && players.isEmpty())
+        {
+            hostPlayer = players.get(0);
+        }
     }
 
     private void distributeNodes()
     {
-        for(Player player : players)
-        {
-            player.setNodeList(nodeGenerator.generateNode());
-        }
+        players = nodeGenerator.generateNode(players);
 
         try {
             remotePublisher.inform("players", null, players);
@@ -105,6 +122,11 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
 
     @Override
     public void keyPressed(KeyPressedResult result) throws RemoteException {
+        if (!started)
+        {
+            return;
+        }
+
         switch (result) {
             case CORRECT:
                 noteListIndex++;

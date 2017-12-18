@@ -418,19 +418,35 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     {
         System.out.println(result.toString());
 
-        if (result == KeyPressedResult.CORRECT)
+        switch (result)
         {
-            for(ArrayList<Texture> keyTexture : allPlayableKeyTextures)
-            {
-                keyTexture.remove(pos - 1);
-            }
-        }
-
-        if (result == KeyPressedResult.SEQUENCE_FINISHED)
-        {
-            System.out.println("Gehaald!");
+            case NONE:
+                break;
+            case WRONG:
+                for(int i = 0; i < allOriginalKeyTextures.length; i++)
+                {
+                    allPlayableKeyTextures[i] = new ArrayList<>(allOriginalKeyTextures[i]);
+                }
+                break;
+            case SEQUENCE_FINISHED:
+                removeFirstKeyFromArrays();
+                System.out.println("Done");
+                break;
+            case CORRECT:
+                removeFirstKeyFromArrays();
+                break;
+            case GAME_FINISHED:
+                break;
         }
 
         renderKeys();
+    }
+
+    private void removeFirstKeyFromArrays()
+    {
+        for(ArrayList<Texture> keyTexture : allPlayableKeyTextures)
+        {
+            keyTexture.remove(0);
+        }
     }
 }

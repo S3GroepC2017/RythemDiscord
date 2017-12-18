@@ -123,4 +123,21 @@ public class GameManager implements ILogic
     {
         this.uiCallback = callback;
     }
+
+    @Override
+    public void leaveCurrentGame()
+    {
+        try
+        {
+            serverGame.unsubscribe(currentGame, "noteListIndex");
+            serverGame.unsubscribe(currentGame, "players");
+            serverGame.unsubscribe(currentGame, "lastKeyPressResult");
+
+            serverGame.leave(localPlayer);
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
