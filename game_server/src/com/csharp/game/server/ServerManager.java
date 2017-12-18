@@ -22,14 +22,17 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
     @Override
     public String createGame() throws RemoteException
     {
-        try {
+        try
+        {
             IServerGame game = new ServerGame();
             games.add(game);
             String registryKey = "Game:" + game.getGameId();
             registry.rebind(registryKey, game);
             System.out.println("bound game to: " + registryKey + " GameID: " + game.getGameId());
             return registryKey;
-        } catch (RemoteException e) {
+        }
+        catch (RemoteException e)
+        {
             e.printStackTrace();
             return null;
         }

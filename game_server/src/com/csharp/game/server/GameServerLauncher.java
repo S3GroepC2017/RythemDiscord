@@ -14,7 +14,7 @@ import java.rmi.registry.Registry;
 
 public class GameServerLauncher
 {
-    private static final String hostAdress = "localhost";
+    private static final String hostAddress = "localhost";
     private static final int portNumber = 1099;
     private Registry registry = null;
     private final String bindingName = "ServerManager";
@@ -34,8 +34,8 @@ public class GameServerLauncher
         // Create registry at port number
         try
         {
-            registry = LocateRegistry.getRegistry(hostAdress, portNumber);
-            System.out.println("Server: Registry located on: " + hostAdress + " with port number " + portNumber);
+            registry = LocateRegistry.getRegistry(hostAddress, portNumber);
+            System.out.println("Server: Registry located on: " + hostAddress + " with port number " + portNumber);
         }
         catch (RemoteException ex)
         {
