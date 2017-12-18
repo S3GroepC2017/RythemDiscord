@@ -21,6 +21,7 @@ import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.ScreenHelper;
 import com.csharp.game.screens.TextureKeyContainer;
 import com.csharp.game.screens.ui.screens.MainMenuScreen;
+import com.csharp.sharedclasses.DTOClientUpdate;
 import com.csharp.sharedclasses.IAfterPosUpdateCallback;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
@@ -442,6 +443,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         //TODO lege methode??
     }
 
+    /*
     @Override
     public void afterCallback(int pos, KeyPressedResult result)
     {
@@ -480,12 +482,50 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         renderKeys();
         System.out.println("na update");
     }
+    */
 
     private void removeFirstKeyFromArrays()
     {
         for (ArrayList<Texture> keyTexture : allPlayableKeyTextures)
         {
             keyTexture.remove(0);
+        }
+    }
+
+    @Override
+    public void callback(DTOClientUpdate callbackUpdate)
+    {
+        KeyPressedResult keyPressedResult = callbackUpdate.getNewKeyPressResult();
+        List<Player> updatedPlayerList = callbackUpdate.getNewPlayerList();
+
+        System.out.println(updatedPlayerList);
+        System.out.println(game.getLogic().getPlayers());
+
+        System.out.println("received keypressresult: " + keyPressedResult.toString());
+
+        switch (keyPressedResult)
+        {
+            case NONE:
+                break;
+            case WRONG:
+                for (int i = 0; i < allOriginalKeyTextures.length; i++)
+                {
+                    allPlayableKeyTextures[i] = new ArrayList<>(allOriginalKeyTextures[i]);
+                }
+                renderKeys();
+                break;
+            case SEQUENCE_FINISHED:
+                System.out.println("Sequence ended");
+                System.out.println("new keys: " + callbackUpdate.getNewPlayerList());
+                loadKeyTextures(updatedPlayerList);
+                renderKeys();
+                break;
+            case CORRECT:
+                removeFirstKeyFromArrays();
+                renderKeys();
+                break;
+            case GAME_FINISHED:
+                break;
         }
     }
 }

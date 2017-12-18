@@ -53,7 +53,7 @@ public class GameManager implements ILogic
         try {
             IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
-//            System.out.println("Game created with game key: " + gameKey);
+            System.out.println("Game created with game key: " + gameKey);
             joinGame(gameKey);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -69,11 +69,11 @@ public class GameManager implements ILogic
         try {
             serverGame = (IServerGame) registry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame, uiCallback);
-            serverGame.subscribe(currentGame, "noteListIndex");
-            serverGame.subscribe(currentGame, "players");
-            serverGame.subscribe(currentGame, "lastKeyPressResult");
+
+            serverGame.subscribe(currentGame, "dtoProperty");
+
             if (serverGame.joinPlayer(localPlayer)){
-//                System.out.println("Game join successful with local player: " + localPlayer.getName());
+                System.out.println("Game join successful with local player: " + localPlayer.getName());
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -129,9 +129,7 @@ public class GameManager implements ILogic
     {
         try
         {
-            serverGame.unsubscribe(currentGame, "noteListIndex");
-            serverGame.unsubscribe(currentGame, "players");
-            serverGame.unsubscribe(currentGame, "lastKeyPressResult");
+            serverGame.unsubscribe(currentGame, "dtoProperty");
 
             serverGame.leave(localPlayer);
         }
