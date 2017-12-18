@@ -1,5 +1,5 @@
 ## Java
-
+\login_server\**\*.jar
 *.class
 *.war
 *.ear
@@ -29,7 +29,7 @@ sonar-project.properties
 /android/libs/x86/
 /android/libs/x86_64/
 /android/gen/
-.idea/
+.idea/*
 *.ipr
 *.iws
 *.iml
