@@ -23,6 +23,7 @@ public class GameManager implements ILogic
     private ClientLoginServer clientLoginServer;
     private Registry registry = null;
     private static final String hostAddress = "localhost";
+//    private static final String hostAddress = "192.168.1.89";
     private static final int portNumber = 1099;
 
     public GameManager() {
@@ -90,15 +91,16 @@ public class GameManager implements ILogic
     {
         // TODO: CONTACT LOGIN SERVER FOR VERIFICATION
 
-        boolean success = false;
+//        boolean success = false;
+//
+//        if (clientLoginServer.login(username,password))
+//        {
+//            localPlayer = new Player(username);
+//            success = true;
+//        }
+        localPlayer = new Player(username);
 
-        if (clientLoginServer.login(username,password))
-        {
-            localPlayer = new Player(username);
-            success = true;
-        }
-
-        return success;
+        return true;
 
     }
 

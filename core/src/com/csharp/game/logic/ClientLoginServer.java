@@ -10,7 +10,8 @@ import java.rmi.registry.Registry;
 public class ClientLoginServer
 {
 
-    private String hostIP = "localhost"; //"192.168.247.131";
+    private String hostIP = "localhost";
+//    private String hostIP = "192.168.1.89";
     private int port = 1099;
     private ILogin loginServer;
     private Registry registry = null;

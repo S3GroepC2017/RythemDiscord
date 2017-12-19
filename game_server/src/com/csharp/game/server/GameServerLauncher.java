@@ -28,6 +28,8 @@ public class GameServerLauncher
     // Constructor
     public GameServerLauncher()
     {
+
+
         // Print port number for registry
         System.out.println("Server: Port number " + portNumber);
 
