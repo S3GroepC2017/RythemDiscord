@@ -4,6 +4,8 @@
 \build\**\*.jar
 \out\**\*.jar
 
+**/build/libs/*.jar
+
 *.class
 *.war
 *.ear
