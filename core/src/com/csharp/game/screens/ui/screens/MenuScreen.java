@@ -30,8 +30,8 @@ public abstract class MenuScreen implements Screen {
     public Stage stage;
 
     //Camera & Viewport
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    public OrthographicCamera camera;
+    public Viewport viewport;
 
     public MenuScreen(RythemDiscord game) {
         this.game = game;
@@ -106,6 +106,7 @@ public abstract class MenuScreen implements Screen {
         this.stage.dispose();
     }
 
+
     private void loadUIComponents() {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
@@ -122,5 +123,9 @@ public abstract class MenuScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
         //table.setDebug(true); //debugging the ui
+    }
+
+    public void updateTable() {
+
     }
 }

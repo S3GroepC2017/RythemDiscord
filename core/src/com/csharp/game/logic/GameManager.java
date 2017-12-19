@@ -23,6 +23,7 @@ public class GameManager implements ILogic
     private ClientLoginServer clientLoginServer;
     private Registry registry = null;
     private static final String hostAddress = "localhost";
+//    private static final String hostAddress = "192.168.1.89";
     private static final int portNumber = 1099;
 
     public GameManager() {
@@ -47,27 +48,29 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public void newGame(String username)
+    public String newGame()
     {
         System.out.println("NEW GAME CALLED");
         try {
             IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
             System.out.println("Game created with game key: " + gameKey);
-            joinGame(gameKey, username);
+            joinGame(gameKey);
+            return gameKey;
         } catch (RemoteException e) {
             e.printStackTrace();
+            return null;
         } catch (NotBoundException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
     @Override
-    public void joinGame(String gameKey, String username)
+    public void joinGame(String gameKey)
     {
         System.out.println("JOIN GAME CALLED");
         try {
-            localPlayer = new Player(username);
             serverGame = (IServerGame) registry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame, uiCallback);
             serverGame.subscribe(currentGame, "noteListIndex");
@@ -88,15 +91,16 @@ public class GameManager implements ILogic
     {
         // TODO: CONTACT LOGIN SERVER FOR VERIFICATION
 
-        boolean success = false;
+//        boolean success = false;
+//
+//        if (clientLoginServer.login(username,password))
+//        {
+//            localPlayer = new Player(username);
+//            success = true;
+//        }
+        localPlayer = new Player(username);
 
-        if (clientLoginServer.login(username,password))
-        {
-            localPlayer = new Player(username);
-            success = true;
-        }
-
-        return success;
+        return true;
 
     }
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -48,6 +49,9 @@ public class HostGameScreen extends MenuScreen implements IMenuScreen {
         defaultTextFieldStyle.background = skin.getDrawable("textfieldBackground");
         defaultTextFieldStyle.cursor = skin.getDrawable("white");
 
+        Label.LabelStyle defaultLabelStyle = new Label.LabelStyle();
+        defaultLabelStyle.font = skin.getFont("modes");
+
         ImageButton.ImageButtonStyle hostButtonStyle = new ImageButton.ImageButtonStyle();
         hostButtonStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("hostButton_default")));
         hostButtonStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("hostButton_pressed")));
@@ -55,21 +59,18 @@ public class HostGameScreen extends MenuScreen implements IMenuScreen {
 
         final com.badlogic.gdx.scenes.scene2d.ui.Image titleImage = new Image(textures.get("gameTitle"));
         final ImageButton backButton = new ImageButton(backButtonStyle);
-        final TextField gameNameField = new TextField("", defaultTextFieldStyle);
-        final TextField playerNameField = new TextField("", defaultTextFieldStyle);
+        final Label playerNameLabel = new Label("PlayerName", defaultLabelStyle);
+        final TextField playerNameField = new TextField(game.getLogic().getLocalPlayer().getName(), defaultTextFieldStyle);
         final ImageButton hostButton = new ImageButton(hostButtonStyle);
 
-        gameNameField.setAlignment(Align.center);
-        gameNameField.setMessageText("Enter game name");
         playerNameField.setAlignment(Align.center);
-        playerNameField.setMessageText("Enter player name");
 
         hostButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.getLogic().newGame(playerNameField.getText());
+                String gamekey = game.getLogic().newGame();
                 dispose();
-                game.setScreen(new CreateLobbyScreen(game));
+                game.setScreen(new LobbyScreen(game, gamekey));
             }
         });
 
@@ -83,7 +84,7 @@ public class HostGameScreen extends MenuScreen implements IMenuScreen {
 
         table.top().add(backButton).size(80, 50).expandX().align(Align.right).padTop(20).padRight(20).row();
         table.top().add(titleImage).padTop(20).padBottom(10).row();
-        table.add(gameNameField).padTop(120).size(200, 20).row();
+        table.add(playerNameLabel).padTop(120).row();
         table.add(playerNameField).padTop(20).size(200, 20).row();
         table.add(hostButton).size(100, 40).padTop(20);
     }
