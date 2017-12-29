@@ -91,16 +91,17 @@ public class GameManager implements ILogic
     {
         // TODO: CONTACT LOGIN SERVER FOR VERIFICATION
 
-//        boolean success = false;
-//
-//        if (clientLoginServer.login(username,password))
-//        {
-//            localPlayer = new Player(username);
-//            success = true;
-//        }
-        localPlayer = new Player(username);
+        boolean success = false;
 
-        return true;
+        if (clientLoginServer.login(username,password))
+        {
+            localPlayer = new Player(username);
+            success = true;
+        }
+//        success = true;
+//        localPlayer = new Player(username);
+
+        return success;
 
     }
 
