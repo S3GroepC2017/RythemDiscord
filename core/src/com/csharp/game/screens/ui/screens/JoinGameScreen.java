@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
 import com.csharp.sharedclasses.DTOClientUpdate;
+import javafx.scene.control.Alert;
 
 /**
  * 11-12-17
@@ -76,9 +77,15 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
         joinButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.getLogic().joinGame(gamekeyField.getText());
-                dispose();
-                game.setScreen(new LobbyScreen(game, gamekeyField.getText(), false));
+                if(game.getLogic().joinGame(gamekeyField.getText())) {
+                    dispose();
+                    game.setScreen(new LobbyScreen(game, gamekeyField.getText(), false));
+                }
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setTitle("Unicurn");
+                alert.setContentText("Failed to join game");
+                alert.showAndWait();
             }
         });
 
