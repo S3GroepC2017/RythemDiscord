@@ -54,6 +54,10 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame
         {
             return false;
         }
+        if (players.size() >= 4)
+        {
+            return false;
+        }
         if (players.contains(player) || !players.add(player))
         {
             return false;

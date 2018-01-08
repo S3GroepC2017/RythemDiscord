@@ -25,7 +25,8 @@ import java.util.List;
  * 11-12-17
  * RythemDiscord created by Dane Naebers
  */
-public class LobbyScreen extends MenuScreen implements IMenuScreen {
+public class LobbyScreen extends MenuScreen implements IMenuScreen
+{
 
     private String gamekey;
     private boolean isHost;
@@ -37,8 +38,10 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
     private Table playerTable;
 
 
-    public LobbyScreen(RythemDiscord game, String gamekey, boolean isHost) {
+    public LobbyScreen(RythemDiscord game, String gamekey, boolean isHost)
+    {
         super(game);
+//        game.getLogic().setCallback(this);
         this.gamekey = gamekey;
         this.isHost = isHost;
         loadTextures();
@@ -46,7 +49,8 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
     }
 
     @Override
-    public void loadTextures() {
+    public void loadTextures()
+    {
         textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemBack_default", new Texture(Gdx.files.internal("keys/EscKey_default.png")));
         textures.put("menuItemBack_pressed", new Texture(Gdx.files.internal("keys/EscKey_pressed.png")));
@@ -57,7 +61,8 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
         //Updating the camera
         camera.update();
         game.spriteBatch.setProjectionMatrix(camera.combined);
@@ -75,7 +80,8 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
     }
 
     @Override
-    public void createUiComponents() {
+    public void createUiComponents()
+    {
         ImageButton.ImageButtonStyle backButtonStyle = new ImageButton.ImageButtonStyle();
         backButtonStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_default")));
         backButtonStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
@@ -100,30 +106,33 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         exitLobby = new ImageButton(exitLobbyStyle);
         startGame = new ImageButton(startGameStyle);
 
-        backButton.addListener(new ChangeListener() {
+        backButton.addListener(new ChangeListener()
+        {
             @Override
-            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            public void changed(ChangeListener.ChangeEvent event, Actor actor)
+            {
                 dispose();
                 game.setScreen(new MainMenuScreen(game));
             }
         });
 
-        exitLobby.addListener(new ChangeListener() {
+        exitLobby.addListener(new ChangeListener()
+        {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void changed(ChangeEvent event, Actor actor)
+            {
                 game.getLogic().leaveCurrentGame();
                 dispose();
                 game.setScreen(new MainMenuScreen(game));
             }
         });
 
-        startGame.addListener(new ChangeListener() {
+        startGame.addListener(new ChangeListener()
+        {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void changed(ChangeEvent event, Actor actor)
+            {
                 game.getLogic().startGame();
-                // TODO: FIX THIS
-//                dispose();
-//                game.setScreen(new GameScreen(game));
             }
         });
 
@@ -134,19 +143,24 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         table.add(gamekeyLabel).padTop(100).padBottom(30).row();
     }
 
-    private void drawTable() {
+    private void drawTable()
+    {
 
         table.removeActor(playerTable);
         playerTable.clear();
-        for (Player p : game.getLogic().getPlayers()) {
+        for (Player p : game.getLogic().getPlayers())
+        {
             Label playerNameLabel = new Label(p.getName(), defaultLabelStyle);
             playerTable.add(playerNameLabel).row();
         }
 
-        if(isHost) {
+        if (isHost)
+        {
             playerTable.add(startGame).padTop(200).padBottom(20).size(200, 60).row();
             playerTable.add(exitLobby).size(200, 60).row();
-        } else {
+        }
+        else
+        {
             playerTable.add(exitLobby).size(200, 60).row();
         }
 
@@ -156,11 +170,23 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
     @Override
     public void callback(DTOClientUpdate callbackUpdate)
     {
-        System.out.println("REEE");
+        System.out.println("LOBBY CALLBACK");
         if (callbackUpdate.getNewKeyPressResult() == KeyPressedResult.STARTUP)
         {
-            dispose();
-            game.setScreen(new GameScreen(game));
+            Gdx.app.postRunnable(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    switchToGameScreen();
+                }
+            });
         }
+    }
+
+    private void switchToGameScreen()
+    {
+        dispose();
+        game.setScreen(new GameScreen(game));
     }
 }

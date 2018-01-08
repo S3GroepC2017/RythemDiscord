@@ -22,8 +22,8 @@ public class GameManager implements ILogic
     private IServerGame serverGame;
     private ClientLoginServer clientLoginServer;
     private Registry gameServerRegistry = null;
-    private static final String GAME_SERVER_HOST_ADRESS = "192.168.0.100";
-//    private static final String GAME_SERVER_HOST_ADRESS = "192.168.1.89";
+//    private static final String GAME_SERVER_HOST_ADRESS = "192.168.0.100";
+    private static final String GAME_SERVER_HOST_ADRESS = "localhost";
     private static final int GAME_SERVER_REGISTRY_PORT = 1099;
 
     public GameManager()
@@ -105,10 +105,10 @@ public class GameManager implements ILogic
     public boolean logIn(String username, String password)
     {
 //        // TODO REMOVE THIS DEBUG CODE:
-//        localPlayer = new Player(username);
-//        return true;
+        localPlayer = new Player(username);
+        return true;
 
-
+/*
         // TODO: CONTACT LOGIN SERVER FOR VERIFICATION
 
         boolean success = false;
@@ -122,7 +122,7 @@ public class GameManager implements ILogic
         //        localPlayer = new Player(username);
 
         return success;
-
+*/
     }
 
     @Override
@@ -147,7 +147,13 @@ public class GameManager implements ILogic
     @Override
     public void setCallback(IAfterPosUpdateCallback callback)
     {
+        System.out.println("Callback changed to: " + callback.getClass().toString());
         this.uiCallback = callback;
+
+        if (currentGame != null)
+        {
+            currentGame.setUiCallback(this.uiCallback);
+        }
     }
 
     @Override

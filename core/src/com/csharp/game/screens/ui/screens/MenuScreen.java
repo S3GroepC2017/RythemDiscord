@@ -37,7 +37,8 @@ public abstract class MenuScreen implements Screen, IAfterPosUpdateCallback
 
     public MenuScreen(RythemDiscord game) {
         this.game = game;
-        game.getLogic().setCallback(this);
+        System.out.println("Setting callback to: " + this.getClass().toString());
+        this.game.getLogic().setCallback(this);
 
         this.skin = new Skin();
         this.table = new Table();
@@ -101,9 +102,14 @@ public abstract class MenuScreen implements Screen, IAfterPosUpdateCallback
 
     @Override
     public void dispose() {
-        for(Map.Entry<String, Texture> entry : textures.entrySet()) {
-            entry.getValue().dispose();
+        if (!textures.entrySet().isEmpty())
+        {
+            for (Map.Entry<String, Texture> entry : textures.entrySet())
+            {
+                entry.getValue().dispose();
+            }
         }
+
         this.skin.dispose();
         this.stage.dispose();
     }

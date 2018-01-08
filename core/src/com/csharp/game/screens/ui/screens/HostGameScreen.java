@@ -71,8 +71,7 @@ public class HostGameScreen extends MenuScreen implements IMenuScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 String gamekey = game.getLogic().newGame();
                 dispose();
-                LobbyScreen hostLobby = new LobbyScreen(game, gamekey, true);
-                game.setScreen(hostLobby);
+                game.setScreen( new LobbyScreen(game, gamekey, true));
             }
         });
 

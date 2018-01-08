@@ -23,7 +23,7 @@ public class Game extends UnicastRemoteObject implements IGame
 
     private Player localPlayer;
     private IServerGame serverGame;
-    private final IAfterPosUpdateCallback uiCallback;
+    private IAfterPosUpdateCallback uiCallback;
     private boolean started = false;
 
 
@@ -58,6 +58,11 @@ public class Game extends UnicastRemoteObject implements IGame
                 return;
             }
         }
+    }
+
+    public void setUiCallback(IAfterPosUpdateCallback uiCallback)
+    {
+        this.uiCallback = uiCallback;
     }
 
     //Returns the  nodes of this current sequence.
@@ -142,6 +147,7 @@ public class Game extends UnicastRemoteObject implements IGame
         setLocalPlayer(players);
 
         System.out.println(update.getNewKeyPressResult());
+        System.out.println("Sending update to: " + uiCallback.getClass().toString());
         uiCallback.callback(update);
     }
 }

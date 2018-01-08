@@ -14,8 +14,8 @@ public class LoginServerLauncher
     private static final int LOGIN_SERVER_REGISTRY_PORT = 1100;
     private static final String LOGIN_SERVER_BINDING_NAME = "LoginServer";
     private static final String PROTOCOL = "java.rmi.server.hostname";
-//    private static final String HOST = "localhost";
-    private static final String HOST = "192.168.0.100";
+    private static final String HOST = "127.0.0.1";
+//    private static final String HOST = "192.168.0.100";
     private Registry registry = null;
     private LoginChecker loginChecker;
 
