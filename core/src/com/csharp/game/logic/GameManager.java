@@ -67,7 +67,7 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public void joinGame(String gameKey)
+    public boolean joinGame(String gameKey)
     {
         System.out.println("JOIN GAME CALLED");
         try {
@@ -78,12 +78,15 @@ public class GameManager implements ILogic
 
             if (serverGame.joinPlayer(localPlayer)){
                 System.out.println("Game join successful with local player: " + localPlayer.getName());
+                return true;
             }
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
     @Override
