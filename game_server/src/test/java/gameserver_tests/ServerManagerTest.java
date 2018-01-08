@@ -1,5 +1,6 @@
-package com.csharp.game.server;
+package gameserver_tests;
 
+import com.csharp.game.server.ServerManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,8 +1,7 @@
-package com.csharp.game.server.com.csharp.game.server;
+package gameserver_tests;
 
 import com.csharp.game.server.ServerGame;
 import com.csharp.game.server.ServerManager;
-import com.csharp.game.server.ServerManagerTest;
 import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.Player;
 import com.csharp.sharedclasses.fontyspublisher.IPropertyListener;

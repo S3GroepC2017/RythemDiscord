@@ -1,4 +1,4 @@
-package com.csharp.game.server.com.csharp.game.server;
+package gameserver_tests;
 
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
