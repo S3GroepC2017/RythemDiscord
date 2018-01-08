@@ -25,7 +25,6 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
 
     public JoinGameScreen(RythemDiscord game) {
         super(game);
-        game.getLogic().setCallback(this);
         loadTextures();
         createUiComponents();
     }
@@ -79,7 +78,8 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 if(game.getLogic().joinGame(gamekeyField.getText())) {
                     dispose();
-                    game.setScreen(new LobbyScreen(game, gamekeyField.getText(), false));
+                    LobbyScreen lobbyScreen = new LobbyScreen(game, gamekeyField.getText(), false);
+                    game.setScreen(lobbyScreen);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText(null);

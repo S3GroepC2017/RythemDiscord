@@ -20,7 +20,6 @@ import java.util.HashMap;
 public class LoginScreen extends MenuScreen implements IMenuScreen {
     public LoginScreen(RythemDiscord game) {
         super(game);
-        game.getLogic().setCallback(this);
         loadTextures();
         createUiComponents();
     }

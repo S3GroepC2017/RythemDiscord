@@ -141,6 +141,7 @@ public class Game extends UnicastRemoteObject implements IGame
         players = update.getNewPlayerList();
         setLocalPlayer(players);
 
+        System.out.println(update.getNewKeyPressResult());
         uiCallback.callback(update);
     }
 }

@@ -14,11 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.RythemDiscord;
+import com.csharp.sharedclasses.IAfterPosUpdateCallback;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class MenuScreen implements Screen {
+public abstract class MenuScreen implements Screen, IAfterPosUpdateCallback
+{
     final RythemDiscord game;
 
     //Textures
@@ -35,7 +37,7 @@ public abstract class MenuScreen implements Screen {
 
     public MenuScreen(RythemDiscord game) {
         this.game = game;
-
+        game.getLogic().setCallback(this);
 
         this.skin = new Skin();
         this.table = new Table();

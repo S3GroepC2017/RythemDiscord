@@ -76,10 +76,8 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
      */
     public GameScreen(final RythemDiscord game)
     {
-        this.game = game;
         game.getLogic().setCallback(this);
-        game.getLogic().newGame();
-        game.getLogic().startGame();
+        this.game = game;
 
         //Textures voor amount of players laden
         amountOfPlayers = game.getLogic().getPlayers().size();
@@ -413,17 +411,21 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
      */
     private void renderKeys() {
         //Render keys for all players
+        game.spriteBatch.begin();
         for(int i = 0; i < amountOfPlayers; i++) {
-            for(int o = 0; i < allPlayableKeyTextures[i].size(); i++) {
+            for(int o = 0; o < allPlayableKeyTextures[i].size(); o++) {
                 if(o == 15) {
                     break;
                 }
+
                 int[] playerNoteMargin = ScreenHelper.calculatePlayerKeysMargin(i, o);
-                game.spriteBatch.begin();
-                game.spriteBatch.draw(allOriginalKeyTextures[i].get(o), playerNoteMargin[0], playerNoteMargin[1], 80, 80);
-                game.spriteBatch.end();
+                if (allPlayableKeyTextures[i].get(o) != null)
+                {
+                    game.spriteBatch.draw(allPlayableKeyTextures[i].get(o), playerNoteMargin[0], playerNoteMargin[1], 80, 80);
+                }
             }
         }
+        game.spriteBatch.end();
     }
 
 

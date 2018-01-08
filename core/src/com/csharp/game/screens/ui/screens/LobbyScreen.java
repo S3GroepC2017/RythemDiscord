@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.game.screens.GameScreen;
 import com.csharp.sharedclasses.DTOClientUpdate;
+import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 
 import java.util.ArrayList;
@@ -38,7 +39,6 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
 
     public LobbyScreen(RythemDiscord game, String gamekey, boolean isHost) {
         super(game);
-        game.getLogic().setCallback(this);
         this.gamekey = gamekey;
         this.isHost = isHost;
         loadTextures();
@@ -70,7 +70,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
 
         //rendering the stage
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        drawTable(null);
+        drawTable();
         stage.draw();
     }
 
@@ -121,8 +121,9 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.getLogic().startGame();
-                dispose();
-                game.setScreen(new GameScreen(game));
+                // TODO: FIX THIS
+//                dispose();
+//                game.setScreen(new GameScreen(game));
             }
         });
 
@@ -133,15 +134,11 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         table.add(gamekeyLabel).padTop(100).padBottom(30).row();
     }
 
-    private void drawTable(List<Player> players) {
-        if (players == null)
-        {
-            players = game.getLogic().getPlayers();
-        }
+    private void drawTable() {
 
         table.removeActor(playerTable);
         playerTable.clear();
-        for (Player p : players) {
+        for (Player p : game.getLogic().getPlayers()) {
             Label playerNameLabel = new Label(p.getName(), defaultLabelStyle);
             playerTable.add(playerNameLabel).row();
         }
@@ -159,7 +156,11 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
     @Override
     public void callback(DTOClientUpdate callbackUpdate)
     {
-        System.out.println("callback called");
-        drawTable(callbackUpdate.getNewPlayerList());
+        System.out.println("REEE");
+        if (callbackUpdate.getNewKeyPressResult() == KeyPressedResult.STARTUP)
+        {
+            dispose();
+            game.setScreen(new GameScreen(game));
+        }
     }
 }

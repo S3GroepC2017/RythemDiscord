@@ -27,7 +27,6 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
 
     public MainMenuScreen(RythemDiscord game) {
         super(game);
-        game.getLogic().setCallback(this);
 
         //loading textures
         loadTextures();

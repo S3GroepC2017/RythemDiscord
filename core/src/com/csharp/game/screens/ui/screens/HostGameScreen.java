@@ -23,7 +23,6 @@ import com.csharp.sharedclasses.DTOClientUpdate;
 public class HostGameScreen extends MenuScreen implements IMenuScreen {
     public HostGameScreen(RythemDiscord game) {
         super(game);
-        game.getLogic().setCallback(this);
         loadTextures();
         createUiComponents();
     }
@@ -72,7 +71,8 @@ public class HostGameScreen extends MenuScreen implements IMenuScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 String gamekey = game.getLogic().newGame();
                 dispose();
-                game.setScreen(new LobbyScreen(game, gamekey, true));
+                LobbyScreen hostLobby = new LobbyScreen(game, gamekey, true);
+                game.setScreen(hostLobby);
             }
         });
 

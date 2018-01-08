@@ -24,7 +24,6 @@ public class SecondMenuScreen extends MenuScreen implements IMenuScreen {
 
     public SecondMenuScreen(RythemDiscord game) {
         super(game);
-        game.getLogic().setCallback(this);
         loadTextures();
         createUiComponents();
     }
