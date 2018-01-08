@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Player implements Serializable
 {
     private String name;
-    private char[] nodeList = null;
+    private char[] nodeList = new char[0];
 
     public String getName()
     {

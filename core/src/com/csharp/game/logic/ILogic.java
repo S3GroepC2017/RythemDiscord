@@ -36,4 +36,6 @@ public interface ILogic
     Player getLocalPlayer();
 
     void setCallback(IAfterPosUpdateCallback callback);
+
+    void leaveCurrentGame();
 }

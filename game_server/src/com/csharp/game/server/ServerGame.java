@@ -1,15 +1,18 @@
 package com.csharp.game.server;
 
+import com.csharp.sharedclasses.DTOClientUpdate;
 import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 import com.csharp.sharedclasses.fontyspublisher.*;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerGame extends UnicastRemoteObject implements IServerGame {
+public class ServerGame extends UnicastRemoteObject implements IServerGame
+{
     private int noteListIndex;
     private KeyPressedResult lastKeyPressResult = KeyPressedResult.NONE;
     private final RemotePublisher remotePublisher;
@@ -20,11 +23,17 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     NodeGenerator nodeGenerator;
     private boolean started = false;
 
-    public ServerGame() throws RemoteException {
+    private DTOClientUpdate dtoProperty;
+
+    public ServerGame() throws RemoteException
+    {
         remotePublisher = new RemotePublisher();
+        /*
         remotePublisher.registerProperty("noteListIndex");
         remotePublisher.registerProperty("players");
         remotePublisher.registerProperty("lastKeyPressResult");
+        */
+        remotePublisher.registerProperty("dtoProperty");
         nodeGenerator = new NodeGenerator();
         gameId = nextId;
         ServerGame.nextId++;
@@ -39,78 +48,106 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
     }
 
     @Override
-    public boolean joinPlayer(Player player)throws RemoteException
+    public boolean joinPlayer(Player player) throws RemoteException
     {
-        if(player == null || started)
+        if (player == null || started)
         {
             return false;
         }
-        if(players.contains(player) || !players.add(player))
+        if (players.contains(player) || !players.add(player))
         {
             return false;
         }
 
         boolean success = false;
-        try {
-            if(hostPlayer == null)
+        try
+        {
+            if (hostPlayer == null)
             {
                 hostPlayer = player;
-                System.out.println("host set");
+//                System.out.println("host set");
             }
             System.out.println("Player joined successfully");
-            remotePublisher.inform("players", null, players);
+            dtoProperty = new DTOClientUpdate(0, KeyPressedResult.NONE, players);
+            remotePublisher.inform("dtoProperty", null, dtoProperty);
             System.out.println("Broadcast sent for new player");
             success = true;
-        } catch (RemoteException e) {
+        }
+        catch (RemoteException e)
+        {
             e.printStackTrace();
             success = false;
         }
-        remotePublisher.inform("players", null, players);
+//        remotePublisher.inform("players", null, players);
         return success;
     }
 
+    // TODO FIX THIS
     @Override
-    public void subscribe(IRemotePropertyListener listener, String propertyName) throws RemoteException {
-        try {
+    public void subscribe(IRemotePropertyListener listener, String propertyName) throws RemoteException
+    {
+        try
+        {
             remotePublisher.subscribeRemoteListener(listener, propertyName);
-        } catch (RemoteException e) {
+        }
+        catch (RemoteException e)
+        {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void startGame(Player localPlayer) throws RemoteException {
-        if(!localPlayer.equals(hostPlayer) || started)
+    public void startGame(Player localPlayer) throws RemoteException
+    {
+        if (!localPlayer.equals(hostPlayer) || started)
         {
             return;
         }
 
         started = true;
         distributeNodes();
+
+        dtoProperty = new DTOClientUpdate(0, KeyPressedResult.STARTUP, players);
+        remotePublisher.inform("dtoProperty", null, dtoProperty);
+    }
+
+    // TODO FIX THIS
+    @Override
+    public void unsubscribe(IRemotePropertyListener listener, String propertyName) throws RemoteException
+    {
+        remotePublisher.unsubscribeRemoteListener(listener, propertyName);
+    }
+
+    @Override
+    public void leave(Player player)
+    {
+        players.remove(player);
+
+        if (hostPlayer.equals(player) && players.isEmpty())
+        {
+            hostPlayer = players.get(0);
+        }
     }
 
     private void distributeNodes()
     {
         players = nodeGenerator.generateNode(players);
 
-        try {
-            remotePublisher.inform("players", null, players);
-            System.out.println("Broadcast sent with nodes");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+//        System.out.println(players.get(0).toString());
 
-        System.out.println(players);
+//        System.out.println(players);
     }
 
     @Override
-    public void keyPressed(KeyPressedResult result) throws RemoteException {
+    public void keyPressed(KeyPressedResult result) throws RemoteException
+    {
         if (!started)
         {
             return;
         }
 
-        switch (result) {
+        switch (result)
+        {
             case CORRECT:
                 noteListIndex++;
                 lastKeyPressResult = KeyPressedResult.CORRECT;
@@ -122,16 +159,23 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame {
             case SEQUENCE_FINISHED:
                 noteListIndex = 0;
                 lastKeyPressResult = KeyPressedResult.SEQUENCE_FINISHED;
+                System.out.println("Sequence ended in the server");
                 distributeNodes();
+                System.out.println("New nodes were distributed");
                 break;
             default:
                 //TODO: Handle other outcome.
                 break;
         }
-        try {
-            remotePublisher.inform("noteListIndex", null, noteListIndex);
-            remotePublisher.inform("lastKeyPressResult", null, lastKeyPressResult);
-        } catch (RemoteException e) {
+
+        try
+        {
+            dtoProperty = new DTOClientUpdate(noteListIndex, lastKeyPressResult, players);
+
+            remotePublisher.inform("dtoProperty", null, dtoProperty);
+        }
+        catch (RemoteException e)
+        {
             e.printStackTrace();
         }
     }

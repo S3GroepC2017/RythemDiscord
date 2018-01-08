@@ -73,11 +73,11 @@ public class GameManager implements ILogic
         try {
             serverGame = (IServerGame) registry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame, uiCallback);
-            serverGame.subscribe(currentGame, "noteListIndex");
-            serverGame.subscribe(currentGame, "players");
-            serverGame.subscribe(currentGame, "lastKeyPressResult");
+
+            serverGame.subscribe(currentGame, "dtoProperty");
+
             if (serverGame.joinPlayer(localPlayer)){
-//                System.out.println("Game join successful with local player: " + localPlayer.getName());
+                System.out.println("Game join successful with local player: " + localPlayer.getName());
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -128,5 +128,20 @@ public class GameManager implements ILogic
     public void setCallback(IAfterPosUpdateCallback callback)
     {
         this.uiCallback = callback;
+    }
+
+    @Override
+    public void leaveCurrentGame()
+    {
+        try
+        {
+            serverGame.unsubscribe(currentGame, "dtoProperty");
+
+            serverGame.leave(localPlayer);
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

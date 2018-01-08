@@ -5,6 +5,7 @@ package com.csharp.sharedclasses;
  */
 public enum KeyPressedResult
 {
+    STARTUP,
     NONE,
     WRONG,
     CORRECT,
