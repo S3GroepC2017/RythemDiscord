@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
+import com.csharp.sharedclasses.DTOClientUpdate;
 
 import java.util.HashMap;
 
@@ -23,6 +24,7 @@ public class SecondMenuScreen extends MenuScreen implements IMenuScreen {
 
     public SecondMenuScreen(RythemDiscord game) {
         super(game);
+        game.getLogic().setCallback(this);
         loadTextures();
         createUiComponents();
     }
@@ -93,5 +95,11 @@ public class SecondMenuScreen extends MenuScreen implements IMenuScreen {
         table.add(text).padTop(120).row();
         table.add(joinGameButton).size(200, 65).padTop(50).row();
         table.add(hostGameButton).size(200, 65).padTop(20);
+    }
+
+    @Override
+    public void callback(DTOClientUpdate callbackUpdate)
+    {
+
     }
 }

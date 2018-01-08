@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
+import com.csharp.sharedclasses.DTOClientUpdate;
 import com.csharp.sharedclasses.Player;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
 
     public LobbyScreen(RythemDiscord game, String gamekey, boolean isHost) {
         super(game);
+        game.getLogic().setCallback(this);
         this.gamekey = gamekey;
         this.isHost = isHost;
         loadTextures();
@@ -67,7 +69,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
 
         //rendering the stage
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        drawTable();
+        drawTable(null);
         stage.draw();
     }
 
@@ -112,11 +114,16 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         table.add(gamekeyLabel).padTop(100).padBottom(30).row();
     }
 
-    private void drawTable() {
+    private void drawTable(List<Player> players) {
+        if (players == null)
+        {
+            players = game.getLogic().getPlayers();
+        }
+
         table.removeActor(playerTable);
         playerTable.clear();
-        for (Player p : game.getLogic().getPlayers()) {
-            Label playerNameLabel = new Label(p.getName(), defaultLabelStyle);
+        for (Player p : players) {
+            playerNameLabel = new Label(p.getName(), defaultLabelStyle);
             playerTable.add(playerNameLabel).row();
         }
 
@@ -127,5 +134,12 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         }
 
         table.add(playerTable).row();
+    }
+
+    @Override
+    public void callback(DTOClientUpdate callbackUpdate)
+    {
+        System.out.println("callback called");
+        drawTable(callbackUpdate.getNewPlayerList());
     }
 }

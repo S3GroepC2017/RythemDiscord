@@ -1,6 +1,7 @@
 package com.csharp.game.logic;
 
 import com.csharp.sharedclasses.*;
+import javafx.application.Platform;
 
 import java.beans.PropertyChangeEvent;
 import java.rmi.Remote;
@@ -130,14 +131,15 @@ public class Game extends UnicastRemoteObject implements IGame
                 || update.getNewKeyPressResult() == KeyPressedResult.STARTUP)
         {
             started = true;
-            players = update.getNewPlayerList();
-            setLocalPlayer(players);
         }
         else
         {
             nodeListPosition = update.getNewNodeListPosition();
             lastKeyPressResult = update.getNewKeyPressResult();
         }
+
+        players = update.getNewPlayerList();
+        setLocalPlayer(players);
 
         uiCallback.callback(update);
     }
