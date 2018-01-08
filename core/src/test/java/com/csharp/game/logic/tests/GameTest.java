@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.beans.PropertyChangeEvent;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +19,18 @@ import java.util.List;
  */
 public class GameTest
 {
-    @Before
-    public void setUp()
-    {
+    Player localPlayer;
 
+    IServerGameStub serverGameStub;
+    IGame game;
+
+    @Before
+    public void setUp() throws RemoteException
+    {
+        localPlayer = new Player("localPlayer");
+
+        serverGameStub = new IServerGameStub();
+        game = new Game(localPlayer, serverGameStub, new IUIstub());
     }
 
     @Test
@@ -78,7 +87,7 @@ public class GameTest
         List<Player> players = game.getNodes();
 
         char[] nodes = new char[]{players.get(0).getNode(0), players.get(0).getNode(1), players.get(0).getNode(2),
-                                  players.get(0).getNode(3)};
+                players.get(0).getNode(3)};
 
         game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, players));
 
@@ -135,5 +144,28 @@ public class GameTest
         //
         //        game.checkKeyPressed(nodes[3]);
         //        Assert.assertEquals("The correct key was typed, but the result wasn't correct", KeyPressedResult.GAME_FINISHED, serverGameStub.lastReceivedResultKeyPressResult);
+    }
+
+    @Test
+    public void getNodeListPosition() throws RemoteException
+    {
+        //if there is no value given to the node list position, this value is 0
+        Assert.assertEquals(0, game.getNodeListPosition());
+        Assert.assertNotEquals(4, game.getNodeListPosition());
+
+
+        //change the position manually
+        int testNodeListPosition = 3;
+        List<Player> allPlayers = new ArrayList<>();
+        allPlayers.add(localPlayer);
+        localPlayer.setNodeList(new char[]{'a', 'b', 'c', 'd'});
+        char[] nodes = new char[]{allPlayers.get(0).getNode(0), allPlayers.get(0).getNode(1), allPlayers.get(0).getNode(2),
+                allPlayers.get(0).getNode(3)};
+
+        game.checkKeyPressed(nodes[0]);
+        game.checkKeyPressed(nodes[1]);
+        game.checkKeyPressed(nodes[3]);
+
+        Assert.assertEquals(testNodeListPosition, game.getNodeListPosition());
     }
 }
