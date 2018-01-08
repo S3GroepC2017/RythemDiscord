@@ -89,11 +89,11 @@ public class GameManager implements ILogic
     @Override
     public boolean logIn(String username, String password)
     {
-        // TODO REMOVE THIS DEBUG CODE:
-        localPlayer = new Player(username);
-        return true;
+//        // TODO REMOVE THIS DEBUG CODE:
+//        localPlayer = new Player(username);
+//        return true;
 
-        /*
+
         // TODO: CONTACT LOGIN SERVER FOR VERIFICATION
 
         boolean success = false;
@@ -107,7 +107,6 @@ public class GameManager implements ILogic
 //        localPlayer = new Player(username);
 
         return success;
-        */
 
     }
 
