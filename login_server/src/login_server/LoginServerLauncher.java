@@ -11,10 +11,10 @@ import java.rmi.registry.Registry;
  */
 public class LoginServerLauncher
 {
-    private static final int portNumber = 1099;
-    private static final String bindingName = "LoginServer";
+    private static final int LOGIN_SERVER_REGISTRY_PORT = 1100;
+    private static final String LOGIN_SERVER_BINDING_NAME = "LoginServer";
     private static final String PROTOCOL = "java.rmi.server.hostname";
-    private static final String HOST = "192.168.0.100";
+    private static final String HOST = "localhost"; // = "192.168.0.100";
     private Registry registry = null;
     private LoginChecker loginChecker;
 
@@ -34,12 +34,11 @@ public class LoginServerLauncher
 
         try
         {
-
             System.setProperty(PROTOCOL,HOST);
             System.out.println("java.rmi.server.hostname = " + System.getProperty("java.rmi.server.hostname"));
-            registry = LocateRegistry.createRegistry(portNumber);
+            registry = LocateRegistry.createRegistry(LOGIN_SERVER_REGISTRY_PORT);
             System.out.println("registry:" + registry.toString());
-            System.out.println("Server: Registry created on port number " + portNumber);
+            System.out.println("Server: Registry created on port number " + LOGIN_SERVER_REGISTRY_PORT);
         }
         catch (RemoteException e)
         {
@@ -50,7 +49,7 @@ public class LoginServerLauncher
 
         try
         {
-            registry.rebind(bindingName, loginChecker);
+            registry.rebind(LOGIN_SERVER_BINDING_NAME, loginChecker);
         }
         catch (RemoteException ex)
         {

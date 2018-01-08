@@ -14,10 +14,9 @@ import java.rmi.registry.Registry;
 
 public class GameServerLauncher
 {
-    private static final String hostAddress = "192.168.0.100";
-    private static final int portNumber = 1099;
-    private Registry registry = null;
-    private final String bindingName = "ServerManager";
+    private static final int GAME_SERVER_REGISTRY_PORT = 1099;
+    private static final String GAME_SERVER_BINDING_NAME = "ServerManager";
+    private Registry gameServerRegistry = null;
     private IServerManager serverManager;
 
     public static void main(String[] arg)
@@ -28,42 +27,43 @@ public class GameServerLauncher
     // Constructor
     public GameServerLauncher()
     {
+        // Print port number for gameServerRegistry
+        System.out.println("Server: Port number " + GAME_SERVER_REGISTRY_PORT);
 
-
-        // Print port number for registry
-        System.out.println("Server: Port number " + portNumber);
-
-        // Create registry at port number
+        // Create gameServerRegistry at port number
         try
         {
-            registry = LocateRegistry.getRegistry(hostAddress, portNumber);
-            System.out.println("Server: Registry located on: " + hostAddress + " with port number " + portNumber);
+            gameServerRegistry = LocateRegistry.createRegistry(GAME_SERVER_REGISTRY_PORT);
+            System.out.println("Game Server Registry created on port:" + GAME_SERVER_REGISTRY_PORT);
         }
         catch (RemoteException ex)
         {
-            System.out.println("Server: Cannot locate registry");
+            System.out.println("Server: Cannot locate gameServerRegistry");
             System.out.println("Server: RemoteException: " + ex.getMessage());
-            registry = null;
+            gameServerRegistry = null;
+            System.exit(1);
         }
 
         try
         {
-            serverManager = new ServerManager(registry);
+            serverManager = new ServerManager(gameServerRegistry);
             System.out.println("Server: server manager created");
         }
         catch (RemoteException e)
         {
             e.printStackTrace();
+            System.exit(1);
         }
 
         try
         {
-            registry.rebind(bindingName, serverManager);
+            gameServerRegistry.rebind(GAME_SERVER_BINDING_NAME, serverManager);
         }
         catch (RemoteException ex)
         {
             System.out.println("Server: Cannot bind server manager");
             System.out.println("Server: RemoteException: " + ex.getMessage());
+            System.exit(1);
         }
     }
 }

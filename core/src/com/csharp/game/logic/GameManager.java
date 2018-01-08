@@ -21,16 +21,16 @@ public class GameManager implements ILogic
 
     private IServerGame serverGame;
     private ClientLoginServer clientLoginServer;
-    private Registry registry = null;
-    private static final String hostAddress = "localhost";
-//    private static final String hostAddress = "192.168.1.89";
-    private static final int portNumber = 1099;
+    private Registry gameServerRegistry = null;
+    private static final String GAME_SERVER_HOST_ADRESS = "localhost";
+//    private static final String GAME_SERVER_HOST_ADRESS = "192.168.1.89";
+    private static final int GAME_SERVER_REGISTRY_PORT = 1099;
 
     public GameManager() {
         try {
             clientLoginServer = new ClientLoginServer();
-            System.out.println("Locating registry at: " + hostAddress + ":" + portNumber);
-            registry = LocateRegistry.getRegistry(hostAddress, portNumber);
+            System.out.println("Locating gameServerRegistry at: " + GAME_SERVER_HOST_ADRESS + ":" + GAME_SERVER_REGISTRY_PORT);
+            gameServerRegistry = LocateRegistry.getRegistry(GAME_SERVER_HOST_ADRESS, GAME_SERVER_REGISTRY_PORT);
         } catch (RemoteException e) {
             System.out.println("Registry not found.");
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class GameManager implements ILogic
     {
         System.out.println("NEW GAME CALLED");
         try {
-            IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
+            IServerManager serverManager = (IServerManager) gameServerRegistry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
             System.out.println("Game created with game key: " + gameKey);
             joinGame(gameKey);
@@ -71,7 +71,7 @@ public class GameManager implements ILogic
     {
         System.out.println("JOIN GAME CALLED");
         try {
-            serverGame = (IServerGame) registry.lookup(gameKey);
+            serverGame = (IServerGame) gameServerRegistry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame, uiCallback);
 
             serverGame.subscribe(currentGame, "dtoProperty");
@@ -89,6 +89,11 @@ public class GameManager implements ILogic
     @Override
     public boolean logIn(String username, String password)
     {
+        // TODO REMOVE THIS DEBUG CODE:
+        localPlayer = new Player(username);
+        return true;
+
+        /*
         // TODO: CONTACT LOGIN SERVER FOR VERIFICATION
 
         boolean success = false;
@@ -102,6 +107,7 @@ public class GameManager implements ILogic
 //        localPlayer = new Player(username);
 
         return success;
+        */
 
     }
 

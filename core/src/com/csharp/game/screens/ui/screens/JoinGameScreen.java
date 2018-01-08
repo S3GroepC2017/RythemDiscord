@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
+import com.csharp.sharedclasses.DTOClientUpdate;
 
 /**
  * 11-12-17
@@ -23,6 +24,7 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
 
     public JoinGameScreen(RythemDiscord game) {
         super(game);
+        game.getLogic().setCallback(this);
         loadTextures();
         createUiComponents();
     }
@@ -95,5 +97,11 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
         table.add(gamekeyLabel).padTop(20).row();
         table.add(gamekeyField).pad(20).size(200, 20).row();
         table.add(joinButton).size(100, 40).padTop(20);
+    }
+
+    @Override
+    public void callback(DTOClientUpdate callbackUpdate)
+    {
+
     }
 }
