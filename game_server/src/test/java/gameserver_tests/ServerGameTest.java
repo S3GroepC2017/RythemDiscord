@@ -28,6 +28,7 @@ public class ServerGameTest implements IPropertyListener
     Player player1;
     Player player2;
     GameServerDriver gameServerDriver;
+    //test
 
     @Before
     public void setUp() throws Exception
