@@ -11,6 +11,7 @@ import com.sun.org.apache.xerces.internal.parsers.DTDParser;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.beans.PropertyChangeEvent;
@@ -24,15 +25,15 @@ import static org.junit.Assert.*;
 
 public class ServerGameTest
 {
-    Registry registry = null;
+    static Registry registry = null;
     IServerGame serverGame;
     ServerManager serverManager;
     Player player1;
     Player player2;
     GameServerDriver gameServerDriver;
 
-    @Before
-    public void setUp() throws Exception
+    @BeforeClass
+    public static void oneTimeSetUp() throws RemoteException
     {
         if(registry == null)
         {
@@ -42,16 +43,16 @@ public class ServerGameTest
         {
             registry = LocateRegistry.getRegistry(1099);
         }
+    }
+
+    @Before
+    public void setUp() throws Exception
+    {
         serverManager = new ServerManager(registry);
         serverGame = new ServerGame();
         player1 = new Player("player1");
         player2 = new Player("player2");
         gameServerDriver = new GameServerDriver(serverGame);
-    }
-
-    public void TearDown() throws InterruptedException
-    {
-        Thread.sleep(10000);
     }
 
     @Test

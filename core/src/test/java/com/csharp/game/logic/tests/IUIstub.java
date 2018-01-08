@@ -6,9 +6,10 @@ import com.csharp.sharedclasses.KeyPressedResult;
 
 public class IUIstub implements IAfterPosUpdateCallback
 {
+    public DTOClientUpdate lastCallbackUpdate;
 
     @Override
     public void callback(DTOClientUpdate callbackUpdate) {
-
+        lastCallbackUpdate = callbackUpdate;
     }
 }

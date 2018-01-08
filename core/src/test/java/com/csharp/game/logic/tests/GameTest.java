@@ -2,7 +2,6 @@ package com.csharp.game.logic.tests;
 
 import com.csharp.game.logic.Game;
 import com.csharp.sharedclasses.IGame;
-import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 import org.junit.Assert;
@@ -18,26 +17,31 @@ import java.util.List;
  */
 public class GameTest
 {
+    IGameServerStub gameServerStub;
+    ILoginServerStub loginServerStub;
+    IUIstub uiStub;
+
     @Before
     public void setUp()
     {
-
+        gameServerStub = new IGameServerStub();
+        loginServerStub = new ILoginServerStub();
+        uiStub = new IUIstub();
     }
 
     @Test
     public void getNodes() throws Exception
     {
         // setup all the things
-        IServerGameStub serverGameStub = new IServerGameStub();
         Player testPlayer = new Player("testPlayer");
-        IGame game = new Game(testPlayer, serverGameStub, new IUIstub());
+        IGame game = new Game(testPlayer, gameServerStub, new IUIstub());
 
         // set the players to have notes
         List<Player> playersWithNodes = new ArrayList<>();
         testPlayer.setNodeList(new char[]{'a'});
         playersWithNodes.add(testPlayer);
 
-        game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, playersWithNodes));
+        game.propertyChange(new PropertyChangeEvent(gameServerStub, "players", null, playersWithNodes));
 
         // retrieve and check the notes
         List<Player> players = game.getNodes();
@@ -70,7 +74,7 @@ public class GameTest
     public void checkKeyPressed() throws Exception
     {
         Player localPlayer = new Player("TestPlayer");
-        IServerGameStub serverGameStub = new IServerGameStub();
+        IGameServerStub serverGameStub = new IGameServerStub();
         localPlayer.setNodeList(new char[]{'a', 'b', 'c', 'd'});
         IGame game = new Game(localPlayer, serverGameStub, new IUIstub());
 
