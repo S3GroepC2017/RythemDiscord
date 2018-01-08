@@ -1,10 +1,7 @@
 package com.csharp.game.logic;
 
-import com.csharp.sharedclasses.IAfterPosUpdateCallback;
-import com.csharp.sharedclasses.IGame;
-import com.csharp.sharedclasses.IServerGame;
-import com.csharp.sharedclasses.KeyPressedResult;
-import com.csharp.sharedclasses.Player;
+import com.csharp.sharedclasses.*;
+import javafx.application.Platform;
 
 import java.beans.PropertyChangeEvent;
 import java.rmi.Remote;
@@ -12,6 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,13 +30,12 @@ public class Game extends UnicastRemoteObject implements IGame
     //Constructor
     public Game(Player localPlayer, IServerGame serverGame, IAfterPosUpdateCallback uiCallback) throws RemoteException
     {
-        super();
         this.localPlayer = localPlayer;
         this.serverGame = serverGame;
         this.uiCallback = uiCallback;
-        players = new ArrayList<Player>();
+        players = new ArrayList<>();
         players.add(localPlayer);
-        System.out.println("local game created");
+//        System.out.println("local game created");
     }
 
     /**
@@ -57,7 +54,7 @@ public class Game extends UnicastRemoteObject implements IGame
             if (localPlayer.equals(player))
             {
                 localPlayer = player;
-                System.out.println("local player set: " + player.toString());
+//                System.out.println("local player set: " + player.toString());
                 return;
             }
         }
@@ -86,6 +83,7 @@ public class Game extends UnicastRemoteObject implements IGame
             if (localPlayer.getNode(nodeListPosition + 1) == '\u0000')
             {
                 result = KeyPressedResult.SEQUENCE_FINISHED;
+                nodeListPosition = 0;
             }
         }
         else {
@@ -101,20 +99,11 @@ public class Game extends UnicastRemoteObject implements IGame
             e.printStackTrace();
         }
         return result;
-
-        /*
-        if(nodeList[nodeListPosition] == keyPressed)
-        {
-            nodeListPosition++;
-            return checkEndOfSequence();
-        }
-        nodeListPosition = 0;
-        */
     }
 
     public void beginGame()
     {
-        if (serverGame == null)
+        if (serverGame == null || started)
         {
             return;
         }
@@ -135,75 +124,23 @@ public class Game extends UnicastRemoteObject implements IGame
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) throws RemoteException
-    {
-        System.out.println("PROP CHANGE");
-        if (evt.getPropertyName().equals("players"))
-        {
-            this.players = (ArrayList<Player>) evt.getNewValue();
-            setLocalPlayer(players);
-            if (players.get(0).getNode(0) != '\u0000' && !started)
-            {
-                //TODO: BeginGame!!!!
-                started = true;
-                System.out.println("Players have nodes: " + Arrays.toString(players.get(0).getNodeList()));
-            }
-            else
-            {
-                if (started)
-                {
-                    System.out.println("Game started already");
-                    return;
-                }
-                System.out.println("New player joined, these are the players now: " + players);
-            }
-        }
-        else if (evt.getPropertyName().equals("noteListIndex"))
-        {
-            this.nodeListPosition = (Integer) evt.getNewValue();
-            System.out.println("New node list position: " + nodeListPosition);
-        }
-        else if (evt.getPropertyName().equals("lastKeyPressResult"))
-        {
-            lastKeyPressResult = (KeyPressedResult) evt.getNewValue();
-            System.out.println("Prop change 'lastKeyPressResult' : " + lastKeyPressResult);
-            uiCallback.afterCallback(this.nodeListPosition, lastKeyPressResult);
+    public void propertyChange(PropertyChangeEvent evt) {
+        DTOClientUpdate update = (DTOClientUpdate) evt.getNewValue();
 
-            lastKeyPressResult = lastKeyPressResult;
-
-            if (lastKeyPressResult.equals(KeyPressedResult.SEQUENCE_FINISHED))
-            {
-                System.out.println("pre - UICallbackEndOfSequenceCallBack");
-                uiCallback.afterEndOfSequenceCallBack(players);
-                System.out.println("post - UICallbackEndOfSequenceCallBack");
-            }
+        if (update.getNewKeyPressResult() == KeyPressedResult.SEQUENCE_FINISHED
+                || update.getNewKeyPressResult() == KeyPressedResult.STARTUP)
+        {
+            started = true;
+        }
+        else
+        {
+            nodeListPosition = update.getNewNodeListPosition();
+            lastKeyPressResult = update.getNewKeyPressResult();
         }
 
+        players = update.getNewPlayerList();
+        setLocalPlayer(players);
+
+        uiCallback.callback(update);
     }
-
-    /*
-    // TODO: remove if implemented elsewhere
-
-    //Checks if the end of the Sequence is reached.
-    private KeyPressedResult checkEndOfSequence()
-    {
-        if(nodeListPosition != nodeList.length)
-        {
-            return KeyPressedResult.CORRECT;
-        }
-        nodeListPosition = 0;
-        numberOfSequencesLeft--;
-        return checkEndOfGame();
-    }
-
-    //Checks if the end of the game is reached
-    private KeyPressedResult checkEndOfGame()
-    {
-        if(numberOfSequencesLeft != 0)
-        {
-            return KeyPressedResult.SEQUENCE_FINISHED;
-        }
-        return KeyPressedResult.GAME_FINISHED;
-    }
-    */
 }

@@ -16,20 +16,21 @@ public class GameManager implements ILogic
 {
     private IAfterPosUpdateCallback uiCallback;
     // TODO REMOVE HARDCODED VALUE
-    private Player localPlayer = new Player("DebugPlayer");
+    private Player localPlayer;
     private Game currentGame;
 
     private IServerGame serverGame;
     private ClientLoginServer clientLoginServer;
-    private Registry registry = null;
-    private static final String hostAddress = "localhost";
-    private static final int portNumber = 1099;
+    private Registry gameServerRegistry = null;
+    private static final String GAME_SERVER_HOST_ADRESS = "localhost";
+//    private static final String GAME_SERVER_HOST_ADRESS = "192.168.1.89";
+    private static final int GAME_SERVER_REGISTRY_PORT = 1099;
 
     public GameManager() {
         try {
             clientLoginServer = new ClientLoginServer();
-            System.out.println("Locating registry at: " + hostAddress + ":" + portNumber);
-            registry = LocateRegistry.getRegistry(hostAddress, portNumber);
+            System.out.println("Locating gameServerRegistry at: " + GAME_SERVER_HOST_ADRESS + ":" + GAME_SERVER_REGISTRY_PORT);
+            gameServerRegistry = LocateRegistry.getRegistry(GAME_SERVER_HOST_ADRESS, GAME_SERVER_REGISTRY_PORT);
         } catch (RemoteException e) {
             System.out.println("Registry not found.");
             e.printStackTrace();
@@ -47,44 +48,55 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public void newGame()
+    public String newGame()
     {
         System.out.println("NEW GAME CALLED");
         try {
-            IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
+            IServerManager serverManager = (IServerManager) gameServerRegistry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
-//            System.out.println("Game created with game key: " + gameKey);
+            System.out.println("Game created with game key: " + gameKey);
             joinGame(gameKey);
+            return gameKey;
         } catch (RemoteException e) {
             e.printStackTrace();
+            return null;
         } catch (NotBoundException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
     @Override
-    public void joinGame(String gameKey)
+    public boolean joinGame(String gameKey)
     {
         System.out.println("JOIN GAME CALLED");
         try {
-            serverGame = (IServerGame) registry.lookup(gameKey);
+            serverGame = (IServerGame) gameServerRegistry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame, uiCallback);
-            serverGame.subscribe(currentGame, "noteListIndex");
-            serverGame.subscribe(currentGame, "players");
-            serverGame.subscribe(currentGame, "lastKeyPressResult");
+
+            serverGame.subscribe(currentGame, "dtoProperty");
+
             if (serverGame.joinPlayer(localPlayer)){
-//                System.out.println("Game join successful with local player: " + localPlayer.getName());
+                System.out.println("Game join successful with local player: " + localPlayer.getName());
+                return true;
             }
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
     @Override
     public boolean logIn(String username, String password)
     {
+        // TODO REMOVE THIS DEBUG CODE:
+        localPlayer = new Player(username);
+        return true;
+
+        /*
         // TODO: CONTACT LOGIN SERVER FOR VERIFICATION
 
         boolean success = false;
@@ -94,8 +106,11 @@ public class GameManager implements ILogic
             localPlayer = new Player(username);
             success = true;
         }
+//        success = true;
+//        localPlayer = new Player(username);
 
         return success;
+        */
 
     }
 
@@ -129,9 +144,7 @@ public class GameManager implements ILogic
     {
         try
         {
-            serverGame.unsubscribe(currentGame, "noteListIndex");
-            serverGame.unsubscribe(currentGame, "players");
-            serverGame.unsubscribe(currentGame, "lastKeyPressResult");
+            serverGame.unsubscribe(currentGame, "dtoProperty");
 
             serverGame.leave(localPlayer);
         }
