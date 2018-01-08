@@ -6,6 +6,7 @@ import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.beans.PropertyChangeEvent;
@@ -17,6 +18,12 @@ import java.util.List;
  */
 public class GameTest
 {
+    @Before
+    public void setUp()
+    {
+
+    }
+
     @Test
     public void getNodes() throws Exception
     {
@@ -51,6 +58,12 @@ public class GameTest
             }
             while (key != ' ');
         }
+    }
+
+    @Test
+    public void beginGame()
+    {
+
     }
 
     @Test
