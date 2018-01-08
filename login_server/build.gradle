@@ -27,12 +27,4 @@ task fatJar(type: Jar) {
     with jar
 }
 
-dependencies {
 
-    testCompile('org.junit.jupiter:junit-jupiter-api:5.0.0-M2'
-    )
-    compile(
-    )
-    testRuntime(
-    )
-}

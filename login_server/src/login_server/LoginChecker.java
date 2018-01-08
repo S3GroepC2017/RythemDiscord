@@ -63,7 +63,7 @@ public class LoginChecker extends UnicastRemoteObject implements ILogin
         boolean success = false;
 
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        connectionstring = "jdbc:sqlserver://192.168.1.14;" +
+        connectionstring = "jdbc:sqlserver://PTLoginServer;" +
                 "databaseName=LoginDB;"
                 + "user=admin;"
                 + "password=admin;";
@@ -92,7 +92,6 @@ public class LoginChecker extends UnicastRemoteObject implements ILogin
                 connection.close();
             }
             catch (Exception e)
-
             {
                 System.out.println(e.toString());
             }

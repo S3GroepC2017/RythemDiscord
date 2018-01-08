@@ -23,6 +23,7 @@ public class GameManager implements ILogic
     private ClientLoginServer clientLoginServer;
     private Registry registry = null;
     private static final String hostAddress = "localhost";
+//    private static final String hostAddress = "192.168.1.89";
     private static final int portNumber = 1099;
 
     public GameManager() {
@@ -97,6 +98,8 @@ public class GameManager implements ILogic
             localPlayer = new Player(username);
             success = true;
         }
+//        success = true;
+//        localPlayer = new Player(username);
 
         return success;
 

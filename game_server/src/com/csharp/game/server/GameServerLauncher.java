@@ -14,7 +14,7 @@ import java.rmi.registry.Registry;
 
 public class GameServerLauncher
 {
-    private static final String hostAddress = "localhost";
+    private static final String hostAddress = "192.168.0.100";
     private static final int portNumber = 1099;
     private Registry registry = null;
     private final String bindingName = "ServerManager";
@@ -28,6 +28,8 @@ public class GameServerLauncher
     // Constructor
     public GameServerLauncher()
     {
+
+
         // Print port number for registry
         System.out.println("Server: Port number " + portNumber);
 
