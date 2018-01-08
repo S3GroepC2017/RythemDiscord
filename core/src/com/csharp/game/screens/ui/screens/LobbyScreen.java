@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
+import com.csharp.sharedclasses.DTOClientUpdate;
 import com.csharp.sharedclasses.Player;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
 
     public LobbyScreen(RythemDiscord game, String gamekey, boolean isHost) {
         super(game);
+        game.getLogic().setCallback(this);
         this.gamekey = gamekey;
         this.isHost = isHost;
         loadTextures();
@@ -49,8 +51,8 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         textures.put("menuItemBack_pressed", new Texture(Gdx.files.internal("keys/EscKey_pressed.png")));
         textures.put("exitLobby_default", new Texture(Gdx.files.internal("menu/exitLobby_default.png")));
         textures.put("exitLobby_pressed", new Texture(Gdx.files.internal("menu/exitLobby_pressed.png")));
-        textures.put("startGame_default", new Texture(Gdx.files.internal("menu/startGame_default.png")));
-        textures.put("startGame_pressed", new Texture(Gdx.files.internal("menu/startGame_pressed.png")));
+        textures.put("startLobby_default", new Texture(Gdx.files.internal("menu/startLobby_default.png")));
+        textures.put("startLobby_pressed", new Texture(Gdx.files.internal("menu/startLobby_pressed.png")));
     }
 
     @Override
@@ -67,7 +69,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
 
         //rendering the stage
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        drawTable();
+        drawTable(null);
         stage.draw();
     }
 
@@ -84,9 +86,9 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         exitLobbyStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("exitLobby_pressed")));
 
         ImageButton.ImageButtonStyle startGameStyle = new ImageButton.ImageButtonStyle();
-        startGameStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("startGame_default")));
-        startGameStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("startGame_pressed")));
-        startGameStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("startGame_pressed")));
+        startGameStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_default")));
+        startGameStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_pressed")));
+        startGameStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_pressed")));
 
         defaultLabelStyle = new Label.LabelStyle();
         defaultLabelStyle.font = skin.getFont("modes");
@@ -112,20 +114,32 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         table.add(gamekeyLabel).padTop(100).padBottom(30).row();
     }
 
-    private void drawTable() {
+    private void drawTable(List<Player> players) {
+        if (players == null)
+        {
+            players = game.getLogic().getPlayers();
+        }
+
         table.removeActor(playerTable);
         playerTable.clear();
-        for (Player p : game.getLogic().getPlayers()) {
+        for (Player p : players) {
             Label playerNameLabel = new Label(p.getName(), defaultLabelStyle);
             playerTable.add(playerNameLabel).row();
         }
 
 
-        playerTable.add(exitLobby).padTop(200);
+        playerTable.add(exitLobby).padTop(200).size(200, 60);
         if(isHost) {
-            table.add(startGame);
+            table.add(startGame).size(200, 60);
         }
 
         table.add(playerTable).row();
+    }
+
+    @Override
+    public void callback(DTOClientUpdate callbackUpdate)
+    {
+        System.out.println("callback called");
+        drawTable(callbackUpdate.getNewPlayerList());
     }
 }

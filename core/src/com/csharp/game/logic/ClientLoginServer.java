@@ -10,9 +10,9 @@ import java.rmi.registry.Registry;
 public class ClientLoginServer
 {
 
-    private String hostIP = "localhost";
-//    private String hostIP = "192.168.1.89";
-    private int port = 1099;
+    private static final String LOGIN_SERVER_HOST_ADRESS = "192.168.0.100";
+//    private static final String LOGIN_SERVER_HOST_ADRESS = "192.168.1.89";
+    private static final int LOGIN_SERVER_REGISTRY_PORT = 1100;
     private ILogin loginServer;
     private Registry registry = null;
 
@@ -24,7 +24,7 @@ public class ClientLoginServer
     {
         try
         {
-            registry = LocateRegistry.getRegistry(hostIP, port);
+            registry = LocateRegistry.getRegistry(LOGIN_SERVER_HOST_ADRESS, LOGIN_SERVER_REGISTRY_PORT);
         }
         catch (RemoteException ex)
         {

@@ -13,12 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
+import com.csharp.sharedclasses.DTOClientUpdate;
 
 import java.util.HashMap;
 
 public class LoginScreen extends MenuScreen implements IMenuScreen {
     public LoginScreen(RythemDiscord game) {
         super(game);
+        game.getLogic().setCallback(this);
         loadTextures();
         createUiComponents();
     }
@@ -104,5 +106,11 @@ public class LoginScreen extends MenuScreen implements IMenuScreen {
         table.add(nameField).align(Align.center).padBottom(10).padTop(100).size(200, 20).row();
         table.add(passwordField).align(Align.center).padBottom(10).size(200, 20).row();
         table.add(loginButton).padTop(20).size(50);
+    }
+
+    @Override
+    public void callback(DTOClientUpdate callbackUpdate)
+    {
+
     }
 }
