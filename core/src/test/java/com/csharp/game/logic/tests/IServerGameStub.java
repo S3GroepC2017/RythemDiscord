@@ -5,6 +5,8 @@ import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 import com.csharp.sharedclasses.fontyspublisher.IRemotePropertyListener;
 
+import java.rmi.RemoteException;
+
 public class IServerGameStub implements IServerGame
 {
     public KeyPressedResult lastReceivedResultKeyPressResult = KeyPressedResult.NONE;
@@ -36,6 +38,16 @@ public class IServerGameStub implements IServerGame
     @Override
     public void startGame(Player player)
     {
+
+    }
+
+    @Override
+    public void unsubscribe(IRemotePropertyListener listener, String propertyName) throws RemoteException {
+
+    }
+
+    @Override
+    public void leave(Player player) throws RemoteException {
 
     }
 }

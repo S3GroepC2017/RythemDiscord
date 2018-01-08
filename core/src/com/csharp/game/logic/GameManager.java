@@ -16,13 +16,14 @@ public class GameManager implements ILogic
 {
     private IAfterPosUpdateCallback uiCallback;
     // TODO REMOVE HARDCODED VALUE
-    private Player localPlayer = new Player("DebugPlayer");
+    private Player localPlayer;
     private Game currentGame;
 
     private IServerGame serverGame;
     private ClientLoginServer clientLoginServer;
     private Registry registry = null;
     private static final String hostAddress = "localhost";
+//    private static final String hostAddress = "192.168.1.89";
     private static final int portNumber = 1099;
 
     public GameManager() {
@@ -47,7 +48,7 @@ public class GameManager implements ILogic
     }
 
     @Override
-    public void newGame()
+    public String newGame()
     {
         System.out.println("NEW GAME CALLED");
         try {
@@ -55,10 +56,13 @@ public class GameManager implements ILogic
             String gameKey = serverManager.createGame();
             System.out.println("Game created with game key: " + gameKey);
             joinGame(gameKey);
+            return gameKey;
         } catch (RemoteException e) {
             e.printStackTrace();
+            return null;
         } catch (NotBoundException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
@@ -94,6 +98,8 @@ public class GameManager implements ILogic
             localPlayer = new Player(username);
             success = true;
         }
+//        success = true;
+//        localPlayer = new Player(username);
 
         return success;
 

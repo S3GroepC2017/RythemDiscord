@@ -123,8 +123,7 @@ public class Game extends UnicastRemoteObject implements IGame
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) throws RemoteException
-    {
+    public void propertyChange(PropertyChangeEvent evt) {
         DTOClientUpdate update = (DTOClientUpdate) evt.getNewValue();
 
         if (update.getNewKeyPressResult() == KeyPressedResult.SEQUENCE_FINISHED

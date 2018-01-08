@@ -19,7 +19,7 @@ public interface ILogic
     /**
      * make new game on the server and join that game
      */
-    void newGame();
+    String newGame();
 
     /**
      * join existing game on the server

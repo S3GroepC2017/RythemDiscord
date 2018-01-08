@@ -35,7 +35,6 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
 
     @Override
     public void loadTextures() {
-        textures = new HashMap<String, Texture>();
         textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemSP_default", new Texture(Gdx.files.internal("menu/menuItemSP_default.png")));
         textures.put("menuItemSP_pressed", new Texture(Gdx.files.internal("menu/menuItemSP_pressed.png")));
@@ -64,7 +63,7 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
         exitBtnStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemExit_pressed")));
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MODES.TTF")).generateFont(new FreeTypeFontGenerator.FreeTypeFontParameter());
+        labelStyle.font = skin.getFont("modes");
 
         //declaring the elements
         final Image titleImage = new Image(textures.get("gameTitle"));
@@ -104,7 +103,7 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
         });
 
         //Drawing the UI components (this is in chronological order)
-        table.top().padTop(20);
+        table.top().padTop(90).row();
         table.add(titleImage).row();
         table.add(creatorsLabel0).pad(10).row();
         table.add(creatorsLabel1).row();

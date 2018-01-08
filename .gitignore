@@ -1,5 +1,11 @@
 ## Java
 \login_server\**\*.jar
+\SharedClasses\**\*.jar
+\build\**\*.jar
+\out\**\*.jar
+
+**/build/libs/*.jar
+
 *.class
 *.war
 *.ear

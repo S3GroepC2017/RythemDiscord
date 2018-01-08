@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.csharp.game.InputManager;
 import com.csharp.game.RythemDiscord;
-import com.csharp.game.screens.ScreenHelper;
+import com.csharp.game.screens.game.screens.ScreenHelper;
 import com.csharp.game.screens.TextureKeyContainer;
 import com.csharp.game.screens.ui.screens.MainMenuScreen;
 import com.csharp.sharedclasses.DTOClientUpdate;
@@ -397,40 +397,30 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     /**
      * Render the texture for the current note that needs to be pressed.
      */
-    private void renderCurrentKeyFrame()
-    {
-        //render keyframe from current playable note
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(255, 0, 0, 0.7f);
-        shapeRenderer.rect(50, 50, 100, 100);
-        Gdx.gl20.glLineWidth(15);
-        shapeRenderer.end();
+    private void renderCurrentKeyFrame() {
+        for(int i = 0; i < amountOfPlayers; i++) {
+            int[] position = ScreenHelper.calculateKeyframe(i);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(255, 0, 0, 0.7f);
+            shapeRenderer.rect(position[0], position[1], 100, 100);
+            Gdx.gl20.glLineWidth(15);
+            shapeRenderer.end();
+        }
     }
 
     /**
      * Rendering of the key textures on the screen.
      */
-    private void renderKeys()
-    {
+    private void renderKeys() {
         //Render keys for all players
-        for (int i = 0; i < allPlayableKeyTextures.length; i++)
-        {
-            ArrayList<Texture> tex = allPlayableKeyTextures[i];
-
-            if (!tex.isEmpty())
-            {
-                game.spriteBatch.begin();
-                //game.spriteBatch.draw(tex.get(0), 60, 60, 80, 80); //current key
-
-                //TODO meerdere rijen
-                for (Texture t : tex)
-                {
-                    if (tex.indexOf(t) == 15)
-                    {
-                        break;
-                    }
-                    game.spriteBatch.draw(t, screenHelper.calculateHMargin(tex.indexOf(t)), screenHelper.calculateVMargin(i), 80, 100); //key
+        for(int i = 0; i < amountOfPlayers; i++) {
+            for(int o = 0; i < allPlayableKeyTextures[i].size(); i++) {
+                if(o == 15) {
+                    break;
                 }
+                int[] playerNoteMargin = ScreenHelper.calculatePlayerKeysMargin(i, o);
+                game.spriteBatch.begin();
+                game.spriteBatch.draw(allOriginalKeyTextures[i].get(o), playerNoteMargin[0], playerNoteMargin[1], 80, 80);
                 game.spriteBatch.end();
             }
         }
