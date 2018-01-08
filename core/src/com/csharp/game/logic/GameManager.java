@@ -26,12 +26,16 @@ public class GameManager implements ILogic
 //    private static final String hostAddress = "192.168.1.89";
     private static final int portNumber = 1099;
 
-    public GameManager() {
-        try {
+    public GameManager()
+    {
+        try
+        {
             clientLoginServer = new ClientLoginServer();
             System.out.println("Locating registry at: " + hostAddress + ":" + portNumber);
             registry = LocateRegistry.getRegistry(hostAddress, portNumber);
-        } catch (RemoteException e) {
+        }
+        catch (RemoteException e)
+        {
             System.out.println("Registry not found.");
             e.printStackTrace();
         }
@@ -44,6 +48,7 @@ public class GameManager implements ILogic
         {
             return;
         }
+
         currentGame.beginGame();
     }
 
@@ -51,16 +56,21 @@ public class GameManager implements ILogic
     public String newGame()
     {
         System.out.println("NEW GAME CALLED");
-        try {
+        try
+        {
             IServerManager serverManager = (IServerManager) registry.lookup("ServerManager");
             String gameKey = serverManager.createGame();
             System.out.println("Game created with game key: " + gameKey);
             joinGame(gameKey);
             return gameKey;
-        } catch (RemoteException e) {
+        }
+        catch (RemoteException e)
+        {
             e.printStackTrace();
             return null;
-        } catch (NotBoundException e) {
+        }
+        catch (NotBoundException e)
+        {
             e.printStackTrace();
             return null;
         }
@@ -70,18 +80,24 @@ public class GameManager implements ILogic
     public void joinGame(String gameKey)
     {
         System.out.println("JOIN GAME CALLED");
-        try {
+        try
+        {
             serverGame = (IServerGame) registry.lookup(gameKey);
             currentGame = new Game(localPlayer, serverGame, uiCallback);
 
             serverGame.subscribe(currentGame, "dtoProperty");
 
-            if (serverGame.joinPlayer(localPlayer)){
+            if (serverGame.joinPlayer(localPlayer))
+            {
                 System.out.println("Game join successful with local player: " + localPlayer.getName());
             }
-        } catch (RemoteException e) {
+        }
+        catch (RemoteException e)
+        {
             e.printStackTrace();
-        } catch (NotBoundException e) {
+        }
+        catch (NotBoundException e)
+        {
             e.printStackTrace();
         }
     }
@@ -93,13 +109,13 @@ public class GameManager implements ILogic
 
         boolean success = false;
 
-        if (clientLoginServer.login(username,password))
+        if (clientLoginServer.login(username, password))
         {
             localPlayer = new Player(username);
             success = true;
         }
-//        success = true;
-//        localPlayer = new Player(username);
+        //        success = true;
+        //        localPlayer = new Player(username);
 
         return success;
 
@@ -115,7 +131,7 @@ public class GameManager implements ILogic
     public KeyPressedResult keyPressed(char keyPressed)
     {
         return currentGame.checkKeyPressed(keyPressed);
-//        return KeyPressedResult.WRONG;
+        //        return KeyPressedResult.WRONG;
     }
 
     @Override
