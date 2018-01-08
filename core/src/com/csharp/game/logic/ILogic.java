@@ -25,7 +25,7 @@ public interface ILogic
      * join existing game on the server
      * @param gameKey key to look up the existing game
      */
-    void joinGame(String gameKey);
+    boolean joinGame(String gameKey);
 
     boolean logIn(String username, String password);
 
