@@ -1,43 +1,50 @@
-package com.csharp.game.server.com.csharp.game.server;
+package gameserver_tests;
 
 import com.csharp.game.server.ServerGame;
 import com.csharp.game.server.ServerManager;
-import com.csharp.game.server.ServerManagerTest;
+import com.csharp.sharedclasses.DTOClientUpdate;
 import com.csharp.sharedclasses.IServerGame;
+import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 import com.csharp.sharedclasses.fontyspublisher.IPropertyListener;
+import com.sun.org.apache.xerces.internal.parsers.DTDParser;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.beans.PropertyChangeEvent;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class ServerGameTest implements IPropertyListener
 {
     Registry registry;
-    ServerGame serverGame;
+    IServerGame serverGame;
     ServerManager serverManager;
     Player player1;
     Player player2;
     GameServerDriver gameServerDriver;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
         registry = LocateRegistry.createRegistry(1099);
         serverManager = new ServerManager(registry);
         serverGame = new ServerGame();
         player1 = new Player("player1");
         player2 = new Player("player2");
-        gameServerDriver = new GameServerDriver();
+        gameServerDriver = new GameServerDriver(serverGame);
     }
 
     //This test might fail because of the static integer counting up. This test requires the gameid to start at 0.
     //If another test created a game before the gameid isn't 0 anymore.
     @Test
-    public void getGameId() throws Exception {
+    public void getGameId() throws Exception
+    {
         int serverGameId = serverGame.getGameId();
         assertEquals("Test gameId automatic increase Test 1", 0, serverGameId);
         serverGame = new ServerGame();
@@ -46,7 +53,8 @@ public class ServerGameTest implements IPropertyListener
     }
 
     @Test
-    public void joinPlayer() throws Exception {
+    public void joinPlayer() throws Exception
+    {
         joinPlayer(serverGame, true, "Test joinPlayer1 for the first time", player1);
         joinPlayer(serverGame, false, "Test joinPlayer1 for the seccond time", player1);
         joinPlayer(serverGame, false, "Test joinPlayer2 for the first time", player2);
@@ -67,8 +75,9 @@ public class ServerGameTest implements IPropertyListener
     }
 
     @Test
-    public void subscribe() throws Exception {
-        subscribeToPropertyListener(serverGame);
+    public void subscribe() throws Exception
+    {
+        subscribeToPropertyListener((ServerGame) serverGame);
     }
 
     public void subscribeToPropertyListener(ServerGame serverGame) throws RemoteException
@@ -79,20 +88,43 @@ public class ServerGameTest implements IPropertyListener
     }
 
     @Test
-    public void startGame() throws Exception {
+    public void startGame() throws Exception
+    {
         ServerManagerTest serverManagerTest = new ServerManagerTest();
         String gameId = serverManagerTest.createServerGame(serverManager);
         IServerGame serverGameTest = (IServerGame) registry.lookup(gameId);
-        subscribeToPropertyListener((ServerGame) serverGameTest);
         joinPlayer(serverGameTest, true, "Test join Player by Interface", player1);
-        assertEquals("Test Player list is updated after joining", 1, gameServerDriver.players.size());
-        assertEquals("Test Correct Player has joined the game", player1, gameServerDriver.players.get(0));
+
+
+        DTOClientUpdate dtoClientUpdate = null;
+        PropertyChangeEvent propertyChangeEvent =  gameServerDriver.lastPropertyChangeEvent;
+        if (propertyChangeEvent.getPropertyName().equals("dtoProperty"))
+        {
+            dtoClientUpdate = (DTOClientUpdate) propertyChangeEvent.getNewValue();
+        }
+
+        assertEquals("Test Player list is updated after joining", 1, dtoClientUpdate.getNewPlayerList().size());
+        assertEquals("Test Correct Player has joined the game", player1, dtoClientUpdate.getNewPlayerList().get(0));
         serverGameTest.startGame(player1);
-        assertEquals("Test NodeListIndex is updated", 1, gameServerDriver.nodeListIndex);
+        assertEquals("Test NodeListIndex is updated", 1, dtoClientUpdate.getNewNodeListPosition());
     }
 
     @Test
-    public void keyPressed() throws Exception {
+    public void keyPressed() throws Exception
+    {
+        KeyPressedResult actualResult = KeyPressedResult.CORRECT;
+        DTOClientUpdate dtoCatcher = null;
+
+        serverGame.keyPressed(actualResult);
+
+        if (gameServerDriver.lastPropertyChangeEvent.getPropertyName().equals("dtoProperty"))
+        {
+            dtoCatcher = (DTOClientUpdate) gameServerDriver.lastPropertyChangeEvent.getNewValue();
+            actualResult = dtoCatcher.getNewKeyPressResult();
+        }
+
+        assertEquals(actualResult, gameServerDriver.lastPropertyChangeEvent);
+
     }
 
 }
