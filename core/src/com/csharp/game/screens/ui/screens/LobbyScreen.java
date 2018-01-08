@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.csharp.game.RythemDiscord;
+import com.csharp.game.screens.game.screens.GameScreen;
 import com.csharp.sharedclasses.DTOClientUpdate;
 import com.csharp.sharedclasses.Player;
 
@@ -88,7 +89,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         ImageButton.ImageButtonStyle startGameStyle = new ImageButton.ImageButtonStyle();
         startGameStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_default")));
         startGameStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_pressed")));
-        startGameStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_pressed")));
+        startGameStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_pressed")));
 
         defaultLabelStyle = new Label.LabelStyle();
         defaultLabelStyle.font = skin.getFont("modes");
@@ -104,6 +105,24 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 dispose();
                 game.setScreen(new MainMenuScreen(game));
+            }
+        });
+
+        exitLobby.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.getLogic().leaveCurrentGame();
+                dispose();
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
+
+        startGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.getLogic().startGame();
+                dispose();
+                game.setScreen(new GameScreen(game));
             }
         });
 
@@ -127,10 +146,11 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
             playerTable.add(playerNameLabel).row();
         }
 
-
-        playerTable.add(exitLobby).padTop(200).size(200, 60);
         if(isHost) {
-            table.add(startGame).size(200, 60);
+            playerTable.add(startGame).padTop(200).padBottom(20).size(200, 60).row();
+            playerTable.add(exitLobby).size(200, 60).row();
+        } else {
+            playerTable.add(exitLobby).size(200, 60).row();
         }
 
         table.add(playerTable).row();

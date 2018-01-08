@@ -80,12 +80,13 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
                 if(game.getLogic().joinGame(gamekeyField.getText())) {
                     dispose();
                     game.setScreen(new LobbyScreen(game, gamekeyField.getText(), false));
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText(null);
+                    alert.setTitle("Unicurn");
+                    alert.setContentText("Failed to join game");
+                    alert.showAndWait();
                 }
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
-                alert.setTitle("Unicurn");
-                alert.setContentText("Failed to join game");
-                alert.showAndWait();
             }
         });
 
