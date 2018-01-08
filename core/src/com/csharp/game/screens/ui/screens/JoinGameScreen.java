@@ -78,7 +78,7 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 game.getLogic().joinGame(gamekeyField.getText());
                 dispose();
-                game.setScreen(new LobbyScreen(game, gamekeyField.getText()));
+                game.setScreen(new LobbyScreen(game, gamekeyField.getText(), false));
             }
         });
 

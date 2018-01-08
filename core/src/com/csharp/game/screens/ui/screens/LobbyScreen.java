@@ -26,20 +26,20 @@ import java.util.List;
 public class LobbyScreen extends MenuScreen implements IMenuScreen {
 
     private String gamekey;
+    private boolean isHost;
 
-    private Label gamekeyLabel;
-    private Image titleImage;
+    private ImageButton exitLobby;
+    private ImageButton startGame;
     private Label.LabelStyle defaultLabelStyle;
-    private Label playerNameLabel;
-    private ImageButton backButton;
 
     private Table playerTable;
 
 
-    public LobbyScreen(RythemDiscord game, String gamekey) {
+    public LobbyScreen(RythemDiscord game, String gamekey, boolean isHost) {
         super(game);
         game.getLogic().setCallback(this);
         this.gamekey = gamekey;
+        this.isHost = isHost;
         loadTextures();
         createUiComponents();
     }
@@ -49,6 +49,10 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         textures.put("gameTitle", new Texture(Gdx.files.internal("menu/GameTitle.png")));
         textures.put("menuItemBack_default", new Texture(Gdx.files.internal("keys/EscKey_default.png")));
         textures.put("menuItemBack_pressed", new Texture(Gdx.files.internal("keys/EscKey_pressed.png")));
+        textures.put("exitLobby_default", new Texture(Gdx.files.internal("menu/exitLobby_default.png")));
+        textures.put("exitLobby_pressed", new Texture(Gdx.files.internal("menu/exitLobby_pressed.png")));
+        textures.put("startLobby_default", new Texture(Gdx.files.internal("menu/startLobby_default.png")));
+        textures.put("startLobby_pressed", new Texture(Gdx.files.internal("menu/startLobby_pressed.png")));
     }
 
     @Override
@@ -76,13 +80,24 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         backButtonStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
         backButtonStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("menuItemBack_pressed")));
 
+        ImageButton.ImageButtonStyle exitLobbyStyle = new ImageButton.ImageButtonStyle();
+        exitLobbyStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("exitLobby_default")));
+        exitLobbyStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("exitLobby_pressed")));
+        exitLobbyStyle.over = new TextureRegionDrawable(new TextureRegion(textures.get("exitLobby_pressed")));
+
+        ImageButton.ImageButtonStyle startGameStyle = new ImageButton.ImageButtonStyle();
+        startGameStyle.up = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_default")));
+        startGameStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_pressed")));
+        startGameStyle.down = new TextureRegionDrawable(new TextureRegion(textures.get("startLobby_pressed")));
+
         defaultLabelStyle = new Label.LabelStyle();
         defaultLabelStyle.font = skin.getFont("modes");
 
-        gamekeyLabel = new Label(gamekey, defaultLabelStyle);
-        titleImage = new Image(textures.get("gameTitle"));
-        backButton = new ImageButton(backButtonStyle);
-
+        final Label gamekeyLabel = new Label(gamekey, defaultLabelStyle);
+        final Image titleImage = new Image(textures.get("gameTitle"));
+        final ImageButton backButton = new ImageButton(backButtonStyle);
+        exitLobby = new ImageButton(exitLobbyStyle);
+        startGame = new ImageButton(startGameStyle);
 
         backButton.addListener(new ChangeListener() {
             @Override
@@ -108,9 +123,16 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen {
         table.removeActor(playerTable);
         playerTable.clear();
         for (Player p : players) {
-            playerNameLabel = new Label(p.getName(), defaultLabelStyle);
+            Label playerNameLabel = new Label(p.getName(), defaultLabelStyle);
             playerTable.add(playerNameLabel).row();
         }
+
+
+        playerTable.add(exitLobby).padTop(200).size(200, 60);
+        if(isHost) {
+            table.add(startGame).size(200, 60);
+        }
+
         table.add(playerTable).row();
     }
 
