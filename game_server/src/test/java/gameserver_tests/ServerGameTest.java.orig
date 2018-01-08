@@ -2,7 +2,10 @@ package gameserver_tests;
 
 import com.csharp.game.server.ServerGame;
 import com.csharp.game.server.ServerManager;
+<<<<<<< HEAD:game_server/src/test/java/gameserver_tests/ServerGameTest.java
+=======
 import com.csharp.sharedclasses.DTOClientUpdate;
+>>>>>>> Michelle:game_server/src/test/java/gameserver_tests/ServerGameTest.java
 import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
@@ -94,7 +97,6 @@ public class ServerGameTest implements IPropertyListener
         ServerManagerTest serverManagerTest = new ServerManagerTest();
         String gameId = serverManagerTest.createServerGame(serverManager);
         IServerGame serverGameTest = (IServerGame) registry.lookup(gameId);
-        subscribeToPropertyListener((ServerGame) serverGameTest);
         joinPlayer(serverGameTest, true, "Test join Player by Interface", player1);
 
 

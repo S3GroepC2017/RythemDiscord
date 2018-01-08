@@ -1,3 +1,4 @@
+package gameserver_tests;
 
 import com.csharp.game.server.GameServerLauncher;
 import com.csharp.sharedclasses.IServerGame;
@@ -20,6 +21,11 @@ public class GameServerDriver implements IRemotePropertyListener
     public int resultGetPlayerId;
     public PropertyChangeEvent lastPropertyChangeEvent;
 
+<<<<<<< HEAD
+    public GameServerDriver(IServerGame serverGame)
+    {
+        this.serverGame = serverGame;
+=======
     public GameServerDriver(IServerGame serverGame) throws RemoteException
     {
         this.serverGame = serverGame;
@@ -27,13 +33,18 @@ public class GameServerDriver implements IRemotePropertyListener
 //        serverGame.subscribe(this, "players");
 //        serverGame.subscribe(this, "noteListIndex");
         serverGame.subscribe(this, "dtoProperty");
+>>>>>>> Michelle
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException
     {
         lastPropertyChangeEvent = evt;
+<<<<<<< HEAD
 //        if(evt.getPropertyName().equals("Player"))
+=======
+        //        if(evt.getPropertyName().equals("Player"))
+>>>>>>> Michelle
 //        {
 //            players = (List<Player>)evt.getNewValue();
 //        }
@@ -90,4 +101,8 @@ public class GameServerDriver implements IRemotePropertyListener
     {
         serverGame.leave(player);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> Michelle
