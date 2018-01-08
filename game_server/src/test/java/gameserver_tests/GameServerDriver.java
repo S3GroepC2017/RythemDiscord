@@ -1,3 +1,4 @@
+package gameserver_tests;
 
 import com.csharp.game.server.GameServerLauncher;
 import com.csharp.sharedclasses.IServerGame;
