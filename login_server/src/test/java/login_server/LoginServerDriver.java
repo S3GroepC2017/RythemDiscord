@@ -1,26 +1,22 @@
-package gameserver_tests;
+package login_server;
 
-import com.csharp.sharedclasses.IServerGame;
-import com.csharp.sharedclasses.IServerManager;
+import com.csharp.sharedclasses.ILogin;
 import com.csharp.sharedclasses.fontyspublisher.IRemotePropertyListener;
 
 import java.beans.PropertyChangeEvent;
 import java.rmi.RemoteException;
 
-public class ServerManagerDriver implements IRemotePropertyListener
+public class LoginServerDriver implements IRemotePropertyListener
 {
-    public IServerManager serverManager;
+    ILogin loginServer;
 
-    public PropertyChangeEvent lastPropertyChangeEvent;
-    public String resultcreateGame = null;
+    PropertyChangeEvent lastPropertyChangeEvent;
 
-    public ServerManagerDriver(IServerGame serverGame) throws RemoteException
+    boolean resultCheckLogin;
+
+    public LoginServerDriver(ILogin loginServer)
     {
-        this.serverManager = serverManager;
-
-        //        serverGame.subscribe(this, "players");
-        //        serverGame.subscribe(this, "noteListIndex");
-        serverGame.subscribe(this, "dtoProperty");
+        this.loginServer = loginServer;
     }
 
     @Override
@@ -41,9 +37,9 @@ public class ServerManagerDriver implements IRemotePropertyListener
         //        }
     }
 
-    String createGame() throws RemoteException
+    boolean checkLogin(String username, String hashedPassword) throws RemoteException
     {
-        resultcreateGame = serverManager.createGame();
-        return resultcreateGame;
+        resultCheckLogin = loginServer.checkLogin(username, hashedPassword);
+        return resultCheckLogin;
     }
 }
