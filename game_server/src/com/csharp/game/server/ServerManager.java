@@ -32,6 +32,14 @@ public class ServerManager extends UnicastRemoteObject implements IServerManager
                     {
                         synchronized (synchroniseObject)
                         {
+                            try
+                            {
+                                registry.rebind("Game:" + serverGame.getGameId(), null);
+                            }
+                            catch (RemoteException e)
+                            {
+                                e.printStackTrace();
+                            }
                             games.remove(serverGame);
                         }
                     }
