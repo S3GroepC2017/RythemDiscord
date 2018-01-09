@@ -96,6 +96,7 @@ public class GameManager implements ILogic
         }
         catch (NotBoundException e)
         {
+            // The given gameKey isn't registered in the Registry
             e.printStackTrace();
         }
 
