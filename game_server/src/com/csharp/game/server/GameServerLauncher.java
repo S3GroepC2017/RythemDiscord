@@ -65,5 +65,7 @@ public class GameServerLauncher
             System.out.println("Server: RemoteException: " + ex.getMessage());
             System.exit(1);
         }
+
+        System.out.println("done");
     }
 }

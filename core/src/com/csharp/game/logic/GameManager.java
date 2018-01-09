@@ -36,6 +36,7 @@ public class GameManager implements ILogic
         } catch (RemoteException e) {
             System.out.println("Registry not found.");
             e.printStackTrace();
+            System.exit(1);
         }
     }
 

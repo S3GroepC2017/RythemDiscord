@@ -127,7 +127,7 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame
     {
         players.remove(player);
 
-        if (hostPlayer.equals(player) && players.isEmpty())
+        if (hostPlayer.equals(player) && !players.isEmpty())
         {
             hostPlayer = players.get(0);
         }
@@ -182,5 +182,10 @@ public class ServerGame extends UnicastRemoteObject implements IServerGame
         {
             e.printStackTrace();
         }
+    }
+
+    public int getNumberOfPlayers()
+    {
+        return players.size();
     }
 }
