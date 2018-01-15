@@ -1,6 +1,7 @@
 package com.csharp.game.logic.tests;
 
 import com.csharp.game.logic.Game;
+import com.csharp.sharedclasses.DTOClientUpdate;
 import com.csharp.sharedclasses.IGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
@@ -22,6 +23,7 @@ public class GameTest
     IUIstub uiStub;
     Player localPlayer;
     IGame game;
+    List<Player> players;
 
     @Before
     public void setUp() throws Exception
@@ -149,7 +151,6 @@ public class GameTest
         Assert.assertEquals(0, game.getNodeListPosition());
         Assert.assertNotEquals(4, game.getNodeListPosition());
 
-
         //change the position manually
         int testNodeListPosition = 3;
         List<Player> allPlayers = new ArrayList<>();
@@ -158,9 +159,18 @@ public class GameTest
         char[] nodes = new char[]{allPlayers.get(0).getNode(0), allPlayers.get(0).getNode(1), allPlayers.get(0).getNode(2),
                 allPlayers.get(0).getNode(3)};
 
-        game.checkKeyPressed(nodes[0]);
-        game.checkKeyPressed(nodes[1]);
-        game.checkKeyPressed(nodes[3]);
+        players = game.getNodes();
+        game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, new DTOClientUpdate(0, KeyPressedResult.STARTUP, players)));
+
+
+        System.out.println(nodes);
+        System.out.println(localPlayer.getNodeList());
+        System.out.println(game.checkKeyPressed(nodes[0]));
+        game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, new DTOClientUpdate(1, KeyPressedResult.CORRECT, players)));
+        System.out.println(game.checkKeyPressed(nodes[1]));
+        game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, new DTOClientUpdate(2, KeyPressedResult.CORRECT, players)));
+        System.out.println(game.checkKeyPressed(nodes[2]));
+        game.propertyChange(new PropertyChangeEvent(serverGameStub, "players", null, new DTOClientUpdate(3, KeyPressedResult.CORRECT, players)));
 
         Assert.assertEquals(testNodeListPosition, game.getNodeListPosition());
     }
