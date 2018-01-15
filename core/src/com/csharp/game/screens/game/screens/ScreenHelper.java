@@ -7,11 +7,11 @@ public class ScreenHelper {
             case 0:
                 return new int[]{50, 50};
             case 1:
-                return new int[]{50, 160};
+                return new int[]{50, 190};
             case 2:
-                return new int[]{50, 270};
+                return new int[]{50, 300};
             case 3:
-                return new int[]{50, 380};
+                return new int[]{50, 410};
             default:
                 return null;
         }
@@ -32,19 +32,19 @@ public class ScreenHelper {
                 for (int i = 0; i < key; i++) {
                     x += 100;
                 }
-                y = 170;
+                y = 200;
                 return new int[]{x, y};
             case 2:
                 for (int i = 0; i < key; i++) {
                     x += 100;
                 }
-                y = 280;
+                y = 310;
                 return new int[]{x, y};
             case 3:
                 for (int i = 0; i < key; i++) {
                     x += 100;
                 }
-                y = 390;
+                y = 420;
                 return new int[]{x, y};
             default:
                 return null;
