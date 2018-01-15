@@ -35,7 +35,7 @@ public class ServerGameTest
     @BeforeClass
     public static void oneTimeSetUp() throws RemoteException
     {
-        if(registry == null)
+        if (registry == null)
         {
             registry = LocateRegistry.createRegistry(1099);
         }
@@ -65,7 +65,7 @@ public class ServerGameTest
         DTOClientUpdate dtoClientUpdate = null;
         gameServerDriver.joinPlayer(player1);
         Thread.sleep(500);
-        PropertyChangeEvent propertyChangeEvent =  gameServerDriver.lastPropertyChangeEvent;
+        PropertyChangeEvent propertyChangeEvent = gameServerDriver.lastPropertyChangeEvent;
         if (propertyChangeEvent.getPropertyName().equals("dtoProperty"))
         {
             dtoClientUpdate = (DTOClientUpdate) propertyChangeEvent.getNewValue();
