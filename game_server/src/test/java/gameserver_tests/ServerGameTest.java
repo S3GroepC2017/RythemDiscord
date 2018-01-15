@@ -93,7 +93,5 @@ public class ServerGameTest
         }
 
         assertEquals(actualResult, dtoCatcher.getNewKeyPressResult());
-
     }
-
 }
