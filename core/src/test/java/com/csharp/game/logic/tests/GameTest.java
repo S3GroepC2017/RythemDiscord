@@ -2,13 +2,11 @@ package com.csharp.game.logic.tests;
 
 import com.csharp.game.logic.Game;
 import com.csharp.sharedclasses.IGame;
-import com.csharp.sharedclasses.IServerGame;
 import com.csharp.sharedclasses.KeyPressedResult;
 import com.csharp.sharedclasses.Player;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,23 +18,27 @@ public class GameTest
 {
     IGameServerStub gameServerStub;
     ILoginServerStub loginServerStub;
+    IGameServerStub serverGameStub;
     IUIstub uiStub;
+    Player localPlayer;
+    IGame game;
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         gameServerStub = new IGameServerStub();
         loginServerStub = new ILoginServerStub();
         uiStub = new IUIstub();
+        localPlayer = new Player("TestPlayer");
+        serverGameStub = new IGameServerStub();
+        game = new Game(localPlayer, serverGameStub, new IUIstub());
     }
 
     @Test
     public void getNodes() throws Exception
     {
         // setup all the things
-        IServerGameStub serverGameStub = new IServerGameStub();
         Player testPlayer = new Player("testPlayer");
-        IGame game = new Game(testPlayer, gameServerStub, new IUIstub());
 
         // set the players to have notes
         List<Player> playersWithNodes = new ArrayList<>();
@@ -75,10 +77,7 @@ public class GameTest
     @Test
     public void checkKeyPressed() throws Exception
     {
-        Player localPlayer = new Player("TestPlayer");
-        IGameServerStub serverGameStub = new IGameServerStub();
         localPlayer.setNodeList(new char[]{'a', 'b', 'c', 'd'});
-        IGame game = new Game(localPlayer, serverGameStub, new IUIstub());
 
         //TODO: replace character array with player list.
         List<Player> players = game.getNodes();
@@ -144,7 +143,7 @@ public class GameTest
     }
 
     @Test
-    public void getNodeListPosition() throws RemoteException
+    public void getNodeListPosition() throws Exception
     {
         //if there is no value given to the node list position, this value is 0
         Assert.assertEquals(0, game.getNodeListPosition());
