@@ -95,7 +95,7 @@ public class JoinGameScreen extends MenuScreen implements IMenuScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new SecondMenuScreen(game));
             }
         });
 

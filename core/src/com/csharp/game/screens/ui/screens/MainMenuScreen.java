@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.csharp.game.RythemDiscord;
 import com.csharp.game.screens.game.screens.GameScreen;
 import com.csharp.sharedclasses.DTOClientUpdate;
+import com.csharp.sharedclasses.KeyPressedResult;
 
 import java.util.HashMap;
 
@@ -80,8 +81,10 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
         spBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                game.setScreen(new GameScreen(game));
+                String gameKey =  game.getLogic().newGame();
+                if(game.getLogic().joinGame(gameKey)) {
+                    game.getLogic().startGame();
+                }
             }
         });
 
@@ -117,6 +120,15 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
     @Override
     public void callback(DTOClientUpdate callbackUpdate)
     {
+        if (callbackUpdate.getNewKeyPressResult() == KeyPressedResult.STARTUP)
+        {
+            Gdx.app.postRunnable(this::switchToGameScreen);
+        }
+    }
 
+    private void switchToGameScreen()
+    {
+        dispose();
+        game.setScreen(new GameScreen(game));
     }
 }

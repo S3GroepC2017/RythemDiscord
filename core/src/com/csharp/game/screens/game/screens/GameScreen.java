@@ -170,9 +170,6 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         //rendering the stage
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-
-        //Handle user input
-        handleUserInput();
     }
 
     @Override
@@ -271,20 +268,6 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     }
 
 
-    //    private void loadKeyTextures(char[] keys) {
-    //        //TODO unique textures for each player
-    //        for (int i = 0; i < amountOfPlayers; i++) {
-    //            allOriginalKeyTextures[i] = new ArrayList<Texture>();
-    //            allPlayableKeyTextures[i] = new ArrayList<Texture>();
-    //
-    //            for (char key : keys) {
-    //                Texture keyTexture = new Texture(Gdx.files.internal("keys/" + Character.toString(key) + ".png"));
-    //                allOriginalKeyTextures[i].add(keyTexture);
-    //                allPlayableKeyTextures[i].add(keyTexture);
-    //            }
-    //        }
-    //    }
-
     /**
      * Loading the textures for the keys you received for the game.
      *
@@ -366,7 +349,20 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         for(int i = 0; i < amountOfPlayers; i++) {
             int[] position = ScreenHelper.calculateKeyframe(i);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(255, 0, 0, 0.7f);
+            switch(i) {
+                case 0:
+                    shapeRenderer.setColor(255, 0, 0, 0.7f);
+                    break;
+                case 1:
+                    shapeRenderer.setColor(0, 255, 0, 0.7f);
+                    break;
+                case 2:
+                    shapeRenderer.setColor(0, 0, 255, 0.7f);
+                    break;
+                case 3:
+                    shapeRenderer.setColor(0, 0.5f, 0.5f, 0.7f);
+                    break;
+            }
             shapeRenderer.rect(position[0], position[1], 100, 100);
             Gdx.gl20.glLineWidth(15);
             shapeRenderer.end();
@@ -394,54 +390,6 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         }
         game.spriteBatch.end();
     }
-
-
-    private void handleUserInput()
-    {
-        //check if all keys are successfully pressed
-        //TODO lege methode??
-    }
-
-    /*
-    @Override
-    public void afterCallback(int pos, KeyPressedResult result)
-    {
-        System.out.println(result.toString());
-
-        switch (result)
-        {
-            case NONE:
-                break;
-            case WRONG:
-                for (int i = 0; i < allOriginalKeyTextures.length; i++)
-                {
-                    allPlayableKeyTextures[i] = new ArrayList<>(allOriginalKeyTextures[i]);
-                }
-                renderKeys();
-                break;
-            case SEQUENCE_FINISHED:
-                System.out.println("Done");
-                break;
-            case CORRECT:
-                removeFirstKeyFromArrays();
-                renderKeys();
-                break;
-            case GAME_FINISHED:
-                break;
-        }
-
-        System.out.println("Klaar met callback");
-    }
-
-    @Override
-    public void afterEndOfSequenceCallBack(List<Player> players)
-    {
-        System.out.println("voor update");
-        loadKeyTextures(players);
-        renderKeys();
-        System.out.println("na update");
-    }
-    */
 
     private void removeFirstKeyFromArrays()
     {

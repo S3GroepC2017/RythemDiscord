@@ -1,6 +1,7 @@
 package com.csharp.game.screens.ui.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -112,7 +113,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen
             public void changed(ChangeListener.ChangeEvent event, Actor actor)
             {
                 dispose();
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new SecondMenuScreen(game));
             }
         });
 
@@ -123,7 +124,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen
             {
                 game.getLogic().leaveCurrentGame();
                 dispose();
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new SecondMenuScreen(game));
             }
         });
 
@@ -148,9 +149,25 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen
 
         table.removeActor(playerTable);
         playerTable.clear();
-        for (Player p : game.getLogic().getPlayers())
+        List<Player> players = game.getLogic().getPlayers();
+        for (int i = 0; i < players.size(); i++)
         {
-            Label playerNameLabel = new Label(p.getName(), defaultLabelStyle);
+            Label playerNameLabel = new Label(players.get(i).getName(), defaultLabelStyle);
+            switch (i) {
+                case 0:
+                    playerNameLabel.setColor(Color.RED);
+                    break;
+                case 1:
+                    playerNameLabel.setColor(Color.GREEN);
+                    break;
+                case 2:
+                    playerNameLabel.setColor(Color.BLUE);
+                    break;
+                case 3:
+                    playerNameLabel.setColor(Color.YELLOW);
+                    break;
+
+            }
             playerTable.add(playerNameLabel).row();
         }
 
@@ -161,7 +178,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen
         }
         else
         {
-            playerTable.add(exitLobby).size(200, 60).row();
+            playerTable.add(exitLobby).padTop(200).size(200, 60).row();
         }
 
         table.add(playerTable).row();
@@ -173,14 +190,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen
         System.out.println("LOBBY CALLBACK");
         if (callbackUpdate.getNewKeyPressResult() == KeyPressedResult.STARTUP)
         {
-            Gdx.app.postRunnable(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    switchToGameScreen();
-                }
-            });
+            Gdx.app.postRunnable(this::switchToGameScreen);
         }
     }
 
