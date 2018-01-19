@@ -37,13 +37,11 @@ import java.util.Random;
  * <p>
  * This is the main game code for the application.
  */
-public class GameScreen implements Screen, IAfterPosUpdateCallback
-{
+public class GameScreen implements Screen, IAfterPosUpdateCallback {
 
     final RythemDiscord game;
     private InputMultiplexer inputMultiplexer;
     private InputManager inputManager;  //!!maybe not needed
-    private int playerIndex = 4;
 
     //UI Items
     private Skin skin;
@@ -53,8 +51,6 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     //Camera & Viewport
     private OrthographicCamera camera;
     private Viewport viewport;
-
-    ScreenHelper screenHelper = new ScreenHelper();
 
     //TODO fill amountOfPlayers
     private int amountOfPlayers;
@@ -74,8 +70,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
      *
      * @param game the root game object that holds the global SpirteBatch for rendering items on the screen.
      */
-    public GameScreen(final RythemDiscord game)
-    {
+    public GameScreen(final RythemDiscord game) {
         game.getLogic().setCallback(this);
         this.game = game;
 
@@ -108,37 +103,14 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         //loading textures
         loadBackgroundTextures();
         loadExitTextures();
-
-        //TODO replace with unique keys foreach player
-        //TODO uncomment next line
         loadKeyTextures(game.getLogic().getPlayers());
-        renderKeys();
 
         //loading of UI components
         createUiComponents();
     }
 
-    //    private void handleAnimationTimer(int nodePosition)
-    //    {
-    //        List<Player> players = game.getLogic().getPlayers();
-    //        for (Player player : players)
-    //        {
-    //            char[] fixedNodes = player.getNodeList();
-    //            int originalLength = fixedNodes.length;
-    //            while (fixedNodes.length > originalLength - nodePosition)
-    //            {
-    //                fixedNodes = Arrays.copyOfRange(fixedNodes, 1, fixedNodes.length-1);
-    //            }
-    //            player.setNodeList(fixedNodes);
-    //        }
-    //
-    //        // TODO DRAW THE NEW KEYS IN THE LIST ON THE SCREEN
-    //        renderKeys();
-    //    }
-
     @Override
-    public void show()
-    {
+    public void show() {
 
     }
 
@@ -149,8 +121,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
      * @param delta is the time that has passed sins the last game loop.
      */
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         //Updating the camera
         this.camera.update();
         this.game.spriteBatch.setProjectionMatrix(this.camera.combined);
@@ -173,8 +144,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     }
 
     @Override
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
         //Viewport and Camera update for SpriteBatch
         this.viewport.update(width, height);
         this.camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -183,47 +153,38 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     }
 
     @Override
-    public void pause()
-    {
+    public void pause() {
     }
 
     @Override
-    public void resume()
-    {
+    public void resume() {
 
     }
 
     @Override
-    public void hide()
-    {
+    public void hide() {
 
     }
 
     //Disposing all loaded items and textures PLS DONT FORGETI!
     @Override
-    public void dispose()
-    {
+    public void dispose() {
         shapeRenderer.dispose();
         backgroundTexture.dispose();
 
-        for (ArrayList<Texture> tex : allOriginalKeyTextures)
-        {
-            for (Texture t : tex)
-            {
+        for (ArrayList<Texture> tex : allOriginalKeyTextures) {
+            for (Texture t : tex) {
                 t.dispose();
             }
         }
 
-        for (ArrayList<Texture> tex : allPlayableKeyTextures)
-        {
-            for (Texture t : tex)
-            {
+        for (ArrayList<Texture> tex : allPlayableKeyTextures) {
+            for (Texture t : tex) {
                 t.dispose();
             }
         }
 
-        for (Texture escKey : exitBtnStyleTextures)
-        {
+        for (Texture escKey : exitBtnStyleTextures) {
             escKey.dispose();
         }
     }
@@ -234,11 +195,9 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     /**
      * Loading the background textures.
      */
-    private void loadBackgroundTextures()
-    {
+    private void loadBackgroundTextures() {
         Random rand = new Random();
-        switch (rand.nextInt(6))
-        {
+        switch (rand.nextInt(6)) {
             case 0:
                 backgroundTexture = new Texture(Gdx.files.internal("backgrounds/punkcity/PunkCityFinal.png"));
                 break;
@@ -260,8 +219,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         }
     }
 
-    private void loadExitTextures()
-    {
+    private void loadExitTextures() {
         exitBtnStyleTextures = new Texture[2];
         exitBtnStyleTextures[0] = new Texture(Gdx.files.internal("keys/EscKey_default.png"));
         exitBtnStyleTextures[1] = new Texture(Gdx.files.internal("keys/EscKey_pressed.png"));
@@ -273,17 +231,14 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
      *
      * @param players player array containing the keys for your game.
      */
-    private void loadKeyTextures(List<Player> players)
-    {
+    private void loadKeyTextures(List<Player> players) {
         //TODO unique textures for each player
-        for (int i = 0; i < amountOfPlayers; i++)
-        {
+        for (int i = 0; i < amountOfPlayers; i++) {
             Player player = players.get(i);
 
             allOriginalKeyTextures[i] = new ArrayList<>();
 
-            for (char key : player.getNodeList())
-            {
+            for (char key : player.getNodeList()) {
                 allOriginalKeyTextures[i].add(allkeys.get(key));
             }
 
@@ -291,8 +246,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         }
     }
 
-    private void createUiComponents()
-    {
+    private void createUiComponents() {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
@@ -315,13 +269,11 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         final ImageButton exitBtn = new ImageButton(exitBtnStyle);
 
         //adding element events
-        exitBtn.addListener(new ChangeListener()
-        {
+        exitBtn.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor)
-            {
-                game.setScreen(new MainMenuScreen(game));
+            public void changed(ChangeEvent event, Actor actor) {
                 dispose();
+                game.setScreen(new MainMenuScreen(game));
             }
         });
 
@@ -335,8 +287,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     /**
      * Rendering of the chosen background textures on the screen.
      */
-    private void renderBackground()
-    {
+    private void renderBackground() {
         game.spriteBatch.begin();
         game.spriteBatch.draw(backgroundTexture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
         game.spriteBatch.end();
@@ -346,10 +297,10 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
      * Render the texture for the current note that needs to be pressed.
      */
     private void renderCurrentKeyFrame() {
-        for(int i = 0; i < amountOfPlayers; i++) {
+        for (int i = 0; i < amountOfPlayers; i++) {
             int[] position = ScreenHelper.calculateKeyframe(i);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            switch(i) {
+            switch (i) {
                 case 0:
                     shapeRenderer.setColor(255, 0, 0, 0.7f);
                     break;
@@ -375,15 +326,14 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
     private void renderKeys() {
         //Render keys for all players
         game.spriteBatch.begin();
-        for(int i = 0; i < amountOfPlayers; i++) {
-            for(int o = 0; o < allPlayableKeyTextures[i].size(); o++) {
-                if(o == 15) {
+        for (int i = 0; i < amountOfPlayers; i++) {
+            for (int o = 0; o < allPlayableKeyTextures[i].size(); o++) {
+                if (o == 15) {
                     break;
                 }
 
                 int[] playerNoteMargin = ScreenHelper.calculatePlayerKeysMargin(i, o);
-                if (allPlayableKeyTextures[i].get(o) != null)
-                {
+                if (allPlayableKeyTextures[i].get(o) != null) {
                     game.spriteBatch.draw(allPlayableKeyTextures[i].get(o), playerNoteMargin[0], playerNoteMargin[1], 90, 90);
                 }
             }
@@ -391,17 +341,14 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
         game.spriteBatch.end();
     }
 
-    private void removeFirstKeyFromArrays()
-    {
-        for (ArrayList<Texture> keyTexture : allPlayableKeyTextures)
-        {
+    private void removeFirstKeyFromArrays() {
+        for (ArrayList<Texture> keyTexture : allPlayableKeyTextures) {
             keyTexture.remove(0);
         }
     }
 
     @Override
-    public void callback(DTOClientUpdate callbackUpdate)
-    {
+    public void callback(DTOClientUpdate callbackUpdate) {
         KeyPressedResult keyPressedResult = callbackUpdate.getNewKeyPressResult();
         List<Player> updatedPlayerList = callbackUpdate.getNewPlayerList();
 
@@ -410,13 +357,11 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback
 
         System.out.println("received keypressresult: " + keyPressedResult.toString());
 
-        switch (keyPressedResult)
-        {
+        switch (keyPressedResult) {
             case NONE:
                 break;
             case WRONG:
-                for (int i = 0; i < allOriginalKeyTextures.length; i++)
-                {
+                for (int i = 0; i < allOriginalKeyTextures.length; i++) {
                     allPlayableKeyTextures[i] = new ArrayList<>(allOriginalKeyTextures[i]);
                 }
                 renderKeys();

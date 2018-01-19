@@ -11,7 +11,7 @@ public class ClientLoginServer
 {
 
 //    private static final String LOGIN_SERVER_HOST_ADRESS = "192.168.0.100";
-    private static final String LOGIN_SERVER_HOST_ADRESS = "192.168.0.100";
+    private static final String LOGIN_SERVER_HOST_ADRESS = "localhost";
     private static final int LOGIN_SERVER_REGISTRY_PORT = 1100;
     private ILogin loginServer;
     private Registry registry = null;

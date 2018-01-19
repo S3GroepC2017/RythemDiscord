@@ -152,18 +152,22 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen
         List<Player> players = game.getLogic().getPlayers();
         for (int i = 0; i < players.size(); i++)
         {
-            Label playerNameLabel = new Label(players.get(i).getName(), defaultLabelStyle);
+            Label playerNameLabel = null;
             switch (i) {
                 case 0:
+                    playerNameLabel = new Label("Player 1: " + players.get(i).getName(), defaultLabelStyle);
                     playerNameLabel.setColor(Color.RED);
                     break;
                 case 1:
+                    playerNameLabel = new Label("Player 2: " + players.get(i).getName(), defaultLabelStyle);
                     playerNameLabel.setColor(Color.GREEN);
                     break;
                 case 2:
+                    playerNameLabel = new Label("Player 3: " + players.get(i).getName(), defaultLabelStyle);
                     playerNameLabel.setColor(Color.BLUE);
                     break;
                 case 3:
+                    playerNameLabel = new Label("Player 4: " + players.get(i).getName(), defaultLabelStyle);
                     playerNameLabel.setColor(Color.YELLOW);
                     break;
 
