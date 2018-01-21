@@ -104,6 +104,17 @@ public class GameManager implements ILogic
     }
 
     @Override
+    public boolean singlePlayerGame() {
+        localPlayer = new Player("SinglePlayer");
+        if(!newGame().isEmpty()) {
+            startGame();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public boolean logIn(String username, String password)
     {
 //        // TODO REMOVE THIS DEBUG CODE:

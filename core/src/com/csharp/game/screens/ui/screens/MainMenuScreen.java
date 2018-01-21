@@ -81,9 +81,11 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
         spBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                String gameKey =  game.getLogic().newGame();
-                if(game.getLogic().joinGame(gameKey)) {
-                    game.getLogic().startGame();
+                if(game.getLogic().singlePlayerGame()) {
+                    Gdx.app.postRunnable(() -> {
+                        dispose();
+                        game.setScreen(new GameScreen(game));
+                    });
                 }
             }
         });
@@ -120,15 +122,5 @@ public class MainMenuScreen extends MenuScreen implements IMenuScreen {
     @Override
     public void callback(DTOClientUpdate callbackUpdate)
     {
-        if (callbackUpdate.getNewKeyPressResult() == KeyPressedResult.STARTUP)
-        {
-            Gdx.app.postRunnable(this::switchToGameScreen);
-        }
-    }
-
-    private void switchToGameScreen()
-    {
-        dispose();
-        game.setScreen(new GameScreen(game));
     }
 }

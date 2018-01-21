@@ -27,6 +27,8 @@ public interface ILogic
      */
     boolean joinGame(String gameKey);
 
+    boolean singlePlayerGame();
+
     boolean logIn(String username, String password);
 
     List<Player> getPlayers();
