@@ -42,7 +42,6 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen
     public LobbyScreen(RythemDiscord game, String gamekey, boolean isHost)
     {
         super(game);
-//        game.getLogic().setCallback(this);
         this.gamekey = gamekey;
         this.isHost = isHost;
         loadTextures();
@@ -112,6 +111,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor)
             {
+                game.getLogic().leaveCurrentGame();
                 dispose();
                 game.setScreen(new SecondMenuScreen(game));
             }
@@ -172,7 +172,7 @@ public class LobbyScreen extends MenuScreen implements IMenuScreen
                     break;
 
             }
-            playerTable.add(playerNameLabel).row();
+            playerTable.add(playerNameLabel).padBottom(10).row();
         }
 
         if (isHost)

@@ -19,18 +19,11 @@ public class InputManager implements InputProcessor
 {
     final RythemDiscord game;
     private ILogic logic;
-    private KeyPressedResult lastSucces;
-    boolean keyWasPressed;
 
     public InputManager(RythemDiscord game)
     {
         this.game = game;
-
-        //Changed from new to global logic
         this.logic = game.getLogic();
-
-//      TODO: DEZE FUNCITE WORD IN DE CLASS VAN GameScreen AL AANGEROEPEN
-//        logic.newGame();
     }
 
     @Override
@@ -48,14 +41,8 @@ public class InputManager implements InputProcessor
     @Override
     public boolean keyTyped(char character)
     {
-        //TODO Handle all keys for the game
-        System.out.println(character);
-        // TODO        lastSucces = logic.keyPressed(character);
-//        throw new NotImplementedException();
-        //IGNORE
-
         KeyPressedResult keyResult = logic.keyPressed(character);
-        boolean success = false;
+        boolean success;
 
         switch (keyResult)
         {
@@ -99,35 +86,5 @@ public class InputManager implements InputProcessor
     public boolean scrolled(int amount)
     {
         return false;
-    }
-
-    public List<Player> getKeys()
-    {
-        //TODO getPlayers for all players
-        return logic.getPlayers();
-    }
-
-    public boolean isKeyWasPressed()
-    {
-        boolean updateDetected = keyWasPressed;
-        keyWasPressed = false;
-        return updateDetected;
-    }
-
-    public KeyPressedResult getLastSuccess()
-    {
-        return lastSucces;
-    }
-
-    public void resetSuccess()
-    {
-        lastSucces = KeyPressedResult.WRONG;
-    }
-
-    public int getKeyIndex()
-    {
-        //TODO Return key index
-        //return logic.getKeyIndex;
-        return 0;
     }
 }

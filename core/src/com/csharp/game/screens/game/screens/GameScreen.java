@@ -52,7 +52,6 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
     private OrthographicCamera camera;
     private Viewport viewport;
 
-    //TODO fill amountOfPlayers
     private int amountOfPlayers;
 
     //TODO original- and playableKeyTextures
@@ -84,7 +83,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
         allPlayableKeyTextures = new ArrayList[amountOfPlayers];
 
         this.inputMultiplexer = new InputMultiplexer();
-        this.inputManager = new InputManager(game);
+       this.inputManager = new InputManager(game);
 
         this.skin = new Skin();
         this.table = new Table();
@@ -125,6 +124,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
         //Updating the camera
         this.camera.update();
         this.game.spriteBatch.setProjectionMatrix(this.camera.combined);
+        shapeRenderer.setProjectionMatrix(this.camera.combined);
 
         //clearing the screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -169,8 +169,15 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
     //Disposing all loaded items and textures PLS DONT FORGETI!
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
-        backgroundTexture.dispose();
+        skin.dispose();
+        table = null;
+        stage.dispose();
+
+        inputMultiplexer = null;
+        inputManager = null;
+
+        camera = null;
+        viewport = null;
 
         for (ArrayList<Texture> tex : allOriginalKeyTextures) {
             for (Texture t : tex) {
@@ -183,6 +190,9 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
                 t.dispose();
             }
         }
+
+        shapeRenderer.dispose();
+        backgroundTexture.dispose();
 
         for (Texture escKey : exitBtnStyleTextures) {
             escKey.dispose();
@@ -232,7 +242,6 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
      * @param players player array containing the keys for your game.
      */
     private void loadKeyTextures(List<Player> players) {
-        //TODO unique textures for each player
         for (int i = 0; i < amountOfPlayers; i++) {
             Player player = players.get(i);
 
@@ -262,8 +271,6 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
         //table preferences
         table.setFillParent(true);
         stage.addActor(table);
-        //TODO DEBUG!
-        table.setDebug(false); //debugging the ui
 
         //declaring the elements
         final ImageButton exitBtn = new ImageButton(exitBtnStyle);
@@ -300,6 +307,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
         for (int i = 0; i < amountOfPlayers; i++) {
             int[] position = ScreenHelper.calculateKeyframe(i);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            Gdx.gl20.glLineWidth(5);
             switch (i) {
                 case 0:
                     shapeRenderer.setColor(255, 0, 0, 0.7f);
@@ -314,8 +322,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
                     shapeRenderer.setColor(0, 0.5f, 0.5f, 0.7f);
                     break;
             }
-            shapeRenderer.rect(position[0], position[1], 100, 100);
-            Gdx.gl20.glLineWidth(15);
+            shapeRenderer.rect(position[0], position[1], 60, 110);
             shapeRenderer.end();
         }
     }
@@ -334,7 +341,7 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
 
                 int[] playerNoteMargin = ScreenHelper.calculatePlayerKeysMargin(i, o);
                 if (allPlayableKeyTextures[i].get(o) != null) {
-                    game.spriteBatch.draw(allPlayableKeyTextures[i].get(o), playerNoteMargin[0], playerNoteMargin[1], 90, 90);
+                    game.spriteBatch.draw(allPlayableKeyTextures[i].get(o), playerNoteMargin[0], playerNoteMargin[1], 50, 90);
                 }
             }
         }
