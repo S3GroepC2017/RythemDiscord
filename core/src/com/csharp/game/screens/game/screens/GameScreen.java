@@ -289,7 +289,8 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
         exitBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
+//                dispose();
+                game.getLogic().leaveCurrentGame();
                 game.setScreen(new MainMenuScreen(game));
             }
         });
