@@ -39,6 +39,8 @@ import java.util.Random;
  */
 public class GameScreen implements Screen, IAfterPosUpdateCallback {
 
+    private int playerIndex;
+
     final RythemDiscord game;
     private InputMultiplexer inputMultiplexer;
     private InputManager inputManager;  //!!maybe not needed
@@ -72,6 +74,16 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
     public GameScreen(final RythemDiscord game) {
         game.getLogic().setCallback(this);
         this.game = game;
+
+        List<Player> tempList = game.getLogic().getPlayers();
+        for (int i = 0; i < tempList.size(); i++)
+        {
+            if (tempList.get(i).equals(game.getLogic().getLocalPlayer()))
+            {
+                playerIndex = i;
+                break;
+            }
+        }
 
         //Textures voor amount of players laden
         amountOfPlayers = game.getLogic().getPlayers().size();
@@ -179,16 +191,14 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
         camera = null;
         viewport = null;
 
-        for (ArrayList<Texture> tex : allOriginalKeyTextures) {
-            for (Texture t : tex) {
-                t.dispose();
-            }
+        for (Texture tex : allOriginalKeyTextures[playerIndex])
+        {
+            tex.dispose();
         }
 
-        for (ArrayList<Texture> tex : allPlayableKeyTextures) {
-            for (Texture t : tex) {
-                t.dispose();
-            }
+        for (Texture tex : allPlayableKeyTextures[playerIndex])
+        {
+            tex.dispose();
         }
 
         shapeRenderer.dispose();

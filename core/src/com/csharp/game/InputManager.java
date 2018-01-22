@@ -41,6 +41,11 @@ public class InputManager implements InputProcessor
     @Override
     public boolean keyTyped(char character)
     {
+        if (character == ' ')
+        {
+            return false;
+        }
+
         KeyPressedResult keyResult = logic.keyPressed(character);
         boolean success;
 
