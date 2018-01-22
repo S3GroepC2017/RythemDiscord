@@ -310,16 +310,16 @@ public class GameScreen implements Screen, IAfterPosUpdateCallback {
             Gdx.gl20.glLineWidth(5);
             switch (i) {
                 case 0:
-                    shapeRenderer.setColor(Color.YELLOW);
+                    shapeRenderer.setColor(Color.RED);
                     break;
                 case 1:
-                    shapeRenderer.setColor(Color.BLUE);
-                    break;
-                case 2:
                     shapeRenderer.setColor(Color.GREEN);
                     break;
+                case 2:
+                    shapeRenderer.setColor(Color.BLUE);
+                    break;
                 case 3:
-                    shapeRenderer.setColor(Color.RED);
+                    shapeRenderer.setColor(Color.YELLOW);
                     break;
             }
             shapeRenderer.rect(position[0], position[1], 60, 110);
